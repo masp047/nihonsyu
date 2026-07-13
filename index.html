@@ -300,6 +300,25 @@
   .label-note .big em { font-style:normal; color:var(--blue); }
   .label-note .big .p { color:var(--lime); }
 
+  /* ============ kura banner (06) ============ */
+  .kura-banner { display:block; position:relative; overflow:hidden; border-radius:var(--radius); background:var(--blue); color:#fff; text-decoration:none; box-shadow:0 20px 44px -26px var(--blue); transition:transform .4s cubic-bezier(.2,.7,.2,1), box-shadow .4s; }
+  .kura-banner:hover { transform:translateY(-4px); box-shadow:0 30px 56px -26px var(--blue); }
+  .kura-banner .plusbg { position:absolute; inset:0; opacity:.5;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='46' height='46'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='1.5' stroke-linecap='round' opacity='0.5'%3E%3Cpath d='M23 17v12M17 23h12'/%3E%3C/g%3E%3C/svg%3E");
+  }
+  .kb-in { position:relative; z-index:1; display:flex; align-items:center; flex-wrap:wrap; gap:22px 32px; padding: clamp(26px,4vw,40px) clamp(24px,4vw,44px); }
+  .kb-lead { flex:1 1 260px; }
+  .kb-eyebrow { display:block; font-family:var(--round); font-weight:800; font-size:.68rem; letter-spacing:.24em; color:#BFD8F7; }
+  .kb-title { display:block; font-weight:800; font-size:clamp(1.4rem,3.4vw,2rem); margin:8px 0 8px; }
+  .kb-desc { display:block; font-size:.86rem; color:#DCE8FB; line-height:1.8; }
+  .kb-stats { display:flex; align-items:center; gap:12px; }
+  .kb-stat { display:flex; flex-direction:column; align-items:center; line-height:1; }
+  .kb-stat b { font-family:var(--round); font-weight:800; font-size:clamp(1.6rem,4vw,2.3rem); font-variant-numeric:tabular-nums; }
+  .kb-stat i { font-style:normal; font-size:.66rem; color:#BFD8F7; margin-top:6px; font-weight:700; }
+  .kb-plus { color:var(--lime); font-family:var(--round); font-weight:800; font-size:1.2rem; }
+  .kb-go { display:inline-flex; align-items:center; gap:9px; background:var(--lime); color:#123; font-family:var(--round); font-weight:800; font-size:.92rem; padding:13px 24px; border-radius:999px; white-space:nowrap; }
+  @media (max-width:640px){ .kb-in{ flex-direction:column; align-items:flex-start; } .kb-go{ width:100%; justify-content:center; } }
+
   /* ============ CTA ============ */
   .cta { background: var(--lime); color:#0f2410; position:relative; overflow:hidden; text-align:center; }
   .cta .plusbg { position:absolute; inset:0; opacity:.6;
@@ -366,6 +385,7 @@
       <a href="#s3"><span class="n">03</span>種類<span class="en">TYPE</span></a>
       <a href="#s4"><span class="n">04</span>保存<span class="en">BOTTLE</span></a>
       <a href="#s5"><span class="n">05</span>ラベル<span class="en">LABEL</span></a>
+      <a href="sakagura.html"><span class="n">06</span>酒蔵一覧<span class="en">SAKAGURA</span></a>
     </nav>
     <div class="drawer-foot">
       <a class="btn btn-primary" href="#cta">今夜、一杯をはじめる <span class="plus">＋</span></a>
@@ -602,6 +622,37 @@
           精米歩合で「透明感」を、日本酒度で「甘辛」を、酸度で「ボディ感」を——。たった数行の数字が、そのお酒の設計図であり、造り手のこだわりの表明です。<br><br>まずは直感の「ジャケ買い」から。慣れてきたら裏ラベルをそっとめくって、一本の物語を読み解いてみてください。
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- 06 酒蔵一覧 -->
+  <section class="section alt" id="s6">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="no"><b>06</b><span>SAKAGURA</span></div>
+        <div class="tt">
+          <h2>次は、<em>全国の酒蔵</em>をめぐる。<br>1,331蔵の<span class="lm">一覧ページへ</span></h2>
+          <p>気になる味わいに出会ったら、造り手を訪ねてみましょう。北海道から沖縄まで、全国の酒蔵を一覧にまとめました。都道府県での絞り込みと、蔵名・地名での検索ができます。</p>
+        </div>
+      </div>
+      <a class="kura-banner reveal d1" href="sakagura.html">
+        <span class="plusbg" aria-hidden="true"></span>
+        <span class="kb-in">
+          <span class="kb-lead">
+            <span class="kb-eyebrow">NATIONWIDE SAKE BREWERIES</span>
+            <span class="kb-title round">全国酒蔵一覧を見る</span>
+            <span class="kb-desc">日本酒造組合中央会の掲載データをもとに整理した保存版リスト。</span>
+          </span>
+          <span class="kb-stats">
+            <span class="kb-stat"><b>1,331</b><i>蔵</i></span>
+            <span class="kb-plus">＋</span>
+            <span class="kb-stat"><b>46</b><i>都道府県</i></span>
+            <span class="kb-plus">＋</span>
+            <span class="kb-stat"><b>6</b><i>エリア</i></span>
+          </span>
+          <span class="kb-go">一覧へ進む <span class="plus">＋</span></span>
+        </span>
+      </a>
     </div>
   </section>
 
