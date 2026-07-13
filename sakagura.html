@@ -312,6 +312,12 @@
   /* ============ kura banner (06) ============ */
   .kura-banner { display:block; position:relative; overflow:hidden; border-radius:var(--radius); background:var(--blue); color:#fff; text-decoration:none; box-shadow:0 20px 44px -26px var(--blue); transition:transform .4s cubic-bezier(.2,.7,.2,1), box-shadow .4s; }
   .kura-banner:hover { transform:translateY(-4px); box-shadow:0 30px 56px -26px var(--blue); }
+  .kura-banner.lime { background:var(--lime-deep); box-shadow:0 20px 44px -26px var(--lime-deep); }
+  .kura-banner.lime:hover { box-shadow:0 30px 56px -26px var(--lime-deep); }
+  .kura-banner.lime .kb-eyebrow, .kura-banner.lime .kb-stat i { color:#E8F3CE; }
+  .kura-banner.lime .kb-desc { color:#EAF3D6; }
+  .kura-banner.lime .kb-plus { color:#fff; }
+  .kura-banner.lime .kb-go { background:var(--blue); color:#fff; }
   .kura-banner .plusbg { position:absolute; inset:0; opacity:.5;
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='46' height='46'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='1.5' stroke-linecap='round' opacity='0.5'%3E%3Cpath d='M23 17v12M17 23h12'/%3E%3C/g%3E%3C/svg%3E");
   }
@@ -462,6 +468,7 @@
       <a href="index.html#s4"><span class="n">04</span>保存<span class="en">BOTTLE</span></a>
       <a href="index.html#s5"><span class="n">05</span>ラベル<span class="en">LABEL</span></a>
       <a href="sakagura.html" aria-current="page"><span class="n">06</span>酒蔵一覧<span class="en">SAKAGURA</span></a>
+      <a href="pairing.html"><span class="n">07</span>ペアリング<span class="en">PAIRING</span></a>
     </nav>
     <div class="drawer-foot">
       <a class="btn btn-primary" href="index.html#cta">最初から読む <span class="plus">＋</span></a>

@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>07 日本酒とのペアリング｜日本酒のトリセツ</title>
+<meta name="description" content="世代別（20代〜50代以上）の味覚に寄り添う日本酒×料理のペアリング。同調・補完・ウォッシュの3原則、杜氏の職掌と杜氏組合、遮光ボトルの科学、ラベルの法規制まで。">
+<style>
+  /* ============ reset ============ */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  img { max-width: 100%; display: block; }
+  button, a { font: inherit; }
+  a { color: inherit; text-decoration: none; }
+
+  /* ============ tokens ============ */
+  :root {
+    --ground:   #FFFFFF;
+    --ground-2: #F1F6FC;
+    --ground-3: #F3F8EA;
+    --card:     #FFFFFF;
+    --ink:      #17263F;
+    --ink-soft: #56668A;
+    --line:     rgba(19, 44, 82, 0.12);
+    --line-soft:rgba(19, 44, 82, 0.06);
+    --blue:       #1257B0;
+    --blue-bright:#2C74DB;
+    --blue-deep:  #0E3E7E;
+    --lime:       #83BE34;
+    --lime-deep:  #5F9424;
+
+    --round: "Hiragino Maru Gothic ProN", "Zen Maru Gothic", "Rounded Mplus 1c", "Hiragino Sans", "Yu Gothic UI", "Yu Gothic", "Meiryo", sans-serif;
+    --sans:  "Hiragino Sans", "Yu Gothic UI", "Yu Gothic", "Noto Sans JP", "Meiryo", sans-serif;
+
+    --plus: rgba(18, 87, 176, 0.10);
+    --maxw: 1140px;
+    --gutter: clamp(20px, 5vw, 60px);
+    --radius: 20px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground:   #0B1322;
+      --ground-2: #101E33;
+      --ground-3: #142317;
+      --card:     #13203A;
+      --ink:      #E9F1FC;
+      --ink-soft: #9DB0D0;
+      --line:     rgba(220, 232, 250, 0.14);
+      --line-soft:rgba(220, 232, 250, 0.06);
+      --blue:       #5E9BF0;
+      --blue-bright:#7DB2F6;
+      --blue-deep:  #3D7BD6;
+      --lime:       #A6D94F;
+      --lime-deep:  #83BE34;
+      --plus: rgba(126, 178, 246, 0.12);
+    }
+  }
+  :root[data-theme="light"]{
+    --ground:#FFFFFF;--ground-2:#F1F6FC;--ground-3:#F3F8EA;--card:#FFFFFF;--ink:#17263F;--ink-soft:#56668A;
+    --line:rgba(19,44,82,.12);--line-soft:rgba(19,44,82,.06);
+    --blue:#1257B0;--blue-bright:#2C74DB;--blue-deep:#0E3E7E;--lime:#83BE34;--lime-deep:#5F9424;--plus:rgba(18,87,176,.10);
+  }
+  :root[data-theme="dark"]{
+    --ground:#0B1322;--ground-2:#101E33;--ground-3:#142317;--card:#13203A;--ink:#E9F1FC;--ink-soft:#9DB0D0;
+    --line:rgba(220,232,250,.14);--line-soft:rgba(220,232,250,.06);
+    --blue:#5E9BF0;--blue-bright:#7DB2F6;--blue-deep:#3D7BD6;--lime:#A6D94F;--lime-deep:#83BE34;--plus:rgba(126,178,246,.12);
+  }
+
+  /* ============ base ============ */
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } }
+  body {
+    background: var(--ground); color: var(--ink);
+    font-family: var(--sans); line-height: 1.9;
+    font-feature-settings: "palt" 1; -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  ::selection { background: var(--blue); color:#fff; }
+  .wrap { width:100%; max-width: var(--maxw); margin-inline:auto; padding-inline: var(--gutter); }
+  .round { font-family: var(--round); }
+
+  /* plus background pattern */
+  .plusbg {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='46' height='46'%3E%3Cg fill='none' stroke='%232C74DB' stroke-width='1.5' stroke-linecap='round' opacity='0.5'%3E%3Cpath d='M23 17v12M17 23h12'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 46px 46px;
+  }
+
+  /* ============ header ============ */
+  .topbar {
+    position: sticky; top:0; z-index:60;
+    background: color-mix(in srgb, var(--ground) 88%, transparent);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .topbar .wrap { display:flex; align-items:center; justify-content:space-between; height:66px; gap:16px; }
+  .logo { display:flex; align-items:center; gap:10px; font-family: var(--round); font-weight:800; font-size:1.12rem; letter-spacing:.04em; }
+  .logo .mk { display:inline-grid; grid-template-columns:repeat(2,10px); grid-template-rows:repeat(2,10px); gap:3px; }
+  .logo .mk i { border-radius:2px; }
+  .logo .mk i:nth-child(1){ background:var(--blue); }
+  .logo .mk i:nth-child(2){ background:var(--lime); }
+  .logo .mk i:nth-child(3){ background:var(--lime); }
+  .logo .mk i:nth-child(4){ background:var(--blue); }
+  .logo small { display:block; font-family:var(--sans); font-weight:600; font-size:.56rem; letter-spacing:.28em; color:var(--ink-soft); margin-top:2px; }
+  .nav { display:flex; align-items:center; gap:26px; }
+  .nav a { font-size:.82rem; font-weight:700; color:var(--ink-soft); font-family:var(--round); transition:color .25s; }
+  .nav a:hover { color: var(--blue); }
+  .nav .num { color:var(--blue); font-size:.62rem; margin-right:3px; font-weight:800; }
+  @media (max-width: 860px){ .nav .lk { display:none; } }
+  .btn {
+    display:inline-flex; align-items:center; gap:9px; font-family:var(--round); font-weight:800;
+    border-radius:999px; padding:11px 22px; font-size:.86rem; letter-spacing:.03em;
+    border:none; cursor:pointer; transition: transform .3s cubic-bezier(.2,.7,.2,1), box-shadow .3s, background .3s;
+    white-space:nowrap;
+  }
+  .btn-primary { background: var(--blue); color:#fff; box-shadow: 0 10px 22px -12px var(--blue); }
+  .btn-primary:hover, .btn-primary:focus-visible { transform: translateY(-2px); background: var(--blue-bright); }
+  .btn-lime { background: var(--lime); color:#123; }
+  .btn-lime:hover, .btn-lime:focus-visible { transform: translateY(-2px); background: var(--lime-deep); color:#fff; }
+  .btn .plus { font-weight:800; }
+  .theme-toggle { background:transparent; border:1px solid var(--line); color:var(--ink-soft); border-radius:999px; width:38px; height:38px; cursor:pointer; font-size:.9rem; transition:border-color .25s,color .25s; }
+  .theme-toggle:hover { border-color:var(--blue); color:var(--blue); }
+  .bar-left { display:flex; align-items:center; gap:14px; min-width:0; }
+  .logo { min-width:0; }
+  .logo > span:last-child { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  @media (max-width: 560px){
+    .topbar .wrap { gap:10px; }
+    .nav { gap:10px; }
+    .nav .btn { display:none; }            /* ENTRYはドロワー内CTAに集約 */
+    .logo { font-size:1rem; gap:8px; }
+    .logo small { display:none; }
+  }
+
+  /* ============ hamburger + drawer ============ */
+  .hamburger {
+    position:relative; z-index:1; display:flex; flex-direction:column; justify-content:center; gap:5px;
+    width:46px; height:46px; border:1px solid var(--line); border-radius:14px; background:var(--card);
+    cursor:pointer; flex-shrink:0; transition:border-color .25s, background .25s, box-shadow .25s;
+  }
+  .hamburger:hover { border-color:var(--blue); box-shadow:0 8px 20px -14px var(--blue); }
+  .hamburger i { display:block; width:20px; height:2px; margin:0 auto; background:var(--ink); border-radius:2px; transition:transform .32s cubic-bezier(.2,.7,.2,1), opacity .2s; }
+  .hamburger[aria-expanded="true"] i:nth-child(1){ transform:translateY(7px) rotate(45deg); }
+  .hamburger[aria-expanded="true"] i:nth-child(2){ opacity:0; }
+  .hamburger[aria-expanded="true"] i:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
+
+  .overlay { position:fixed; inset:0; z-index:90; background:rgba(9,19,34,.46); backdrop-filter:blur(3px); opacity:0; visibility:hidden; transition:opacity .35s ease, visibility .35s; }
+  .overlay.open { opacity:1; visibility:visible; }
+  body.no-scroll { overflow:hidden; }
+
+  .drawer {
+    position:fixed; top:0; left:0; z-index:100; height:100%; width:min(360px, 86vw);
+    background:var(--ground); border-right:1px solid var(--line);
+    transform:translateX(-102%); transition:transform .4s cubic-bezier(.2,.7,.2,1);
+    display:flex; flex-direction:column; box-shadow:0 0 70px -22px rgba(0,0,0,.5); overflow-y:auto;
+  }
+  .drawer.open { transform:none; }
+  @media (prefers-reduced-motion: reduce){ .drawer, .overlay { transition:none; } }
+  .drawer-head { display:flex; align-items:center; justify-content:space-between; padding:18px 22px; border-bottom:1px solid var(--line-soft); }
+  .drawer-close { width:42px; height:42px; border:1px solid var(--line); border-radius:12px; background:transparent; color:var(--ink); font-size:1rem; cursor:pointer; transition:border-color .25s, color .25s; }
+  .drawer-close:hover { border-color:var(--blue); color:var(--blue); }
+  .drawer .dnav { display:flex; flex-direction:column; padding:16px; gap:4px; }
+  .drawer .dnav a { display:flex; align-items:center; gap:14px; padding:15px 16px; border-radius:14px; font-family:var(--round); font-weight:800; color:var(--ink); font-size:1.02rem; transition:background .25s, color .25s; }
+  .drawer .dnav a:hover, .drawer .dnav a:focus-visible { background:var(--ground-2); color:var(--blue); outline:none; }
+  .drawer .dnav a .n { width:32px; height:32px; border-radius:10px; display:grid; place-items:center; flex-shrink:0; font-size:.72rem; font-weight:800; color:#fff; background:var(--blue); font-variant-numeric:tabular-nums; }
+  .drawer .dnav a.top .n { background:var(--lime); color:#123; }
+  .drawer .dnav a .en { margin-left:auto; font-family:var(--sans); font-weight:700; font-size:.56rem; letter-spacing:.18em; color:var(--ink-soft); }
+  .drawer-foot { margin-top:auto; padding:20px 22px; border-top:1px solid var(--line-soft); display:flex; flex-direction:column; gap:10px; }
+  .drawer-foot .btn { justify-content:center; }
+  .drawer-foot .hint { text-align:center; font-size:.68rem; color:var(--ink-soft); }
+
+  /* ============ hero ============ */
+  .hero { position:relative; overflow:hidden; padding: clamp(56px,11vh,120px) 0 clamp(52px,10vh,110px); }
+  .hero .plusbg { position:absolute; inset:0; opacity:.5; -webkit-mask-image: radial-gradient(120% 90% at 80% 10%, #000, transparent 70%); mask-image: radial-gradient(120% 90% at 80% 10%, #000, transparent 70%); }
+  .hero .blob { position:absolute; border-radius:50%; filter: blur(6px); opacity:.5; z-index:0; }
+  .hero .b1 { width:340px;height:340px; right:-90px; top:-70px; background: radial-gradient(circle at 35% 35%, color-mix(in srgb,var(--blue) 40%,transparent), transparent 68%); }
+  .hero .b2 { width:280px;height:280px; left:-80px; bottom:-90px; background: radial-gradient(circle at 50% 50%, color-mix(in srgb,var(--lime) 45%,transparent), transparent 68%); }
+  .hero .wrap { position:relative; z-index:2; }
+  .badge { display:inline-flex; align-items:center; gap:9px; background: var(--ground-2); border:1px solid var(--line); color:var(--blue); font-family:var(--round); font-weight:800; font-size:.8rem; padding:8px 16px; border-radius:999px; }
+  .badge b { color: var(--lime-deep); }
+  .hero h1 {
+    font-family: var(--round); font-weight:800;
+    font-size: clamp(2.4rem, 7.4vw, 5.4rem); line-height:1.16; letter-spacing:.01em;
+    margin: 22px 0 8px; text-wrap: balance;
+  }
+  .hero h1 .plus { color: var(--lime); }
+  .hero h1 .blue { color: var(--blue); }
+  .hero .en { display:block; font-size: clamp(.75rem,2vw,1rem); letter-spacing:.4em; color:var(--ink-soft); font-weight:800; margin-top:16px; }
+  .hero-lede { font-size:1rem; line-height:2.1; color:var(--ink-soft); max-width:33em; margin:24px 0 30px; }
+  .hero-cta { display:flex; flex-wrap:wrap; gap:14px; align-items:center; }
+  .hero-stats { display:flex; flex-wrap:wrap; gap: 12px; margin-top: clamp(36px,6vh,58px); }
+  .stat { flex:1 1 150px; background:var(--card); border:1px solid var(--line); border-radius:16px; padding:18px 20px; }
+  .stat .n { font-family:var(--round); font-weight:800; font-size:1.9rem; color:var(--blue); line-height:1; font-variant-numeric:tabular-nums; }
+  .stat .n .u { font-size:.9rem; color:var(--ink-soft); margin-left:2px; }
+  .stat .l { font-size:.76rem; color:var(--ink-soft); margin-top:8px; font-weight:600; }
+
+  /* concept band */
+  .concept { background: var(--blue); color:#fff; position:relative; overflow:hidden; }
+  .concept .plusbg { position:absolute; inset:0; opacity:.5;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='46' height='46'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='1.5' stroke-linecap='round' opacity='0.5'%3E%3Cpath d='M23 17v12M17 23h12'/%3E%3C/g%3E%3C/svg%3E");
+  }
+  .concept .wrap { position:relative; z-index:1; padding: clamp(48px,8vh,84px) 0; display:grid; grid-template-columns: auto 1fr; gap: clamp(20px,4vw,52px); align-items:center; }
+  .concept .big { font-family:var(--round); font-weight:800; font-size: clamp(2rem,6vw,3.4rem); line-height:1.3; white-space:nowrap; }
+  .concept .big .y { color: #D6EB9B; }
+  .concept p { color: #E4EEFB; font-size: .98rem; line-height:2.05; max-width:40em; }
+  @media (max-width:760px){ .concept .wrap{ grid-template-columns:1fr; } .concept .big{ white-space:normal; } }
+
+  /* ============ section frame ============ */
+  .section { padding: clamp(60px,10vh,116px) 0; }
+  .section.alt { background: var(--ground-2); }
+  .sec-head { display:flex; align-items:flex-start; gap: clamp(16px,3vw,32px); margin-bottom: clamp(34px,6vh,58px); }
+  .sec-head .no { font-family:var(--round); font-weight:800; line-height:.82; flex-shrink:0; }
+  .sec-head .no b { display:block; font-size: clamp(2.8rem,7vw,4.6rem); color: var(--blue); }
+  .sec-head .no span { display:block; font-size:.66rem; letter-spacing:.28em; color: var(--lime-deep); margin-top:8px; font-weight:800; }
+  .sec-head .tt h2 { font-family:var(--round); font-weight:800; font-size: clamp(1.45rem,3.6vw,2.3rem); line-height:1.5; margin-bottom:14px; text-wrap:balance; }
+  .sec-head .tt h2 em { font-style:normal; color: var(--blue); }
+  .sec-head .tt h2 .lm { color: var(--lime-deep); }
+  .sec-head .tt p { font-size:.96rem; color:var(--ink-soft); line-height:2; max-width:46em; }
+
+  /* ============ ingredient cards ============ */
+  .grid4 { display:grid; grid-template-columns:repeat(4,1fr); gap: clamp(14px,1.6vw,20px); }
+  @media (max-width:900px){ .grid4{ grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:520px){ .grid4{ grid-template-columns:1fr;} }
+  .icard {
+    background:var(--card); border:1px solid var(--line); border-radius: var(--radius);
+    padding: 26px 24px; display:flex; flex-direction:column; gap:12px; position:relative; overflow:hidden;
+    transition: transform .4s cubic-bezier(.2,.7,.2,1), box-shadow .4s, border-color .4s;
+  }
+  .icard:hover { transform: translateY(-6px); box-shadow: 0 22px 40px -26px rgba(18,44,82,.5); border-color: color-mix(in srgb,var(--blue) 30%,var(--line)); }
+  .icard .top { display:flex; align-items:center; justify-content:space-between; }
+  .icard .em { width:56px;height:56px; border-radius:16px; display:grid; place-items:center; font-family:var(--round); font-weight:800; font-size:1.7rem; color:#fff; }
+  .icard .plusmark { font-family:var(--round); font-weight:800; font-size:1.4rem; color:var(--lime); }
+  .icard h3 { font-family:var(--round); font-weight:800; font-size:1.14rem; }
+  .icard h3 small { display:block; font-family:var(--sans); font-weight:700; font-size:.6rem; letter-spacing:.16em; color:var(--ink-soft); margin-top:4px; }
+  .icard p { font-size:.85rem; color:var(--ink-soft); line-height:1.95; }
+  .icard .chip { align-self:flex-start; margin-top:auto; font-size:.7rem; font-weight:700; font-family:var(--round); padding:4px 12px; border-radius:999px; background: var(--ground-3); color: var(--lime-deep); }
+
+  /* ============ brewing ============ */
+  .brew-grid { display:grid; grid-template-columns:1.02fr .98fr; gap: clamp(26px,4vw,54px); align-items:center; }
+  @media (max-width:840px){ .brew-grid{ grid-template-columns:1fr; } }
+  .brew p { font-size:.96rem; color:var(--ink-soft); line-height:2.05; }
+  .brew p + p { margin-top:16px; }
+  .kw { color: var(--ink); font-family:var(--round); font-weight:800; background: linear-gradient(transparent 62%, color-mix(in srgb,var(--lime) 45%,transparent) 62%); padding:0 2px; }
+  .kw.b { background: linear-gradient(transparent 62%, color-mix(in srgb,var(--blue) 34%,transparent) 62%); }
+  .eqbox { background: var(--blue-deep); color:#EAF2FE; border-radius: var(--radius); padding: clamp(24px,4vw,38px); position:relative; overflow:hidden; }
+  .eqbox canvas { position:absolute; inset:0; width:100%; height:100%; opacity:.55; }
+  .eqbox .in { position:relative; z-index:1; display:flex; flex-direction:column; gap:22px; }
+  .eq .step { font-family:var(--round); font-weight:800; font-size:.72rem; letter-spacing:.16em; color:#9EC4F4; margin-bottom:8px; display:flex; align-items:center; gap:8px; }
+  .eq .step .p { color:var(--lime); }
+  .eq .formula { font-family:var(--round); font-weight:700; font-size: clamp(1rem,2.3vw,1.35rem); line-height:1.5; }
+  .eq .formula sub { font-size:.62em; }
+  .eq .formula .arw { color:#7FC24A; padding:0 .3em; font-weight:800; }
+  .eq .formula .note { font-size:.62em; color:#9EC4F4; }
+  .eqbox .div { height:1px; background: rgba(255,255,255,.16); }
+  .eqbox .tag { position:relative; z-index:1; margin-top:22px; font-family:var(--round); font-weight:800; font-size:.92rem; color:#fff; }
+  .eqbox .tag em { font-style:normal; color:#D6EB9B; }
+
+  /* ============ types ============ */
+  .types { display:grid; grid-template-columns:repeat(2,1fr); gap: clamp(16px,2vw,22px); }
+  @media (max-width:720px){ .types{ grid-template-columns:1fr; } }
+  .type {
+    background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+    padding:26px; display:grid; grid-template-columns:auto 1fr; gap:22px; align-items:start;
+    transition:transform .4s cubic-bezier(.2,.7,.2,1), box-shadow .4s;
+  }
+  .type:hover { transform:translateY(-5px); box-shadow:0 22px 40px -26px rgba(18,44,82,.5); }
+  .type .badge2 { display:flex; flex-direction:column; align-items:center; gap:8px; }
+  .type .disc { width:62px;height:62px; border-radius:50%; display:grid; place-items:center; color:#fff; font-family:var(--round); font-weight:800; font-size:.82rem; text-align:center; line-height:1.1; }
+  .type .pol { font-size:.62rem; color:var(--ink-soft); text-align:center; font-weight:700; font-variant-numeric:tabular-nums; }
+  .type h3 { font-family:var(--round); font-weight:800; font-size:1.14rem; }
+  .type h3 small { display:block; font-family:var(--sans); font-weight:700; font-size:.6rem; letter-spacing:.14em; color:var(--ink-soft); margin-top:3px; }
+  .type p { font-size:.85rem; color:var(--ink-soft); line-height:1.95; margin-top:8px; }
+  .type .pair { display:inline-flex; align-items:center; gap:7px; margin-top:12px; font-size:.74rem; font-weight:700; font-family:var(--round); color:var(--blue); }
+  .type .pair .p { color:var(--lime); font-weight:800; }
+
+  /* ============ bottles ============ */
+  .bottles { display:grid; grid-template-columns:repeat(3,1fr); gap: clamp(16px,2vw,24px); }
+  @media (max-width:720px){ .bottles{ grid-template-columns:1fr; } }
+  .bottle { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:24px; display:flex; flex-direction:column; gap:16px; }
+  .glass { height:128px; border-radius:12px 12px 7px 7px; position:relative; overflow:hidden; border:1px solid rgba(0,0,0,.1); box-shadow: inset 0 0 22px rgba(0,0,0,.18); }
+  .glass::before { content:""; position:absolute; left:19%; top:8%; width:13%; height:80%; border-radius:40px; background:linear-gradient(180deg,rgba(255,255,255,.55),rgba(255,255,255,.05)); filter:blur(1px); }
+  .glass.amber{ background:linear-gradient(160deg,#6E3F12,#8A531B 55%,#5A3410);}
+  .glass.green{ background:linear-gradient(160deg,#1E4D34,#2E6B48 55%,#173B28);}
+  .glass.clear{ background:linear-gradient(160deg,#BFD8DE,#DCEBEE 55%,#AFC9D0);}
+  .bottle h3 { font-family:var(--round); font-weight:800; font-size:1.05rem; }
+  .bottle .uv .r { display:flex; justify-content:space-between; font-size:.72rem; color:var(--ink-soft); font-weight:600; margin-bottom:6px; }
+  .bottle .uv .r b { color:var(--blue); font-family:var(--round); font-weight:800; font-variant-numeric:tabular-nums; }
+  .bottle .track { height:7px; border-radius:999px; background:var(--ground-2); overflow:hidden; }
+  .bottle .fill { height:100%; border-radius:999px; background:linear-gradient(90deg,var(--blue),var(--blue-bright)); }
+  .bottle p { font-size:.82rem; color:var(--ink-soft); line-height:1.9; }
+  .storage { margin-top: clamp(24px,4vh,38px); background:var(--ground-3); border-radius:var(--radius); border:1px solid var(--line-soft); padding:24px 28px; display:flex; gap:18px; align-items:flex-start; }
+  .storage .ic { width:46px;height:46px;flex-shrink:0; border-radius:14px; background:var(--lime); color:#123; display:grid;place-items:center; font-family:var(--round); font-weight:800; font-size:1.2rem; }
+  .storage h3 { font-family:var(--round); font-weight:800; font-size:1.02rem; margin-bottom:6px; }
+  .storage p { font-size:.86rem; color:var(--ink-soft); line-height:1.95; }
+
+  /* ============ label spec ============ */
+  .label-grid { display:grid; grid-template-columns:1fr 1fr; gap: clamp(18px,3vw,40px); align-items:start; }
+  @media (max-width:820px){ .label-grid{ grid-template-columns:1fr; } }
+  .spec { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; }
+  .spec .cap { background:var(--blue); color:#fff; padding:15px 24px; font-family:var(--round); font-weight:800; letter-spacing:.06em; display:flex; justify-content:space-between; align-items:center; }
+  .spec .cap span { font-family:var(--sans); font-weight:700; font-size:.6rem; letter-spacing:.24em; color:#BFD8F7; }
+  .spec .row { display:grid; grid-template-columns:auto 1fr; gap:4px 18px; padding:18px 24px; border-top:1px solid var(--line-soft); }
+  .spec .row:first-of-type { border-top:none; }
+  .spec .k { font-family:var(--round); font-weight:800; font-size:.98rem; color:var(--ink); }
+  .spec .k small { display:block; font-family:var(--sans); font-weight:700; font-size:.58rem; letter-spacing:.14em; color:var(--ink-soft); margin-top:3px; }
+  .spec .v { text-align:right; align-self:center; font-family:var(--round); font-weight:800; font-size:1.12rem; color:var(--blue); font-variant-numeric:tabular-nums; }
+  .spec .d { grid-column:1/-1; font-size:.82rem; color:var(--ink-soft); line-height:1.9; margin-top:8px; }
+  .req { font-size:.56rem; font-weight:700; letter-spacing:.08em; padding:2px 8px; border-radius:999px; margin-left:8px; vertical-align:middle; background:var(--ground-2); color:var(--ink-soft); }
+  .req.must { background: color-mix(in srgb,var(--lime) 24%,transparent); color:var(--lime-deep); }
+  .label-note { font-family:var(--round); font-size:.96rem; color:var(--ink-soft); line-height:2.1; }
+  .label-note .big { display:block; font-weight:800; font-size:clamp(1.3rem,3vw,1.8rem); color:var(--ink); line-height:1.5; margin-bottom:16px; }
+  .label-note .big em { font-style:normal; color:var(--blue); }
+  .label-note .big .p { color:var(--lime); }
+
+  /* ============ kura banner (06) ============ */
+  .kura-banner { display:block; position:relative; overflow:hidden; border-radius:var(--radius); background:var(--blue); color:#fff; text-decoration:none; box-shadow:0 20px 44px -26px var(--blue); transition:transform .4s cubic-bezier(.2,.7,.2,1), box-shadow .4s; }
+  .kura-banner:hover { transform:translateY(-4px); box-shadow:0 30px 56px -26px var(--blue); }
+  .kura-banner.lime { background:var(--lime-deep); box-shadow:0 20px 44px -26px var(--lime-deep); }
+  .kura-banner.lime:hover { box-shadow:0 30px 56px -26px var(--lime-deep); }
+  .kura-banner.lime .kb-eyebrow, .kura-banner.lime .kb-stat i { color:#E8F3CE; }
+  .kura-banner.lime .kb-desc { color:#EAF3D6; }
+  .kura-banner.lime .kb-plus { color:#fff; }
+  .kura-banner.lime .kb-go { background:var(--blue); color:#fff; }
+  .kura-banner .plusbg { position:absolute; inset:0; opacity:.5;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='46' height='46'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='1.5' stroke-linecap='round' opacity='0.5'%3E%3Cpath d='M23 17v12M17 23h12'/%3E%3C/g%3E%3C/svg%3E");
+  }
+  .kb-in { position:relative; z-index:1; display:flex; align-items:center; flex-wrap:wrap; gap:22px 32px; padding: clamp(26px,4vw,40px) clamp(24px,4vw,44px); }
+  .kb-lead { flex:1 1 260px; }
+  .kb-eyebrow { display:block; font-family:var(--round); font-weight:800; font-size:.68rem; letter-spacing:.24em; color:#BFD8F7; }
+  .kb-title { display:block; font-weight:800; font-size:clamp(1.4rem,3.4vw,2rem); margin:8px 0 8px; }
+  .kb-desc { display:block; font-size:.86rem; color:#DCE8FB; line-height:1.8; }
+  .kb-stats { display:flex; align-items:center; gap:12px; }
+  .kb-stat { display:flex; flex-direction:column; align-items:center; line-height:1; }
+  .kb-stat b { font-family:var(--round); font-weight:800; font-size:clamp(1.6rem,4vw,2.3rem); font-variant-numeric:tabular-nums; }
+  .kb-stat i { font-style:normal; font-size:.66rem; color:#BFD8F7; margin-top:6px; font-weight:700; }
+  .kb-plus { color:var(--lime); font-family:var(--round); font-weight:800; font-size:1.2rem; }
+  .kb-go { display:inline-flex; align-items:center; gap:9px; background:var(--lime); color:#123; font-family:var(--round); font-weight:800; font-size:.92rem; padding:13px 24px; border-radius:999px; white-space:nowrap; }
+  @media (max-width:640px){ .kb-in{ flex-direction:column; align-items:flex-start; } .kb-go{ width:100%; justify-content:center; } }
+
+  /* ============ CTA ============ */
+  .cta { background: var(--lime); color:#0f2410; position:relative; overflow:hidden; text-align:center; }
+  .cta .plusbg { position:absolute; inset:0; opacity:.6;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='46' height='46'%3E%3Cg fill='none' stroke='%230f2410' stroke-width='1.5' stroke-linecap='round' opacity='0.35'%3E%3Cpath d='M23 17v12M17 23h12'/%3E%3C/g%3E%3C/svg%3E");
+  }
+  .cta .wrap { position:relative; z-index:1; padding: clamp(64px,11vh,124px) 0; display:flex; flex-direction:column; align-items:center; gap:22px; }
+  .cta .eyebrow { font-family:var(--round); font-weight:800; font-size:.82rem; letter-spacing:.24em; }
+  .cta h2 { font-family:var(--round); font-weight:800; font-size:clamp(1.7rem,4.6vw,3rem); line-height:1.5; max-width:20em; text-wrap:balance; }
+  .cta p { font-size:1rem; color:#254a1c; line-height:2.05; max-width:34em; }
+  .cta .btn-primary { background:var(--blue-deep); box-shadow:0 14px 30px -14px rgba(0,0,0,.5); font-size:1rem; padding:16px 36px; }
+  .cta .btn-primary:hover { background:var(--blue); }
+
+  /* ============ footer ============ */
+  footer { background: var(--ground); border-top:1px solid var(--line-soft); padding: 40px 0; }
+  footer .wrap { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px; }
+  footer small { font-size:.74rem; color:var(--ink-soft); }
+
+  a:focus-visible, button:focus-visible { outline:2px solid var(--blue); outline-offset:3px; border-radius:4px; }
+
+  /* ============ reveal ============ */
+  .reveal { opacity:0; transform:translateY(24px); transition:opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1); }
+  .reveal.in { opacity:1; transform:none; }
+  .reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}.reveal.d3{transition-delay:.24s}.reveal.d4{transition-delay:.32s}
+  @media (prefers-reduced-motion: reduce){ .reveal{opacity:1;transform:none;transition:none} }
+
+  @keyframes floaty { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+
+  /* ============ pairing page ============ */
+  .p-hero { position:relative; overflow:hidden; padding: clamp(48px,9vh,92px) 0 clamp(30px,4vh,48px); }
+  .p-hero .plusbg { position:absolute; inset:0; opacity:.5; -webkit-mask-image:radial-gradient(120% 90% at 82% 6%,#000,transparent 70%); mask-image:radial-gradient(120% 90% at 82% 6%,#000,transparent 70%); }
+  .p-hero .blob { position:absolute; border-radius:50%; filter:blur(6px); opacity:.5; z-index:0; }
+  .p-hero .b1 { width:300px;height:300px; right:-80px; top:-80px; background:radial-gradient(circle at 35% 35%, color-mix(in srgb,var(--lime) 42%,transparent), transparent 68%); }
+  .p-hero .b2 { width:240px;height:240px; left:-70px; bottom:-80px; background:radial-gradient(circle at 50% 50%, color-mix(in srgb,var(--blue) 42%,transparent), transparent 68%); }
+  .p-hero .wrap { position:relative; z-index:2; }
+  .crumb { display:inline-flex; align-items:center; gap:8px; font-family:var(--round); font-weight:800; font-size:.76rem; color:var(--ink-soft); flex-wrap:wrap; }
+  .crumb a { color:var(--blue); }
+  .p-hero h1 { font-family:var(--round); font-weight:800; font-size:clamp(1.9rem,5.6vw,3.2rem); line-height:1.28; margin:16px 0 12px; text-wrap:balance; }
+  .p-hero h1 .plus { color:var(--lime); }
+  .p-hero p { font-size:.96rem; color:var(--ink-soft); line-height:2; max-width:46em; }
+
+  /* principles */
+  .principles { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:clamp(26px,4vh,40px); }
+  @media (max-width:720px){ .principles{ grid-template-columns:1fr; } }
+  .principle { background:var(--card); border:1px solid var(--line); border-radius:16px; padding:22px 22px; display:flex; flex-direction:column; gap:8px; }
+  .principle .p-no { font-family:var(--round); font-weight:800; font-size:.66rem; letter-spacing:.16em; color:var(--lime-deep); }
+  .principle h3 { font-family:var(--round); font-weight:800; font-size:1.1rem; }
+  .principle h3 .en { display:block; font-family:var(--sans); font-weight:700; font-size:.56rem; letter-spacing:.16em; color:var(--ink-soft); margin-top:3px; }
+  .principle p { font-size:.84rem; color:var(--ink-soft); line-height:1.9; }
+
+  /* generation section */
+  .gen { padding: clamp(48px,8vh,96px) 0; border-top:1px solid var(--line-soft); }
+  .gen.alt { background:var(--ground-2); }
+  .gen-head { display:flex; align-items:center; gap:16px; margin-bottom:clamp(24px,4vh,40px); flex-wrap:wrap; }
+  .gen-badge { display:flex; flex-direction:column; align-items:center; justify-content:center; width:84px; height:84px; border-radius:20px; background:var(--blue); color:#fff; flex-shrink:0; }
+  .gen-badge b { font-family:var(--round); font-weight:800; font-size:1.7rem; line-height:1; }
+  .gen-badge i { font-style:normal; font-size:.56rem; letter-spacing:.14em; margin-top:5px; }
+  .gen-head .gh-t h2 { font-family:var(--round); font-weight:800; font-size:clamp(1.3rem,3.2vw,1.9rem); line-height:1.4; }
+  .gen-head .gh-t .tagline { display:inline-block; margin-top:8px; font-family:var(--round); font-weight:800; font-size:.76rem; color:var(--lime-deep); background:var(--ground-3); padding:5px 13px; border-radius:999px; }
+  .gen-desc { font-size:.92rem; color:var(--ink-soft); line-height:2; max-width:52em; margin-bottom:26px; }
+
+  .pair-set { display:grid; grid-template-columns:1fr 64px 1fr; gap:18px; align-items:stretch; }
+  @media (max-width:820px){ .pair-set{ grid-template-columns:1fr; } }
+  .pcard { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; display:flex; flex-direction:column; }
+  .pcard .pc-tag { display:flex; align-items:center; gap:8px; padding:12px 20px; font-family:var(--round); font-weight:800; font-size:.72rem; letter-spacing:.1em; border-bottom:1px solid var(--line-soft); }
+  .pcard .pc-tag.dish { color:var(--lime-deep); }
+  .pcard .pc-tag.sake { color:var(--blue); }
+  .pcard .pc-body { padding:20px 22px 22px; display:flex; flex-direction:column; gap:10px; }
+  .pcard h4 { font-family:var(--round); font-weight:800; font-size:1.16rem; line-height:1.4; }
+  .pcard h4 .maker { display:block; font-size:.72rem; color:var(--ink-soft); font-weight:700; margin-top:4px; }
+  .pcard p { font-size:.85rem; color:var(--ink-soft); line-height:1.95; }
+  .pcard .how { font-size:.8rem; color:var(--ink-soft); line-height:1.9; background:var(--ground-2); border-radius:12px; padding:12px 14px; }
+  .pcard .how b { color:var(--ink); font-family:var(--round); font-size:.7rem; letter-spacing:.08em; display:block; margin-bottom:4px; }
+  .pcard .cite { font-size:.72rem; color:var(--ink-soft); line-height:1.7; border-top:1px dashed var(--line); padding-top:10px; margin-top:auto; }
+  .pcard .cite b { color:var(--lime-deep); font-family:var(--round); }
+  .pcard .science { font-size:.83rem; color:var(--ink-soft); line-height:1.95; }
+  .pcard .science b { color:var(--ink); font-family:var(--round); font-size:.7rem; letter-spacing:.06em; display:block; margin-bottom:4px; }
+
+  /* dish frame (tone, not a photo) */
+  .dish-frame { aspect-ratio:5/3; position:relative; overflow:hidden; }
+  .dish-frame .plate { position:absolute; inset:0; }
+  .dish-frame .cap { position:absolute; left:14px; bottom:12px; z-index:2; color:#fff; font-family:var(--round); font-weight:800; font-size:.82rem; text-shadow:0 1px 6px rgba(0,0,0,.4); }
+  .dish-frame .cap i { display:block; font-style:normal; font-weight:700; font-size:.58rem; letter-spacing:.14em; opacity:.85; margin-top:2px; }
+  .dish-frame .imgnote { position:absolute; right:12px; top:12px; z-index:2; font-family:var(--sans); font-weight:700; font-size:.54rem; letter-spacing:.12em; color:#fff; background:rgba(0,0,0,.28); border-radius:999px; padding:4px 9px; }
+  .tone-salmon { background:linear-gradient(135deg,#E88A6C 0%,#EBA98A 42%,#9DB26A 100%); }
+  .tone-carpaccio { background:linear-gradient(135deg,#EAF0E6 0%,#DDE9D5 45%,#E8D98A 100%); }
+  .tone-roast { background:linear-gradient(135deg,#8A3E2C 0%,#A9583C 45%,#D8B88A 100%); }
+  .tone-asari { background:linear-gradient(135deg,#4E6E82 0%,#6D93A6 45%,#9FB98A 100%); }
+  .dish-frame .plate::after { content:""; position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:64%; aspect-ratio:1; border-radius:50%; background:radial-gradient(circle at 38% 34%, rgba(255,255,255,.42), rgba(255,255,255,0) 60%); box-shadow:0 8px 30px -10px rgba(0,0,0,.35); }
+
+  /* sake bottle illustration */
+  .sake-stage { display:flex; align-items:flex-end; justify-content:center; gap:18px; padding:24px 10px 18px; background:linear-gradient(180deg, color-mix(in srgb,var(--blue) 6%,var(--card)), var(--card)); border-bottom:1px solid var(--line-soft); }
+  .btl { position:relative; width:58px; height:158px; flex-shrink:0; filter:drop-shadow(0 12px 16px rgba(0,0,0,.22)); }
+  .btl .cap { position:absolute; top:0; left:50%; transform:translateX(-50%); width:22px; height:12px; border-radius:3px 3px 0 0; background:#2a2a2a; }
+  .btl .neck { position:absolute; top:10px; left:50%; transform:translateX(-50%); width:20px; height:40px; }
+  .btl .body { position:absolute; bottom:0; left:50%; transform:translateX(-50%); width:100%; height:120px; border-radius:12px 12px 9px 9px; box-shadow:inset 0 0 20px rgba(0,0,0,.28), inset 6px 0 10px rgba(255,255,255,.18); }
+  .btl .body::before { content:""; position:absolute; left:20%; top:10%; width:12%; height:74%; border-radius:40px; background:linear-gradient(180deg,rgba(255,255,255,.55),rgba(255,255,255,.04)); }
+  .btl .paper { position:absolute; bottom:22px; left:50%; transform:translateX(-50%); width:78%; padding:8px 4px; background:#F6F3EA; border-radius:3px; text-align:center; box-shadow:0 2px 6px rgba(0,0,0,.2); }
+  .btl .paper span { font-family:var(--round); font-weight:800; font-size:.56rem; color:#1a2a1e; line-height:1.25; letter-spacing:.02em; display:block; }
+  .btl.celadon .neck, .btl.celadon .body { background:linear-gradient(160deg,#BFD9CE,#D9E7DF 55%,#A9C6B8); }
+  .btl.green .neck, .btl.green .body { background:linear-gradient(160deg,#1F4D34,#2F6B48 55%,#173B28); }
+  .btl.amber .neck, .btl.amber .body { background:linear-gradient(160deg,#6E3F12,#8A531B 55%,#5A3410); }
+  .btl.forest .neck, .btl.forest .body { background:linear-gradient(160deg,#173A2A,#245A40 55%,#0F2C20); }
+  .sake-serve { display:flex; flex-direction:column; gap:8px; align-self:center; }
+  .serve-chip { font-family:var(--round); font-weight:800; font-size:.68rem; padding:6px 12px; border-radius:999px; white-space:nowrap; border:1px solid var(--line); color:var(--ink-soft); }
+  .serve-chip.cold { color:#2C74DB; border-color:color-mix(in srgb,#2C74DB 40%,transparent); }
+  .serve-chip.warm { color:#C0692A; border-color:color-mix(in srgb,#C0692A 45%,transparent); }
+
+  .link-arm { display:flex; align-items:center; justify-content:center; }
+  .marry { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; color:var(--lime-deep); }
+  .marry .p { font-family:var(--round); font-weight:800; font-size:1.7rem; }
+  .marry .l { writing-mode:vertical-rl; font-family:var(--sans); font-weight:800; font-size:.54rem; letter-spacing:.24em; color:var(--ink-soft); }
+  @media (max-width:820px){ .marry{ flex-direction:row; } .marry .l{ writing-mode:horizontal-tb; } }
+
+  /* knowledge blocks */
+  .kblock { padding: clamp(48px,8vh,96px) 0; border-top:1px solid var(--line-soft); }
+  .kblock.alt { background:var(--ground-2); }
+  .roles { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+  @media (max-width:900px){ .roles{ grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:520px){ .roles{ grid-template-columns:1fr;} }
+  .role { background:var(--card); border:1px solid var(--line); border-radius:16px; padding:18px; display:flex; flex-direction:column; gap:6px; }
+  .role .rk { font-family:var(--round); font-weight:800; font-size:1rem; }
+  .role .rk small { display:block; font-family:var(--sans); font-weight:700; font-size:.58rem; letter-spacing:.1em; color:var(--ink-soft); margin-top:3px; }
+  .role.head-role { background:var(--blue); color:#fff; }
+  .role.head-role small { color:#BFD8F7; }
+  .role p { font-size:.8rem; color:var(--ink-soft); line-height:1.9; }
+  .role.head-role p { color:#DCE8FB; }
+
+  .tbl-wrap { overflow-x:auto; border:1px solid var(--line); border-radius:var(--radius); }
+  table.tbl { width:100%; border-collapse:collapse; min-width:560px; font-size:.85rem; }
+  table.tbl thead th { background:var(--blue); color:#fff; font-family:var(--round); font-weight:800; text-align:left; padding:14px 18px; font-size:.82rem; white-space:nowrap; }
+  table.tbl td { padding:14px 18px; border-top:1px solid var(--line-soft); color:var(--ink-soft); line-height:1.8; vertical-align:top; }
+  table.tbl td.k { font-family:var(--round); font-weight:800; color:var(--ink); white-space:nowrap; }
+  table.tbl tbody tr:hover { background:var(--ground-2); }
+
+  .light-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:12px; }
+  @media (max-width:900px){ .light-grid{ grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:520px){ .light-grid{ grid-template-columns:1fr;} }
+  .lg { background:var(--card); border:1px solid var(--line); border-radius:16px; padding:16px; display:flex; flex-direction:column; gap:10px; }
+  .lg .swatch { height:70px; border-radius:10px; border:1px solid rgba(0,0,0,.1); box-shadow:inset 0 0 16px rgba(0,0,0,.18); position:relative; overflow:hidden; }
+  .lg .swatch::before { content:""; position:absolute; left:20%; top:8%; width:12%; height:80%; border-radius:40px; background:linear-gradient(180deg,rgba(255,255,255,.5),rgba(255,255,255,.05)); }
+  .sw-amber{ background:linear-gradient(160deg,#6E3F12,#8A531B 55%,#5A3410);} .sw-green{ background:linear-gradient(160deg,#1E4D34,#2E6B48 55%,#173B28);} .sw-blue{ background:linear-gradient(160deg,#3E6E9E,#5C8FC0 55%,#345E86);} .sw-frost{ background:linear-gradient(160deg,#DDE3E6,#EEF2F4 55%,#CDD6DA);} .sw-paper{ background:linear-gradient(160deg,#C9B79A,#Dccdb4 55%,#B8A488);}
+  .lg h4 { font-family:var(--round); font-weight:800; font-size:.95rem; }
+  .lg .rate { font-size:.66rem; font-weight:800; font-family:var(--round); padding:3px 9px; border-radius:999px; align-self:flex-start; }
+  .rate.hi{ background:color-mix(in srgb,var(--lime) 26%,transparent); color:var(--lime-deep);} .rate.mid{ background:var(--ground-2); color:var(--ink-soft);} .rate.lo{ background:color-mix(in srgb,#C0692A 20%,transparent); color:#B4611F;}
+  .lg p { font-size:.76rem; color:var(--ink-soft); line-height:1.85; }
+  .callout { background:var(--card); border:1px solid var(--line); border-left:3px solid var(--blue); border-radius:14px; padding:20px 24px; margin-top:22px; font-size:.86rem; color:var(--ink-soft); line-height:2; }
+  .callout b { color:var(--ink); font-family:var(--round); }
+</style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="topbar">
+    <div class="wrap">
+      <div class="bar-left">
+        <button class="hamburger" id="menuBtn" aria-label="メニューを開く" aria-expanded="false" aria-controls="drawer"><i></i><i></i><i></i></button>
+        <a class="logo" href="index.html#top">
+          <span class="mk" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+          <span>日本酒のトリセツ<small>SAKE FIELD NOTES</small></span>
+        </a>
+      </div>
+      <nav class="nav">
+        <a class="btn btn-primary" href="index.html#top">トップへ <span class="plus">＋</span></a>
+        <button class="theme-toggle" id="themeBtn" aria-label="配色を切り替え">◐</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- DRAWER -->
+  <div class="overlay" id="overlay" hidden></div>
+  <aside class="drawer" id="drawer" aria-label="ページメニュー" aria-hidden="true">
+    <div class="drawer-head">
+      <a class="logo" href="index.html#top"><span class="mk" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="round">日本酒のトリセツ</span></a>
+      <button class="drawer-close" id="drawerClose" aria-label="メニューを閉じる">✕</button>
+    </div>
+    <nav class="dnav">
+      <a class="top" href="index.html#top"><span class="n">＋</span>トップ<span class="en">TOP</span></a>
+      <a href="index.html#s1"><span class="n">01</span>素材<span class="en">MATERIAL</span></a>
+      <a href="index.html#s2"><span class="n">02</span>製法<span class="en">BREWING</span></a>
+      <a href="index.html#s3"><span class="n">03</span>種類<span class="en">TYPE</span></a>
+      <a href="index.html#s4"><span class="n">04</span>保存<span class="en">BOTTLE</span></a>
+      <a href="index.html#s5"><span class="n">05</span>ラベル<span class="en">LABEL</span></a>
+      <a href="sakagura.html"><span class="n">06</span>酒蔵一覧<span class="en">SAKAGURA</span></a>
+      <a href="pairing.html" aria-current="page"><span class="n">07</span>ペアリング<span class="en">PAIRING</span></a>
+    </nav>
+    <div class="drawer-foot">
+      <a class="btn btn-primary" href="index.html#cta">最初から読む <span class="plus">＋</span></a>
+      <span class="hint">お酒は20歳になってから。</span>
+    </div>
+  </aside>
+
+  <!-- HERO -->
+  <section class="p-hero">
+    <span class="plusbg" aria-hidden="true"></span>
+    <span class="blob b1" aria-hidden="true"></span>
+    <span class="blob b2" aria-hidden="true"></span>
+    <div class="wrap">
+      <span class="crumb"><a href="index.html#top">日本酒のトリセツ</a><span>/</span><span>07 日本酒とのペアリング</span></span>
+      <h1>世代でひも解く、<br>日本酒 × 料理のペアリング<span class="plus">＋</span></h1>
+      <p>味覚の生理的変遷とライフステージの違いは、求める味わいの方向性を変えていく。ペアリングの基本は「同調・補完・ウォッシュ」の3原則。20代のエントリー層から50代以上の伝統・滋味志向まで、各世代に最適な一対一を、食品科学と社会学の視点から提案する。</p>
+      <div class="principles">
+        <div class="principle"><span class="p-no">原則 01</span><h3>同調<span class="en">SYNERGY</span></h3><p>フレーバーやテクスチャーの方向性を合わせ、共通項で味を重ねて増幅させる。</p></div>
+        <div class="principle"><span class="p-no">原則 02</span><h3>補完<span class="en">COMPLEMENT</span></h3><p>互いに足りない要素を補い合い、単体では出せない奥行きを生む。</p></div>
+        <div class="principle"><span class="p-no">原則 03</span><h3>ウォッシュ<span class="en">WASH</span></h3><p>酒の酸やキレで脂分や雑味を洗い流し、次の一口をリセットする。</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAIRINGS -->
+  
+  <section class="gen">
+    <div class="wrap">
+      <div class="gen-head">
+        <div class="gen-badge"><b>20</b><i>ENTRY</i></div>
+        <div class="gh-t">
+          <h2>20代 — 新世代のカジュアル・ペアリング</h2>
+          <span class="tagline">＋ モダン＆フルーティー</span>
+        </div>
+      </div>
+      <p class="gen-desc">デジタルネイティブの20代は、視覚的な美しさと、苦味・重厚なアルコール感を抑えたフルーティーでライトな味わいを好む。洋風の要素を取り入れた、カジュアルかつスタイリッシュな一皿がなじむ。</p>
+      <div class="pair-set">
+        <div class="pcard">
+          <div class="pc-tag dish">◍ おつまみ / DISH</div>
+          <div class="dish-frame"><div class="plate tone-salmon"></div><span class="imgnote">イメージ</span><span class="cap">アボカドとサーモンのユッケ<i>DISH</i></span></div>
+          <div class="pc-body">
+            <h4>アボカドとサーモンのユッケ</h4>
+            <p>醤油の豊かな旨味、サーモンの濃厚な脂、アボカドのクリーミーな質感が三位一体。卵黄を絡めれば、円やかさとコクがさらに増す現代的な一品。</p>
+            <div class="how"><b>調理法の概要</b>刺身用サーモンと皮を剥いたアボカドを1.5cm角に切り、生しょうゆに約15分漬け込み器へ。中央に卵黄をのせ、いりごまを振る。</div>
+            <div class="cite"><b>出典</b>　キッコーマン ホームクックレシピ「アボカドとサーモンのしぼ生漬け丼」</div>
+          </div>
+        </div>
+        <div class="link-arm"><div class="marry"><span class="p">＋</span><span class="l">MARRIAGE</span></div></div>
+        <div class="pcard">
+          <div class="pc-tag sake">● 推奨日本酒 / SAKE</div>
+          <div class="sake-stage">
+            <div class="btl celadon" aria-hidden="true"><span class="cap"></span><span class="neck"></span><span class="body"><span class="paper"><span>作</span><span>純米</span><span>大吟醸</span></span></span></div>
+            <div class="sake-serve"><span class="serve-chip cold">冷酒</span></div>
+          </div>
+          <div class="pc-body">
+            <h4>作 純米大吟醸<span class="maker">清水清三郎商店（三重県鈴鹿市）</span></h4>
+            <div class="science"><b>蔵元の特徴と歴史</b>1869年創業。新潟・能登杜氏の季節雇用から「社員杜氏の時代」へ転換し、当時20代の内山智広氏を杜氏に大抜擢。伝統技術とバイオテクノロジーの醸造理論を融合し、「全工程を大吟醸と同じにする」方針で品質を徹底する。伊勢平野の米と鈴鹿山脈の伏流水で醸すモダン日本酒の代表格。</div>
+            <div class="science"><b>ペアリングの科学</b>華やかな吟醸香、みずみずしい甘味、雑味のないクリアな口当たり。サーモンの脂とアボカドの植物性脂肪の濃厚なテクスチャーに、洗練されたクリアな酸と同調するフルーティーな甘味が重なり、口中で優美なハーモニーを奏でる。</div>
+            <div class="cite"><b>出典</b>　蔵元：清水清三郎商店株式会社</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="gen alt">
+    <div class="wrap">
+      <div class="gen-head">
+        <div class="gen-badge"><b>30</b><i>TREND</i></div>
+        <div class="gh-t">
+          <h2>30代 — バル風・こだわりのペアリング</h2>
+          <span class="tagline">＋ 爽快感＆素材美</span>
+        </div>
+      </div>
+      <p class="gen-desc">こだわりを持ち始める30代は、健康志向と洗練されたバル風の食文化に親しむ。素材の鮮度を引き立てつつ、適度な酸味と軽快な香りを愉しめる組み合わせが好まれる。</p>
+      <div class="pair-set">
+        <div class="pcard">
+          <div class="pc-tag dish">◍ おつまみ / DISH</div>
+          <div class="dish-frame"><div class="plate tone-carpaccio"></div><span class="imgnote">イメージ</span><span class="cap">鯛のハーブカルパッチョ<i>DISH</i></span></div>
+          <div class="pc-body">
+            <h4>鯛のハーブカルパッチョ</h4>
+            <p>白身魚の繊細な風味に、ハーブの清涼感を重ねる。エキストラバージンオリーブオイルと生醤油で仕上げる、シンプルながら知的な構成の冷菜。</p>
+            <div class="how"><b>調理法の概要</b>刺身用の鯛を薄切りにして器に並べ塩をまぶし、サニーレタスやクレソン、ベビーリーフ、スナップエンドウと盛る。オリーブオイルと生醤油を回しかけ、レモンを絞り黒こしょうを振る。</div>
+            <div class="cite"><b>出典</b>　キッコーマン ホームクックレシピ「鯛のカルパッチョ」</div>
+          </div>
+        </div>
+        <div class="link-arm"><div class="marry"><span class="p">＋</span><span class="l">MARRIAGE</span></div></div>
+        <div class="pcard">
+          <div class="pc-tag sake">● 推奨日本酒 / SAKE</div>
+          <div class="sake-stage">
+            <div class="btl green" aria-hidden="true"><span class="cap"></span><span class="neck"></span><span class="body"><span class="paper"><span>薩州</span><span>正宗</span><span>純米吟醸</span></span></span></div>
+            <div class="sake-serve"><span class="serve-chip cold">冷酒</span></div>
+          </div>
+          <div class="pc-body">
+            <h4>薩州正宗 純米吟醸酒<span class="maker">薩摩金山蔵／濵田酒造（鹿児島県）</span></h4>
+            <div class="science"><b>蔵元の特徴と歴史</b>本格焼酎の本場・鹿児島で、2012年に県内40年ぶりの清酒醸造を復活。長野で修行した杜氏・東條健太氏が、酸を生成しない黄麹菌の管理に挑み、寒冷期のみ製造するなど徹底管理を確立。2018年には種子島産酒米「吟のさと」で日本最南端の大吟醸に成功。霊峰「冠岳」の天然水を仕込み水とする。</div>
+            <div class="science"><b>ペアリングの科学</b>低温発酵が引き出す華やかな香りと、すっきりとした甘み。冷酒で供すれば、レモンの酸味やハーブの青い香りと吟醸香が立体的に交差し、オリーブオイルの軽やかなコクを爽快にウォッシュする。</div>
+            <div class="cite"><b>出典</b>　蔵元：濵田酒造株式会社 薩摩金山蔵</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="gen">
+    <div class="wrap">
+      <div class="gen-head">
+        <div class="gen-badge"><b>40</b><i>MIDDLE</i></div>
+        <div class="gh-t">
+          <h2>40代 — 本格志向のリッチ・ペアリング</h2>
+          <span class="tagline">＋ 旨味の重奏＆酸の調和</span>
+        </div>
+      </div>
+      <p class="gen-desc">味覚の経験値が高まる40代は、肉料理などの重厚な旨味に対し、それを受け止める豊かなボディと酸を持つ酒を好む。互いのポテンシャルを高め合う、奥行きのある一対が真価を発揮する。</p>
+      <div class="pair-set">
+        <div class="pcard">
+          <div class="pc-tag dish">◍ おつまみ / DISH</div>
+          <div class="dish-frame"><div class="plate tone-roast"></div><span class="imgnote">イメージ</span><span class="cap">和風ローストビーフ<i>DISH</i></span></div>
+          <div class="pc-body">
+            <h4>和風ローストビーフ</h4>
+            <p>じっくり火を通した牛もも肉の重厚な旨味に、甘辛く煮詰めた和風醤油ソース、ローストした根菜を添えた、食べ応えのある本格肉料理。</p>
+            <div class="how"><b>調理法の概要</b>牛もも肉の表面を香ばしく焼き、くし切りの玉ねぎと皮付きじゃがいもを敷いて蓋をし蒸し焼きに。余熱で休ませ、肉汁の残るフライパンで醤油・みりんを煮詰めてソースを作る。</div>
+            <div class="cite"><b>出典</b>　キッコーマン ホームクックレシピ「フライパンローストビーフ（玉ねぎ、じゃがいも添え）」</div>
+          </div>
+        </div>
+        <div class="link-arm"><div class="marry"><span class="p">＋</span><span class="l">MARRIAGE</span></div></div>
+        <div class="pcard">
+          <div class="pc-tag sake">● 推奨日本酒 / SAKE</div>
+          <div class="sake-stage">
+            <div class="btl amber" aria-hidden="true"><span class="cap"></span><span class="neck"></span><span class="body"><span class="paper"><span>七本鎗</span><span>純米</span><span>玉栄</span></span></span></div>
+            <div class="sake-serve"><span class="serve-chip cold">冷酒</span><span class="serve-chip warm">熱燗</span></div>
+          </div>
+          <div class="pc-body">
+            <h4>七本鎗 純米 玉栄<span class="maker">冨田酒造（滋賀県・北近江）</span></h4>
+            <div class="science"><b>蔵元の特徴と歴史</b>琵琶湖最北端・北近江で天文年間（1532〜1554年）よりおよそ15代続く極小蔵。15代目・冨田泰伸氏が滋賀県独自の酒米「玉栄」を主軸に、米の個性とふくよかな旨味、美しい酸を追求。山廃熟成「琥刻」や無農薬「無有」など独創的。北大路魯山人が長期滞在し、その文字をラベルに採用する芸術と手仕事の蔵。</div>
+            <div class="science"><b>ペアリングの科学</b>米のふくよかな旨味と、全体の輪郭をまとめる確かな酸。冷酒から熱燗まで対応する。醤油ソースを纏った牛肉の豊かな肉汁と鉄分に太い旨味の骨格が同調しつつ、豊かな酸が余分な脂を軽やかに流し去る。</div>
+            <div class="cite"><b>出典</b>　蔵元：冨田酒造有限会社</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="gen alt">
+    <div class="wrap">
+      <div class="gen-head">
+        <div class="gen-badge"><b>50</b><i>SENIOR</i></div>
+        <div class="gh-t">
+          <h2>50代 — シンプル・イズ・ベストのペアリング</h2>
+          <span class="tagline">＋ 出汁と滋味</span>
+        </div>
+      </div>
+      <p class="gen-desc">素材のポテンシャルを引き出したシンプルな和食を愛する50代以上には、貝や魚介の滋味豊かな出汁（コハク酸・グルタミン酸）に寄り添い、米の旨味が染み渡る伝統的アプローチを。</p>
+      <div class="pair-set">
+        <div class="pcard">
+          <div class="pc-tag dish">◍ おつまみ / DISH</div>
+          <div class="dish-frame"><div class="plate tone-asari"></div><span class="imgnote">イメージ</span><span class="cap">あさりの酒蒸し<i>DISH</i></span></div>
+          <div class="pc-body">
+            <h4>あさりの酒蒸し</h4>
+            <p>二枚貝のあさりが持つ強烈な旨味成分「コハク酸」を、純粋に引き出した定番の和食おつまみ。</p>
+            <div class="how"><b>調理法の概要</b>濃度2%の塩水で砂抜きしたあさりをこすり洗いし、料理用清酒とともに蓋をして強火で蒸す。口が開いたものから取り出し身のふっくら感を保ち、残り汁に醤油を加えひと煮立ち、ネギを散らす。</div>
+            <div class="cite"><b>出典</b>　キッコーマン ホームクックレシピ「あさりの酒蒸し」</div>
+          </div>
+        </div>
+        <div class="link-arm"><div class="marry"><span class="p">＋</span><span class="l">MARRIAGE</span></div></div>
+        <div class="pcard">
+          <div class="pc-tag sake">● 推奨日本酒 / SAKE</div>
+          <div class="sake-stage">
+            <div class="btl forest" aria-hidden="true"><span class="cap"></span><span class="neck"></span><span class="body"><span class="paper"><span>千代</span><span>むすび</span><span>純米強力</span></span></span></div>
+            <div class="sake-serve"><span class="serve-chip warm">ぬる燗</span></div>
+          </div>
+          <div class="pc-body">
+            <h4>千代むすび 純米 強力<span class="maker">千代むすび酒造（鳥取県境港市）</span></h4>
+            <div class="science"><b>蔵元の特徴と歴史</b>1865年創業、「美味しいこと・本物・健康」を追求。鳥取の幻の酒米「強力（ごうりき）」をいち早く復活させ、地域農家と提携。仕込み水は雲南の山中まで片道1時間かけ毎日汲む徹底ぶり。酒歴50年超の出雲杜氏・岩成忠義氏のもと若い蔵人が一丸となり、無濾過・瓶燗火入れで「米本来の味」を守る。</div>
+            <div class="science"><b>ペアリングの科学</b>「強力」特有の野性味あるどっしりした旨味と心地よい酸、瓶燗火入れによるまろやかで安定したボディ。あさりの濃厚な磯の香りと強烈なコハク酸の出汁に米の旨味が完璧に同調し、滋味を倍加。ぬる燗（40℃前後）にすれば温かいスープと温度帯が一致し一体感が深まる。</div>
+            <div class="cite"><b>出典</b>　蔵元：千代むすび酒造株式会社</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 杜氏の職掌 -->
+  <section class="kblock">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="no"><b>職</b><span>BREWERY ROLES</span></div>
+        <div class="tt">
+          <h2>一杯を支える、<em>蔵内の職掌</em></h2>
+          <p>日本酒造りの神髄は、統括責任者「杜氏」と各工程を担う「蔵人」の緊密な階層構造にある。この体制は日本の伝統的ギルド「杜氏組合」によって数百年にわたり継承・発展されてきた。</p>
+        </div>
+      </div>
+      <div class="roles"><div class="role head-role"><div class="rk">杜氏<small>とうじ / オヤジサン</small></div><p>醸造計画の策定、微生物管理、現場全体の指揮を執る最高技術責任者。オーケストラの指揮者に例えられる。</p></div><div class="role"><div class="rk">釜屋<small>かまや</small></div><p>原料米の蒸し工程を統括。米の吸水率や蒸し具合を決める極めて重要な役割。</p></div><div class="role"><div class="rk">槽頭<small>ふながしら</small></div><p>熟成したもろみを圧搾（しぼり）し、原酒と酒粕に分離する工程の責任者。</p></div><div class="role"><div class="rk">二番頭<small>にばんがしら / 道具屋</small></div><p>麹室や仕込みで使う木製・金属製の道具の清掃・殺菌・準備・維持管理を一手に担う。</p></div><div class="role"><div class="rk">酛手子<small>もとてこ</small></div><p>酒母（酛）造りを直接担当。微生物工学の知識と経験が求められる専門職。</p></div><div class="role"><div class="rk">室子<small>むろこ</small></div><p>最も温度管理が過酷な「麹室」で麹造りに従事する職人。</p></div><div class="role"><div class="rk">追廻し<small>おいまわし</small></div><p>精米・洗米・運搬・清掃など、迅速かつ正確な肉体労働を要する基礎職掌。</p></div></div>
+    </div>
+  </section>
+
+  <!-- 杜氏組合 -->
+  <section class="kblock alt">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="no"><b>組</b><span>GUILDS</span></div>
+        <div class="tt">
+          <h2>全国を代表する、<em>主な杜氏組合</em></h2>
+          <p>各地には気候・水質・食文化に根ざした醸造技術を誇る杜氏集団が存在し、技術研鑽と人材育成を担ってきた。</p>
+        </div>
+      </div>
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <thead><tr><th>杜氏組合名</th><th>主な出身・活動地域</th><th>技術的特徴・代表的な酒質</th></tr></thead>
+          <tbody><tr><td class="k">南部杜氏組合</td><td>岩手県花巻市（石鳥谷町など）</td><td>緻密な低温長期発酵に秀で、端麗で澄んだ吟醸香。</td></tr><tr><td class="k">越後杜氏組合</td><td>新潟県全域</td><td>「淡麗辛口」の礎を築いた、クリーンでキレのある酒質。</td></tr><tr><td class="k">能登杜氏組合</td><td>石川県奥能登（珠洲市・内浦町等）</td><td>濃厚で重厚なコクと複雑な旨味。山廃仕込み等に定評。</td></tr><tr><td class="k">丹波杜氏組合</td><td>兵庫県篠山地方</td><td>灘の「男酒」を支える硬水醸造技術と、力強く引き締まった酸。</td></tr><tr><td class="k">但馬杜氏組合</td><td>兵庫県美方郡（村岡・温泉町周辺）</td><td>高度な山廃仕込み技術を保持し、濃醇な味わいを醸す。</td></tr><tr><td class="k">出雲杜氏組合</td><td>島根県松江市・秋鹿地方周辺</td><td>芳醇で円やかな味わいと、高い酸のコントロール技術。</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 遮光ボトル科学 -->
+  <section class="kblock">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="no"><b>光</b><span>LIGHT</span></div>
+        <div class="tt">
+          <h2>紫外線劣化と、<em>ボトルの遮光設計</em></h2>
+          <p>日本酒は醸造酒の中でも特に光に敏感で、直射日光だけでなく屋内の蛍光灯や白色LEDでも、わずか1時間で劣化が始まり黄色く変色する。短波長の光を吸収するとアミノ酸・ビタミン・硫黄化合物が化学分解し、メルカプタン類を含む「日光臭」（木やゴムが焦げたような異臭）が発生。本来のフルーティーな香気（エステル類）が損なわれる。瓶の色は、意匠だけでなく遮光機能として科学的に設計されている。</p>
+        </div>
+      </div>
+      <div class="light-grid"><div class="lg"><div class="swatch sw-amber"></div><span class="rate hi">遮光 最高</span><h4>褐色瓶（茶色）</h4><p>UV-A/B をほぼ完全に遮断し、約400nm以下の短波長可視光もカット。香り重視の吟醸酒・生酒の長期保存に最適。</p></div><div class="lg"><div class="swatch sw-green"></div><span class="rate mid">遮光 中</span><h4>緑色瓶</h4><p>UV-B はある程度抑制するが、UV-A や可視光の透過率は茶色より高い。暗所保存や化粧箱など追加対策が望ましい。</p></div><div class="lg"><div class="swatch sw-blue"></div><span class="rate lo">遮光 低</span><h4>青／透明瓶</h4><p>爽快感や季節感を演出するが光透過率が極めて高く、紫外線防御力はほとんどない。</p></div><div class="lg"><div class="swatch sw-frost"></div><span class="rate lo">遮光 最低</span><h4>フロスト瓶</h4><p>表面の凹凸が光を乱反射・拡散させ、透過エネルギー効率が変化。遮光性能は最も低い部類。</p></div><div class="lg"><div class="swatch sw-paper"></div><span class="rate hi">遮光 優</span><h4>紙パック</h4><p>内部にアルミ箔や遮光樹脂層を積層。光の完全遮断という点では瓶より優れる。</p></div></div>
+    </div>
+  </section>
+
+  <!-- ラベル法規制 -->
+  <section class="kblock alt">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <div class="no"><b>法</b><span>LABEL LAW</span></div>
+        <div class="tt">
+          <h2>ラベルは、<em>法的な開示文書</em></h2>
+          <p>日本酒のラベルは単なる商品紹介ではなく、食品表示法・酒税法・酒類業組合法に基づく厳格な開示文書。近年、製造時期表示は国際規格との整合のため「必要記載」から「任意記載」へ変更され、長期熟成酒などに応じた柔軟な日付表示とフードロス削減が可能になった。</p>
+        </div>
+      </div>
+      <div class="tbl-wrap" style="margin-bottom:16px">
+        <table class="tbl">
+          <thead><tr><th>表示義務項目</th><th>法的表示要件・規格要件</th></tr></thead>
+          <tbody><tr><td class="k">清酒／日本酒</td><td>容器容量に応じた指定文字サイズ（例：720ml瓶で清酒は16pt以上、日本酒は14pt以上）。</td></tr><tr><td class="k">アルコール分</td><td>1度または0.5度単位でアラビア数字で明瞭に表示（例：15度、15.5度）。</td></tr><tr><td class="k">原材料名</td><td>使用割合の高い順に、醸造アルコール・酸味料等の添加物も含めて記載。仕込み水は表示義務なし。</td></tr><tr><td class="k">製造者情報</td><td>製造者の氏名または名称と、製造場の所在地を住居番号まで詳細に記載。</td></tr><tr><td class="k">未成年者飲酒防止</td><td>「20歳未満の者の飲酒は法律で禁止されている」旨を5.5〜6pt以上で表示。</td></tr></tbody>
+        </table>
+      </div>
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <thead><tr><th>任意・特定名称項目</th><th>要件</th></tr></thead>
+          <tbody><tr><td class="k">特定名称</td><td>「純米大吟醸」「本醸造」等。原料米・精米歩合・醸造アルコール添加比率の要件を満たす8種に分類。</td></tr><tr><td class="k">精米歩合</td><td>特定名称酒を名乗る場合のみ表示義務。白米の玄米に対する重量比率を表示。</td></tr><tr><td class="k">原料米の品種名</td><td>使用割合が50%超の場合のみ、割合を併記して表示可能（例：山田錦100%、強力80%）。</td></tr><tr><td class="k">原酒・生酒・生貯蔵酒</td><td>加水調整をしない・一切加熱処理をしない等の物理的基準を満たす場合のみ表示。</td></tr></tbody>
+        </table>
+      </div>
+      <div class="callout"><b>まとめ：</b>日本酒のペアリングは直感的な組み合わせではなく、各世代の食文化、地域に根差す杜氏たちの職人コミュニティ、ボトルの物理化学的な遮光特性、そして正確な製品データを示す法規制ラベルなど、多角的な情報の積み重ねによって、その安全と美学が担保されている。</div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <span class="plusbg" aria-hidden="true"></span>
+    <div class="wrap">
+      <span class="eyebrow reveal">FIND YOUR PAIR</span>
+      <h2 class="reveal d1">今夜の一皿に、<br>ぴったりの一杯を。</h2>
+      <p class="reveal d2">世代の味覚に寄り添う4つのコンビから、あなたの食卓へ。丁寧に選んだ一杯は、料理の記憶までも豊かにしてくれます。</p>
+      <a class="btn btn-primary reveal d3" href="sakagura.html">全国の酒蔵をさがす <span class="plus">＋</span></a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <a class="logo" href="index.html#top"><span class="mk" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="round">日本酒のトリセツ</span></a>
+      <small>お酒は20歳になってから。適量を、楽しく、心地よく。</small>
+    </div>
+  </footer>
+
+<script>
+  (function(){
+    var root=document.documentElement, btn=document.getElementById('themeBtn');
+    btn.addEventListener('click',function(){
+      var cur=root.getAttribute('data-theme');
+      if(!cur){ cur=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'; }
+      root.setAttribute('data-theme', cur==='dark'?'light':'dark');
+    });
+  })();
+  (function(){
+    var els=document.querySelectorAll('.reveal');
+    if(!('IntersectionObserver' in window)){ els.forEach(function(e){e.classList.add('in')}); return; }
+    var io=new IntersectionObserver(function(en){ en.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add('in'); io.unobserve(x.target); } }); },{threshold:.12, rootMargin:'0px 0px -8% 0px'});
+    els.forEach(function(e){ io.observe(e); });
+  })();
+  (function(){
+    var menuBtn=document.getElementById('menuBtn'), drawer=document.getElementById('drawer'),
+        overlay=document.getElementById('overlay'), closeBtn=document.getElementById('drawerClose');
+    function open(){ drawer.classList.add('open'); overlay.classList.add('open'); overlay.hidden=false; document.body.classList.add('no-scroll'); menuBtn.setAttribute('aria-expanded','true'); drawer.setAttribute('aria-hidden','false'); closeBtn.focus(); }
+    function close(){ drawer.classList.remove('open'); overlay.classList.remove('open'); document.body.classList.remove('no-scroll'); menuBtn.setAttribute('aria-expanded','false'); drawer.setAttribute('aria-hidden','true'); setTimeout(function(){ if(!overlay.classList.contains('open')) overlay.hidden=true; },360); menuBtn.focus(); }
+    menuBtn.addEventListener('click',function(){ drawer.classList.contains('open')?close():open(); });
+    closeBtn.addEventListener('click',close); overlay.addEventListener('click',close);
+    drawer.querySelectorAll('a').forEach(function(a){ a.addEventListener('click',close); });
+    document.addEventListener('keydown',function(e){ if(e.key==='Escape'&&drawer.classList.contains('open')) close(); });
+  })();
+</script>
+
+</body>
+</html>
