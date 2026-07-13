@@ -3,611 +3,591 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>日本酒のトリセツ｜大人のためのスマートな味わい方</title>
-<meta name="description" content="お米・水・麹・酵母。四つの自然素材と微生物が織りなす、最先端の発酵クラフト「日本酒」。素材、製法、遮光ボトルの秘密、裏ラベルの読み解き方まで、大人の女性に寄り添う視点で。">
+<title>日本酒のトリセツ｜いつもの晩酌に、知る楽しさをプラス</title>
+<meta name="description" content="お米・水・麹・酵母の4素材から、並行複発酵、遮光ボトル、裏ラベルの読み方まで。いつもの晩酌に「知る楽しさ」をプラスする、大人のための日本酒ガイド。">
 <style>
-  /* ---------- reset ---------- */
+  /* ============ reset ============ */
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   img { max-width: 100%; display: block; }
-  button { font: inherit; color: inherit; cursor: pointer; }
+  button, a { font: inherit; }
+  a { color: inherit; text-decoration: none; }
 
-  /* ---------- tokens ---------- */
+  /* ============ tokens ============ */
   :root {
-    --paper:      #ECF0E8;
-    --paper-2:    #E2E8DD;
-    --panel:      #F6F8F2;
-    --ink:        #15231C;
-    --ink-soft:   #46564C;
-    --line:       rgba(21, 35, 28, 0.14);
-    --line-soft:  rgba(21, 35, 28, 0.08);
-    --green:      #245140;
-    --green-deep: #16382B;
-    --amber:      #A9722C;
-    --blush:      #BC7D75;
+    --ground:   #FFFFFF;
+    --ground-2: #F1F6FC;
+    --ground-3: #F3F8EA;
+    --card:     #FFFFFF;
+    --ink:      #17263F;
+    --ink-soft: #56668A;
+    --line:     rgba(19, 44, 82, 0.12);
+    --line-soft:rgba(19, 44, 82, 0.06);
+    --blue:       #1257B0;
+    --blue-bright:#2C74DB;
+    --blue-deep:  #0E3E7E;
+    --lime:       #83BE34;
+    --lime-deep:  #5F9424;
 
-    --serif: "Hiragino Mincho ProN", "Yu Mincho", "YuMincho", "Noto Serif JP", "Songti SC", "MS PMincho", serif;
-    --sans:  "Hiragino Sans", "Yu Gothic UI", "Yu Gothic", "YuGothic", "Noto Sans JP", "Hiragino Kaku Gothic ProN", sans-serif;
+    --round: "Hiragino Maru Gothic ProN", "Zen Maru Gothic", "Rounded Mplus 1c", "Hiragino Sans", "Yu Gothic UI", "Yu Gothic", "Meiryo", sans-serif;
+    --sans:  "Hiragino Sans", "Yu Gothic UI", "Yu Gothic", "Noto Sans JP", "Meiryo", sans-serif;
 
-    --maxw: 1120px;
-    --gutter: clamp(20px, 5vw, 64px);
+    --plus: rgba(18, 87, 176, 0.10);
+    --maxw: 1140px;
+    --gutter: clamp(20px, 5vw, 60px);
+    --radius: 20px;
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --paper:      #101812;
-      --paper-2:    #16211A;
-      --panel:      #18241D;
-      --ink:        #E9F0E6;
-      --ink-soft:   #A6B6AB;
-      --line:       rgba(233, 240, 230, 0.15);
-      --line-soft:  rgba(233, 240, 230, 0.07);
-      --green:      #74BC9C;
-      --green-deep: #529277;
-      --amber:      #D6A24E;
-      --blush:      #D7A099;
+      --ground:   #0B1322;
+      --ground-2: #101E33;
+      --ground-3: #142317;
+      --card:     #13203A;
+      --ink:      #E9F1FC;
+      --ink-soft: #9DB0D0;
+      --line:     rgba(220, 232, 250, 0.14);
+      --line-soft:rgba(220, 232, 250, 0.06);
+      --blue:       #5E9BF0;
+      --blue-bright:#7DB2F6;
+      --blue-deep:  #3D7BD6;
+      --lime:       #A6D94F;
+      --lime-deep:  #83BE34;
+      --plus: rgba(126, 178, 246, 0.12);
     }
   }
-  :root[data-theme="light"] {
-    --paper:#ECF0E8; --paper-2:#E2E8DD; --panel:#F6F8F2; --ink:#15231C; --ink-soft:#46564C;
-    --line:rgba(21,35,28,.14); --line-soft:rgba(21,35,28,.08);
-    --green:#245140; --green-deep:#16382B; --amber:#A9722C; --blush:#BC7D75;
+  :root[data-theme="light"]{
+    --ground:#FFFFFF;--ground-2:#F1F6FC;--ground-3:#F3F8EA;--card:#FFFFFF;--ink:#17263F;--ink-soft:#56668A;
+    --line:rgba(19,44,82,.12);--line-soft:rgba(19,44,82,.06);
+    --blue:#1257B0;--blue-bright:#2C74DB;--blue-deep:#0E3E7E;--lime:#83BE34;--lime-deep:#5F9424;--plus:rgba(18,87,176,.10);
   }
-  :root[data-theme="dark"] {
-    --paper:#101812; --paper-2:#16211A; --panel:#18241D; --ink:#E9F0E6; --ink-soft:#A6B6AB;
-    --line:rgba(233,240,230,.15); --line-soft:rgba(233,240,230,.07);
-    --green:#74BC9C; --green-deep:#529277; --amber:#D6A24E; --blush:#D7A099;
+  :root[data-theme="dark"]{
+    --ground:#0B1322;--ground-2:#101E33;--ground-3:#142317;--card:#13203A;--ink:#E9F1FC;--ink-soft:#9DB0D0;
+    --line:rgba(220,232,250,.14);--line-soft:rgba(220,232,250,.06);
+    --blue:#5E9BF0;--blue-bright:#7DB2F6;--blue-deep:#3D7BD6;--lime:#A6D94F;--lime-deep:#83BE34;--plus:rgba(126,178,246,.12);
   }
 
-  /* ---------- base ---------- */
+  /* ============ base ============ */
   html { scroll-behavior: smooth; }
-  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  @media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } }
   body {
-    background: var(--paper);
-    color: var(--ink);
-    font-family: var(--sans);
-    line-height: 1.9;
-    font-feature-settings: "palt" 1;
-    -webkit-font-smoothing: antialiased;
+    background: var(--ground); color: var(--ink);
+    font-family: var(--sans); line-height: 1.9;
+    font-feature-settings: "palt" 1; -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
   }
-  ::selection { background: var(--green); color: var(--paper); }
+  ::selection { background: var(--blue); color:#fff; }
+  .wrap { width:100%; max-width: var(--maxw); margin-inline:auto; padding-inline: var(--gutter); }
+  .round { font-family: var(--round); }
 
-  .wrap { width: 100%; max-width: var(--maxw); margin-inline: auto; padding-inline: var(--gutter); }
-
-  /* ---------- typographic helpers ---------- */
-  .kicker {
-    font-family: var(--sans);
-    font-size: .72rem;
-    letter-spacing: .34em;
-    text-transform: uppercase;
-    color: var(--green);
-    font-weight: 700;
-    display: inline-block;
+  /* plus background pattern */
+  .plusbg {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='46' height='46'%3E%3Cg fill='none' stroke='%232C74DB' stroke-width='1.5' stroke-linecap='round' opacity='0.5'%3E%3Cpath d='M23 17v12M17 23h12'/%3E%3C/g%3E%3C/svg%3E");
+    background-size: 46px 46px;
   }
-  .mincho { font-family: var(--serif); }
-  .lede {
-    font-family: var(--serif);
-    font-size: clamp(1.02rem, 1.6vw, 1.22rem);
-    line-height: 2.05;
-    color: var(--ink-soft);
-    max-width: 40em;
-  }
-  h2, h3 { font-family: var(--serif); font-weight: 600; text-wrap: balance; letter-spacing: .01em; }
 
-  /* ---------- header ---------- */
+  /* ============ header ============ */
   .topbar {
-    position: sticky; top: 0; z-index: 50;
-    background: color-mix(in srgb, var(--paper) 82%, transparent);
-    backdrop-filter: blur(10px);
+    position: sticky; top:0; z-index:60;
+    background: color-mix(in srgb, var(--ground) 88%, transparent);
+    backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--line-soft);
   }
-  .topbar .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
-  .brand { font-family: var(--serif); font-size: 1.15rem; letter-spacing: .18em; font-weight: 600; }
-  .brand small { font-family: var(--sans); font-size: .6rem; letter-spacing: .3em; color: var(--ink-soft); display:block; margin-top:2px; }
-  .theme-toggle {
-    background: transparent; border: 1px solid var(--line);
-    border-radius: 999px; padding: 6px 14px; font-size: .72rem; letter-spacing: .1em;
-    color: var(--ink-soft); transition: border-color .3s, color .3s;
+  .topbar .wrap { display:flex; align-items:center; justify-content:space-between; height:66px; gap:16px; }
+  .logo { display:flex; align-items:center; gap:10px; font-family: var(--round); font-weight:800; font-size:1.12rem; letter-spacing:.04em; }
+  .logo .mk { display:inline-grid; grid-template-columns:repeat(2,10px); grid-template-rows:repeat(2,10px); gap:3px; }
+  .logo .mk i { border-radius:2px; }
+  .logo .mk i:nth-child(1){ background:var(--blue); }
+  .logo .mk i:nth-child(2){ background:var(--lime); }
+  .logo .mk i:nth-child(3){ background:var(--lime); }
+  .logo .mk i:nth-child(4){ background:var(--blue); }
+  .logo small { display:block; font-family:var(--sans); font-weight:600; font-size:.56rem; letter-spacing:.28em; color:var(--ink-soft); margin-top:2px; }
+  .nav { display:flex; align-items:center; gap:26px; }
+  .nav a { font-size:.82rem; font-weight:700; color:var(--ink-soft); font-family:var(--round); transition:color .25s; }
+  .nav a:hover { color: var(--blue); }
+  .nav .num { color:var(--blue); font-size:.62rem; margin-right:3px; font-weight:800; }
+  @media (max-width: 860px){ .nav .lk { display:none; } }
+  .btn {
+    display:inline-flex; align-items:center; gap:9px; font-family:var(--round); font-weight:800;
+    border-radius:999px; padding:11px 22px; font-size:.86rem; letter-spacing:.03em;
+    border:none; cursor:pointer; transition: transform .3s cubic-bezier(.2,.7,.2,1), box-shadow .3s, background .3s;
+    white-space:nowrap;
   }
-  .theme-toggle:hover, .theme-toggle:focus-visible { border-color: var(--green); color: var(--green); }
+  .btn-primary { background: var(--blue); color:#fff; box-shadow: 0 10px 22px -12px var(--blue); }
+  .btn-primary:hover, .btn-primary:focus-visible { transform: translateY(-2px); background: var(--blue-bright); }
+  .btn-lime { background: var(--lime); color:#123; }
+  .btn-lime:hover, .btn-lime:focus-visible { transform: translateY(-2px); background: var(--lime-deep); color:#fff; }
+  .btn .plus { font-weight:800; }
+  .theme-toggle { background:transparent; border:1px solid var(--line); color:var(--ink-soft); border-radius:999px; width:38px; height:38px; cursor:pointer; font-size:.9rem; transition:border-color .25s,color .25s; }
+  .theme-toggle:hover { border-color:var(--blue); color:var(--blue); }
 
-  /* ---------- hero ---------- */
-  .hero { position: relative; padding: clamp(56px, 12vh, 132px) 0 clamp(48px, 9vh, 104px); overflow: hidden; }
-  .hero::before {
-    content:""; position:absolute; inset:0; z-index:0; pointer-events:none;
-    background:
-      radial-gradient(120% 80% at 82% 8%, color-mix(in srgb, var(--green) 16%, transparent), transparent 60%),
-      radial-gradient(90% 70% at 6% 96%, color-mix(in srgb, var(--amber) 12%, transparent), transparent 62%);
+  /* ============ hero ============ */
+  .hero { position:relative; overflow:hidden; padding: clamp(56px,11vh,120px) 0 clamp(52px,10vh,110px); }
+  .hero .plusbg { position:absolute; inset:0; opacity:.5; -webkit-mask-image: radial-gradient(120% 90% at 80% 10%, #000, transparent 70%); mask-image: radial-gradient(120% 90% at 80% 10%, #000, transparent 70%); }
+  .hero .blob { position:absolute; border-radius:50%; filter: blur(6px); opacity:.5; z-index:0; }
+  .hero .b1 { width:340px;height:340px; right:-90px; top:-70px; background: radial-gradient(circle at 35% 35%, color-mix(in srgb,var(--blue) 40%,transparent), transparent 68%); }
+  .hero .b2 { width:280px;height:280px; left:-80px; bottom:-90px; background: radial-gradient(circle at 50% 50%, color-mix(in srgb,var(--lime) 45%,transparent), transparent 68%); }
+  .hero .wrap { position:relative; z-index:2; }
+  .badge { display:inline-flex; align-items:center; gap:9px; background: var(--ground-2); border:1px solid var(--line); color:var(--blue); font-family:var(--round); font-weight:800; font-size:.8rem; padding:8px 16px; border-radius:999px; }
+  .badge b { color: var(--lime-deep); }
+  .hero h1 {
+    font-family: var(--round); font-weight:800;
+    font-size: clamp(2.4rem, 7.4vw, 5.4rem); line-height:1.16; letter-spacing:.01em;
+    margin: 22px 0 8px; text-wrap: balance;
   }
-  .hero .wrap { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr auto; gap: clamp(24px, 5vw, 60px); align-items: center; }
-  .hero-main { max-width: 30em; }
-  .hero-title {
-    font-family: var(--serif); font-weight: 600;
-    font-size: clamp(3.4rem, 12vw, 8rem);
-    line-height: .96; letter-spacing: .04em; margin: 18px 0 4px;
+  .hero h1 .plus { color: var(--lime); }
+  .hero h1 .blue { color: var(--blue); }
+  .hero .en { display:block; font-size: clamp(.75rem,2vw,1rem); letter-spacing:.4em; color:var(--ink-soft); font-weight:800; margin-top:16px; }
+  .hero-lede { font-size:1rem; line-height:2.1; color:var(--ink-soft); max-width:33em; margin:24px 0 30px; }
+  .hero-cta { display:flex; flex-wrap:wrap; gap:14px; align-items:center; }
+  .hero-stats { display:flex; flex-wrap:wrap; gap: 12px; margin-top: clamp(36px,6vh,58px); }
+  .stat { flex:1 1 150px; background:var(--card); border:1px solid var(--line); border-radius:16px; padding:18px 20px; }
+  .stat .n { font-family:var(--round); font-weight:800; font-size:1.9rem; color:var(--blue); line-height:1; font-variant-numeric:tabular-nums; }
+  .stat .n .u { font-size:.9rem; color:var(--ink-soft); margin-left:2px; }
+  .stat .l { font-size:.76rem; color:var(--ink-soft); margin-top:8px; font-weight:600; }
+
+  /* concept band */
+  .concept { background: var(--blue); color:#fff; position:relative; overflow:hidden; }
+  .concept .plusbg { position:absolute; inset:0; opacity:.5;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='46' height='46'%3E%3Cg fill='none' stroke='%23ffffff' stroke-width='1.5' stroke-linecap='round' opacity='0.5'%3E%3Cpath d='M23 17v12M17 23h12'/%3E%3C/g%3E%3C/svg%3E");
   }
-  .hero-title .en {
-    display:block; font-size: clamp(.8rem,2.4vw,1.05rem); letter-spacing:.42em;
-    font-family: var(--sans); font-weight: 600; color: var(--green); margin-top: 20px; text-transform: uppercase;
+  .concept .wrap { position:relative; z-index:1; padding: clamp(48px,8vh,84px) 0; display:grid; grid-template-columns: auto 1fr; gap: clamp(20px,4vw,52px); align-items:center; }
+  .concept .big { font-family:var(--round); font-weight:800; font-size: clamp(2rem,6vw,3.4rem); line-height:1.3; white-space:nowrap; }
+  .concept .big .y { color: #D6EB9B; }
+  .concept p { color: #E4EEFB; font-size: .98rem; line-height:2.05; max-width:40em; }
+  @media (max-width:760px){ .concept .wrap{ grid-template-columns:1fr; } .concept .big{ white-space:normal; } }
+
+  /* ============ section frame ============ */
+  .section { padding: clamp(60px,10vh,116px) 0; }
+  .section.alt { background: var(--ground-2); }
+  .sec-head { display:flex; align-items:flex-start; gap: clamp(16px,3vw,32px); margin-bottom: clamp(34px,6vh,58px); }
+  .sec-head .no { font-family:var(--round); font-weight:800; line-height:.82; flex-shrink:0; }
+  .sec-head .no b { display:block; font-size: clamp(2.8rem,7vw,4.6rem); color: var(--blue); }
+  .sec-head .no span { display:block; font-size:.66rem; letter-spacing:.28em; color: var(--lime-deep); margin-top:8px; font-weight:800; }
+  .sec-head .tt h2 { font-family:var(--round); font-weight:800; font-size: clamp(1.45rem,3.6vw,2.3rem); line-height:1.5; margin-bottom:14px; text-wrap:balance; }
+  .sec-head .tt h2 em { font-style:normal; color: var(--blue); }
+  .sec-head .tt h2 .lm { color: var(--lime-deep); }
+  .sec-head .tt p { font-size:.96rem; color:var(--ink-soft); line-height:2; max-width:46em; }
+
+  /* ============ ingredient cards ============ */
+  .grid4 { display:grid; grid-template-columns:repeat(4,1fr); gap: clamp(14px,1.6vw,20px); }
+  @media (max-width:900px){ .grid4{ grid-template-columns:repeat(2,1fr);} }
+  @media (max-width:520px){ .grid4{ grid-template-columns:1fr;} }
+  .icard {
+    background:var(--card); border:1px solid var(--line); border-radius: var(--radius);
+    padding: 26px 24px; display:flex; flex-direction:column; gap:12px; position:relative; overflow:hidden;
+    transition: transform .4s cubic-bezier(.2,.7,.2,1), box-shadow .4s, border-color .4s;
   }
-  .hero-sub { font-family: var(--serif); font-size: clamp(1.1rem, 2.6vw, 1.5rem); color: var(--ink); margin: 22px 0 26px; line-height: 1.7; }
-  .hero-sub b { color: var(--amber); font-weight: 600; }
-  .hero-lede { font-size: .98rem; line-height: 2; color: var(--ink-soft); max-width: 34em; }
+  .icard:hover { transform: translateY(-6px); box-shadow: 0 22px 40px -26px rgba(18,44,82,.5); border-color: color-mix(in srgb,var(--blue) 30%,var(--line)); }
+  .icard .top { display:flex; align-items:center; justify-content:space-between; }
+  .icard .em { width:56px;height:56px; border-radius:16px; display:grid; place-items:center; font-family:var(--round); font-weight:800; font-size:1.7rem; color:#fff; }
+  .icard .plusmark { font-family:var(--round); font-weight:800; font-size:1.4rem; color:var(--lime); }
+  .icard h3 { font-family:var(--round); font-weight:800; font-size:1.14rem; }
+  .icard h3 small { display:block; font-family:var(--sans); font-weight:700; font-size:.6rem; letter-spacing:.16em; color:var(--ink-soft); margin-top:4px; }
+  .icard p { font-size:.85rem; color:var(--ink-soft); line-height:1.95; }
+  .icard .chip { align-self:flex-start; margin-top:auto; font-size:.7rem; font-weight:700; font-family:var(--round); padding:4px 12px; border-radius:999px; background: var(--ground-3); color: var(--lime-deep); }
 
-  /* vertical sake-label accent */
-  .vlabel {
-    writing-mode: vertical-rl; text-orientation: upright;
-    font-family: var(--serif); letter-spacing: .28em; font-size: clamp(.85rem, 1.4vw, 1.05rem);
-    color: var(--ink-soft); border-inline: 1px solid var(--line); padding: 4px 14px;
-    align-self: stretch; display: flex; align-items: center;
+  /* ============ brewing ============ */
+  .brew-grid { display:grid; grid-template-columns:1.02fr .98fr; gap: clamp(26px,4vw,54px); align-items:center; }
+  @media (max-width:840px){ .brew-grid{ grid-template-columns:1fr; } }
+  .brew p { font-size:.96rem; color:var(--ink-soft); line-height:2.05; }
+  .brew p + p { margin-top:16px; }
+  .kw { color: var(--ink); font-family:var(--round); font-weight:800; background: linear-gradient(transparent 62%, color-mix(in srgb,var(--lime) 45%,transparent) 62%); padding:0 2px; }
+  .kw.b { background: linear-gradient(transparent 62%, color-mix(in srgb,var(--blue) 34%,transparent) 62%); }
+  .eqbox { background: var(--blue-deep); color:#EAF2FE; border-radius: var(--radius); padding: clamp(24px,4vw,38px); position:relative; overflow:hidden; }
+  .eqbox canvas { position:absolute; inset:0; width:100%; height:100%; opacity:.55; }
+  .eqbox .in { position:relative; z-index:1; display:flex; flex-direction:column; gap:22px; }
+  .eq .step { font-family:var(--round); font-weight:800; font-size:.72rem; letter-spacing:.16em; color:#9EC4F4; margin-bottom:8px; display:flex; align-items:center; gap:8px; }
+  .eq .step .p { color:var(--lime); }
+  .eq .formula { font-family:var(--round); font-weight:700; font-size: clamp(1rem,2.3vw,1.35rem); line-height:1.5; }
+  .eq .formula sub { font-size:.62em; }
+  .eq .formula .arw { color:#7FC24A; padding:0 .3em; font-weight:800; }
+  .eq .formula .note { font-size:.62em; color:#9EC4F4; }
+  .eqbox .div { height:1px; background: rgba(255,255,255,.16); }
+  .eqbox .tag { position:relative; z-index:1; margin-top:22px; font-family:var(--round); font-weight:800; font-size:.92rem; color:#fff; }
+  .eqbox .tag em { font-style:normal; color:#D6EB9B; }
+
+  /* ============ types ============ */
+  .types { display:grid; grid-template-columns:repeat(2,1fr); gap: clamp(16px,2vw,22px); }
+  @media (max-width:720px){ .types{ grid-template-columns:1fr; } }
+  .type {
+    background:var(--card); border:1px solid var(--line); border-radius:var(--radius);
+    padding:26px; display:grid; grid-template-columns:auto 1fr; gap:22px; align-items:start;
+    transition:transform .4s cubic-bezier(.2,.7,.2,1), box-shadow .4s;
   }
-  .vlabel b { color: var(--green); font-weight: 600; }
-  @media (max-width: 760px) { .vlabel { display: none; } .hero .wrap { grid-template-columns: 1fr; } }
+  .type:hover { transform:translateY(-5px); box-shadow:0 22px 40px -26px rgba(18,44,82,.5); }
+  .type .badge2 { display:flex; flex-direction:column; align-items:center; gap:8px; }
+  .type .disc { width:62px;height:62px; border-radius:50%; display:grid; place-items:center; color:#fff; font-family:var(--round); font-weight:800; font-size:.82rem; text-align:center; line-height:1.1; }
+  .type .pol { font-size:.62rem; color:var(--ink-soft); text-align:center; font-weight:700; font-variant-numeric:tabular-nums; }
+  .type h3 { font-family:var(--round); font-weight:800; font-size:1.14rem; }
+  .type h3 small { display:block; font-family:var(--sans); font-weight:700; font-size:.6rem; letter-spacing:.14em; color:var(--ink-soft); margin-top:3px; }
+  .type p { font-size:.85rem; color:var(--ink-soft); line-height:1.95; margin-top:8px; }
+  .type .pair { display:inline-flex; align-items:center; gap:7px; margin-top:12px; font-size:.74rem; font-weight:700; font-family:var(--round); color:var(--blue); }
+  .type .pair .p { color:var(--lime); font-weight:800; }
 
-  .scrollcue { margin-top: clamp(30px, 6vh, 56px); display: inline-flex; align-items: center; gap: 12px; color: var(--ink-soft); font-size: .72rem; letter-spacing: .24em; }
-  .scrollcue .bar { width: 46px; height: 1px; background: var(--green); transform-origin: left; animation: slide 2.4s ease-in-out infinite; }
-  @keyframes slide { 0%,100%{transform:scaleX(.3);opacity:.5} 50%{transform:scaleX(1);opacity:1} }
-  @media (prefers-reduced-motion: reduce){ .scrollcue .bar{ animation:none } }
+  /* ============ bottles ============ */
+  .bottles { display:grid; grid-template-columns:repeat(3,1fr); gap: clamp(16px,2vw,24px); }
+  @media (max-width:720px){ .bottles{ grid-template-columns:1fr; } }
+  .bottle { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:24px; display:flex; flex-direction:column; gap:16px; }
+  .glass { height:128px; border-radius:12px 12px 7px 7px; position:relative; overflow:hidden; border:1px solid rgba(0,0,0,.1); box-shadow: inset 0 0 22px rgba(0,0,0,.18); }
+  .glass::before { content:""; position:absolute; left:19%; top:8%; width:13%; height:80%; border-radius:40px; background:linear-gradient(180deg,rgba(255,255,255,.55),rgba(255,255,255,.05)); filter:blur(1px); }
+  .glass.amber{ background:linear-gradient(160deg,#6E3F12,#8A531B 55%,#5A3410);}
+  .glass.green{ background:linear-gradient(160deg,#1E4D34,#2E6B48 55%,#173B28);}
+  .glass.clear{ background:linear-gradient(160deg,#BFD8DE,#DCEBEE 55%,#AFC9D0);}
+  .bottle h3 { font-family:var(--round); font-weight:800; font-size:1.05rem; }
+  .bottle .uv .r { display:flex; justify-content:space-between; font-size:.72rem; color:var(--ink-soft); font-weight:600; margin-bottom:6px; }
+  .bottle .uv .r b { color:var(--blue); font-family:var(--round); font-weight:800; font-variant-numeric:tabular-nums; }
+  .bottle .track { height:7px; border-radius:999px; background:var(--ground-2); overflow:hidden; }
+  .bottle .fill { height:100%; border-radius:999px; background:linear-gradient(90deg,var(--blue),var(--blue-bright)); }
+  .bottle p { font-size:.82rem; color:var(--ink-soft); line-height:1.9; }
+  .storage { margin-top: clamp(24px,4vh,38px); background:var(--ground-3); border-radius:var(--radius); border:1px solid var(--line-soft); padding:24px 28px; display:flex; gap:18px; align-items:flex-start; }
+  .storage .ic { width:46px;height:46px;flex-shrink:0; border-radius:14px; background:var(--lime); color:#123; display:grid;place-items:center; font-family:var(--round); font-weight:800; font-size:1.2rem; }
+  .storage h3 { font-family:var(--round); font-weight:800; font-size:1.02rem; margin-bottom:6px; }
+  .storage p { font-size:.86rem; color:var(--ink-soft); line-height:1.95; }
 
-  /* ---------- section frame ---------- */
-  .section { padding: clamp(64px, 11vh, 128px) 0; border-top: 1px solid var(--line-soft); }
-  .sec-head { display: flex; align-items: flex-start; gap: clamp(18px, 4vw, 44px); margin-bottom: clamp(36px, 6vh, 64px); }
-  .chapter { display: flex; flex-direction: column; align-items: center; gap: 6px; flex-shrink: 0; }
-  .chapter .num { font-family: var(--serif); font-size: clamp(2.6rem, 6vw, 4rem); line-height: 1; color: var(--green); font-weight: 600; }
-  .chapter .lab { writing-mode: vertical-rl; font-family: var(--serif); font-size: .68rem; letter-spacing: .3em; color: var(--ink-soft); }
-  .sec-title { }
-  .sec-title h2 { font-size: clamp(1.5rem, 3.6vw, 2.35rem); line-height: 1.45; margin-bottom: 14px; }
-  .sec-title h2 .accent { color: var(--amber); }
-  .sec-title p { font-size: .98rem; color: var(--ink-soft); max-width: 44em; line-height: 2; }
+  /* ============ label spec ============ */
+  .label-grid { display:grid; grid-template-columns:1fr 1fr; gap: clamp(18px,3vw,40px); align-items:start; }
+  @media (max-width:820px){ .label-grid{ grid-template-columns:1fr; } }
+  .spec { background:var(--card); border:1px solid var(--line); border-radius:var(--radius); overflow:hidden; }
+  .spec .cap { background:var(--blue); color:#fff; padding:15px 24px; font-family:var(--round); font-weight:800; letter-spacing:.06em; display:flex; justify-content:space-between; align-items:center; }
+  .spec .cap span { font-family:var(--sans); font-weight:700; font-size:.6rem; letter-spacing:.24em; color:#BFD8F7; }
+  .spec .row { display:grid; grid-template-columns:auto 1fr; gap:4px 18px; padding:18px 24px; border-top:1px solid var(--line-soft); }
+  .spec .row:first-of-type { border-top:none; }
+  .spec .k { font-family:var(--round); font-weight:800; font-size:.98rem; color:var(--ink); }
+  .spec .k small { display:block; font-family:var(--sans); font-weight:700; font-size:.58rem; letter-spacing:.14em; color:var(--ink-soft); margin-top:3px; }
+  .spec .v { text-align:right; align-self:center; font-family:var(--round); font-weight:800; font-size:1.12rem; color:var(--blue); font-variant-numeric:tabular-nums; }
+  .spec .d { grid-column:1/-1; font-size:.82rem; color:var(--ink-soft); line-height:1.9; margin-top:8px; }
+  .req { font-size:.56rem; font-weight:700; letter-spacing:.08em; padding:2px 8px; border-radius:999px; margin-left:8px; vertical-align:middle; background:var(--ground-2); color:var(--ink-soft); }
+  .req.must { background: color-mix(in srgb,var(--lime) 24%,transparent); color:var(--lime-deep); }
+  .label-note { font-family:var(--round); font-size:.96rem; color:var(--ink-soft); line-height:2.1; }
+  .label-note .big { display:block; font-weight:800; font-size:clamp(1.3rem,3vw,1.8rem); color:var(--ink); line-height:1.5; margin-bottom:16px; }
+  .label-note .big em { font-style:normal; color:var(--blue); }
+  .label-note .big .p { color:var(--lime); }
 
-  /* ---------- ingredient cards ---------- */
-  .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(14px, 1.6vw, 20px); }
-  @media (max-width: 900px){ .grid-4 { grid-template-columns: repeat(2,1fr); } }
-  @media (max-width: 520px){ .grid-4 { grid-template-columns: 1fr; } }
-  .card {
-    background: var(--panel); border: 1px solid var(--line); border-radius: 3px;
-    padding: 28px 24px; display: flex; flex-direction: column; gap: 12px;
-    transition: transform .4s cubic-bezier(.2,.7,.2,1), border-color .4s, box-shadow .4s;
-    position: relative; overflow: hidden;
+  /* ============ CTA ============ */
+  .cta { background: var(--lime); color:#0f2410; position:relative; overflow:hidden; text-align:center; }
+  .cta .plusbg { position:absolute; inset:0; opacity:.6;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='46' height='46'%3E%3Cg fill='none' stroke='%230f2410' stroke-width='1.5' stroke-linecap='round' opacity='0.35'%3E%3Cpath d='M23 17v12M17 23h12'/%3E%3C/g%3E%3C/svg%3E");
   }
-  .card::after { content:""; position:absolute; left:0; top:0; width:100%; height:2px; background: var(--green); transform: scaleX(0); transform-origin: left; transition: transform .5s cubic-bezier(.2,.7,.2,1); }
-  .card:hover { transform: translateY(-4px); border-color: color-mix(in srgb, var(--green) 45%, var(--line)); box-shadow: 0 18px 40px -28px rgba(0,0,0,.5); }
-  .card:hover::after { transform: scaleX(1); }
-  .card .glyph { font-family: var(--serif); font-size: 2.1rem; color: var(--green); line-height: 1; }
-  .card h3 { font-size: 1.18rem; }
-  .card h3 .ruby { display:block; font-size: .64rem; letter-spacing:.16em; color: var(--ink-soft); font-family: var(--sans); font-weight: 600; margin-top: 4px; }
-  .card p { font-size: .86rem; color: var(--ink-soft); line-height: 1.95; }
-  .card .tag { align-self:flex-start; font-size:.68rem; letter-spacing:.12em; color: var(--amber); border:1px solid color-mix(in srgb,var(--amber) 40%,transparent); border-radius:999px; padding:3px 10px; margin-top:auto; }
+  .cta .wrap { position:relative; z-index:1; padding: clamp(64px,11vh,124px) 0; display:flex; flex-direction:column; align-items:center; gap:22px; }
+  .cta .eyebrow { font-family:var(--round); font-weight:800; font-size:.82rem; letter-spacing:.24em; }
+  .cta h2 { font-family:var(--round); font-weight:800; font-size:clamp(1.7rem,4.6vw,3rem); line-height:1.5; max-width:20em; text-wrap:balance; }
+  .cta p { font-size:1rem; color:#254a1c; line-height:2.05; max-width:34em; }
+  .cta .btn-primary { background:var(--blue-deep); box-shadow:0 14px 30px -14px rgba(0,0,0,.5); font-size:1rem; padding:16px 36px; }
+  .cta .btn-primary:hover { background:var(--blue); }
 
-  /* ---------- fermentation ---------- */
-  .ferment { position: relative; }
-  .ferment-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(28px, 5vw, 60px); align-items: center; }
-  @media (max-width: 840px){ .ferment-grid { grid-template-columns: 1fr; } }
-  .ferment p { font-size: .96rem; color: var(--ink-soft); line-height: 2.05; }
-  .ferment p + p { margin-top: 18px; }
-  .keyword { color: var(--ink); font-family: var(--serif); font-weight: 600; border-bottom: 2px solid color-mix(in srgb, var(--green) 55%, transparent); padding-bottom: 1px; }
-  .eqbox {
-    position: relative; background: var(--green-deep); color: #EAF3ED; border-radius: 4px;
-    padding: clamp(26px, 4vw, 40px); overflow: hidden;
-  }
-  .eqbox canvas { position:absolute; inset:0; width:100%; height:100%; opacity:.5; }
-  .eqbox .eqinner { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 26px; }
-  .eq { }
-  .eq .step { font-size: .68rem; letter-spacing: .26em; text-transform: uppercase; color: #9FCBB6; display:block; margin-bottom: 8px; }
-  .eq .formula { font-family: var(--serif); font-size: clamp(1.05rem, 2.4vw, 1.45rem); line-height: 1.5; letter-spacing: .01em; }
-  .eq .formula sub { font-size: .62em; }
-  .eq .formula .arw { color: #7FBFA1; padding: 0 .35em; }
-  .eq .formula .note { font-size: .62em; color: #9FCBB6; }
-  .eqbox .divider { height:1px; background: rgba(255,255,255,.16); }
-  .eqbox .parallel { position: relative; z-index:1; margin-top: 24px; font-family: var(--serif); font-size: .92rem; color: #EAF3ED; line-height: 1.8; }
-  .eqbox .parallel b { color: #C9E6D8; }
+  /* ============ footer ============ */
+  footer { background: var(--ground); border-top:1px solid var(--line-soft); padding: 40px 0; }
+  footer .wrap { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px; }
+  footer small { font-size:.74rem; color:var(--ink-soft); }
 
-  /* ---------- categories ---------- */
-  .cats { display: grid; grid-template-columns: repeat(2, 1fr); gap: clamp(16px, 2vw, 22px); }
-  @media (max-width: 720px){ .cats { grid-template-columns: 1fr; } }
-  .cat {
-    border: 1px solid var(--line); border-radius: 3px; padding: 26px 26px 24px;
-    display: grid; grid-template-columns: auto 1fr; gap: 22px; align-items: start;
-    background: var(--panel); transition: border-color .4s, transform .4s;
-  }
-  .cat:hover { border-color: color-mix(in srgb, var(--green) 45%, var(--line)); transform: translateY(-3px); }
-  .cat .meter { display:flex; flex-direction:column; align-items:center; gap:8px; }
-  .cat .disc {
-    width: 58px; height: 58px; border-radius: 50%;
-    display:grid; place-items:center; font-family: var(--serif); font-weight:600; font-size: .82rem;
-    color: var(--paper); text-align:center; line-height:1.15;
-  }
-  .cat .polish { font-size:.64rem; letter-spacing:.08em; color: var(--ink-soft); font-variant-numeric: tabular-nums; text-align:center; }
-  .cat h3 { font-size: 1.16rem; margin-bottom: 4px; }
-  .cat h3 .ruby { display:block; font-size:.62rem; letter-spacing:.14em; color: var(--ink-soft); font-family: var(--sans); font-weight:600; margin-top:3px; }
-  .cat p { font-size: .85rem; color: var(--ink-soft); line-height: 1.95; margin-top: 8px; }
-  .cat .pair { display:inline-flex; align-items:center; gap:7px; margin-top:12px; font-size:.74rem; color: var(--amber); letter-spacing:.04em; }
-  .cat .pair::before { content:"◍"; font-size:.8em; }
+  a:focus-visible, button:focus-visible { outline:2px solid var(--blue); outline-offset:3px; border-radius:4px; }
 
-  /* ---------- bottles ---------- */
-  .bottles { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(16px, 2vw, 26px); }
-  @media (max-width: 720px){ .bottles { grid-template-columns: 1fr; } }
-  .bottle { border:1px solid var(--line); border-radius:3px; padding:26px 24px; background: var(--panel); display:flex; flex-direction:column; gap:16px; }
-  .glass {
-    height: 132px; border-radius: 8px 8px 5px 5px; position: relative; overflow:hidden;
-    border: 1px solid rgba(0,0,0,.12);
-    box-shadow: inset 0 0 24px rgba(0,0,0,.18);
-  }
-  .glass::before { content:""; position:absolute; left:20%; top:8%; width:14%; height:80%; border-radius:40px; background: linear-gradient(180deg, rgba(255,255,255,.5), rgba(255,255,255,.05)); filter: blur(1px); }
-  .glass.amber  { background: linear-gradient(160deg,#6E3F12,#8A531B 55%,#5A3410); }
-  .glass.green  { background: linear-gradient(160deg,#1E4D34,#2E6B48 55%,#173B28); }
-  .glass.clear  { background: linear-gradient(160deg,#BFD8DE,#DCEBEE 55%,#AFC9D0); }
-  .bottle h3 { font-size: 1.05rem; }
-  .bottle .uv { display:flex; flex-direction:column; gap:6px; }
-  .bottle .uv .top { display:flex; justify-content:space-between; font-size:.7rem; letter-spacing:.1em; color:var(--ink-soft); }
-  .bottle .uv .top b { color: var(--green); font-variant-numeric: tabular-nums; }
-  .bottle .track { height:6px; border-radius:999px; background: var(--paper-2); overflow:hidden; }
-  .bottle .fill { height:100%; border-radius:999px; background: linear-gradient(90deg, var(--green), var(--green-deep)); }
-  .bottle p { font-size:.83rem; color:var(--ink-soft); line-height:1.9; }
-  .storage {
-    margin-top: clamp(26px, 4vh, 40px); border:1px solid var(--line); border-left: 3px solid var(--amber);
-    border-radius:3px; padding: 22px 26px; background: var(--panel); display:flex; gap:18px; align-items:flex-start;
-  }
-  .storage .ic { font-family: var(--serif); font-size:1.5rem; color: var(--amber); line-height:1; }
-  .storage h3 { font-size: 1rem; margin-bottom: 6px; }
-  .storage p { font-size:.86rem; color: var(--ink-soft); line-height:1.95; }
+  /* ============ reveal ============ */
+  .reveal { opacity:0; transform:translateY(24px); transition:opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1); }
+  .reveal.in { opacity:1; transform:none; }
+  .reveal.d1{transition-delay:.08s}.reveal.d2{transition-delay:.16s}.reveal.d3{transition-delay:.24s}.reveal.d4{transition-delay:.32s}
+  @media (prefers-reduced-motion: reduce){ .reveal{opacity:1;transform:none;transition:none} }
 
-  /* ---------- label spec sheet ---------- */
-  .label-grid { display:grid; grid-template-columns: 1fr 1fr; gap: clamp(18px, 3vw, 40px); align-items: start; }
-  @media (max-width: 820px){ .label-grid { grid-template-columns: 1fr; } }
-  .spec { border:1px solid var(--line); border-radius:3px; overflow:hidden; background: var(--panel); }
-  .spec-cap { background: var(--green-deep); color:#EAF3ED; padding: 14px 22px; font-family: var(--serif); letter-spacing:.14em; font-size:.9rem; display:flex; justify-content:space-between; align-items:center; }
-  .spec-cap span { font-family: var(--sans); font-size:.6rem; letter-spacing:.24em; color:#9FCBB6; }
-  .spec-row { display:grid; grid-template-columns: auto 1fr; gap: 4px 20px; padding: 18px 22px; border-top: 1px solid var(--line-soft); }
-  .spec-row:first-of-type { border-top: none; }
-  .spec-row .k { font-family: var(--serif); font-size:.98rem; color: var(--ink); grid-column:1; }
-  .spec-row .k small { display:block; font-family: var(--sans); font-size:.6rem; letter-spacing:.14em; color: var(--ink-soft); margin-top:2px; }
-  .spec-row .v { grid-column:2; font-variant-numeric: tabular-nums; font-family: var(--serif); font-size:1.1rem; color: var(--green); text-align:right; align-self:center; }
-  .spec-row .d { grid-column: 1 / -1; font-size:.82rem; color: var(--ink-soft); line-height:1.9; margin-top:8px; }
-  .req { font-size:.58rem; letter-spacing:.1em; padding:2px 7px; border-radius:999px; border:1px solid var(--line); color: var(--ink-soft); margin-left:8px; vertical-align:middle; }
-  .req.must { color: var(--amber); border-color: color-mix(in srgb,var(--amber) 40%,transparent); }
-  .label-note { font-family: var(--serif); font-size:.96rem; color: var(--ink-soft); line-height:2.1; }
-  .label-note .big { display:block; font-size: clamp(1.3rem,3vw,1.7rem); color: var(--ink); margin-bottom: 14px; line-height:1.5; }
-  .label-note .big b { color: var(--blush); font-weight:600; }
-
-  /* ---------- outro ---------- */
-  .outro { position: relative; padding: clamp(72px, 13vh, 148px) 0; text-align:center; border-top: 1px solid var(--line-soft); overflow:hidden; }
-  .outro::before { content:""; position:absolute; inset:0; background: radial-gradient(70% 60% at 50% 30%, color-mix(in srgb,var(--green) 14%,transparent), transparent 65%); }
-  .outro .wrap { position: relative; z-index:1; display:flex; flex-direction:column; align-items:center; gap:26px; }
-  .outro h2 { font-size: clamp(1.7rem, 4.4vw, 2.9rem); line-height:1.55; max-width: 18em; }
-  .outro h2 b { color: var(--amber); font-weight:600; }
-  .outro p { font-size: 1rem; color: var(--ink-soft); line-height:2.1; max-width: 34em; }
-  .cta {
-    display:inline-flex; align-items:center; gap:12px; margin-top: 10px;
-    background: var(--green); color: var(--paper); border:none; border-radius:999px;
-    padding: 15px 34px; font-family: var(--serif); font-size:1.02rem; letter-spacing:.06em;
-    transition: transform .35s cubic-bezier(.2,.7,.2,1), background .35s;
-  }
-  .cta:hover, .cta:focus-visible { transform: translateY(-3px); background: var(--green-deep); }
-  .cta .ar { transition: transform .35s; }
-  .cta:hover .ar { transform: translateX(4px); }
-
-  footer { border-top: 1px solid var(--line-soft); padding: 40px 0; }
-  footer .wrap { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; }
-  footer .brand { font-size:1rem; }
-  footer small { font-size:.72rem; color: var(--ink-soft); letter-spacing:.08em; }
-
-  /* focus */
-  a:focus-visible, button:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; border-radius: 2px; }
-
-  /* ---------- reveal ---------- */
-  .reveal { opacity: 0; transform: translateY(26px); transition: opacity .8s ease, transform .8s cubic-bezier(.2,.7,.2,1); }
-  .reveal.in { opacity: 1; transform: none; }
-  .reveal.d1 { transition-delay: .08s; } .reveal.d2 { transition-delay: .16s; }
-  .reveal.d3 { transition-delay: .24s; } .reveal.d4 { transition-delay: .32s; }
-  @media (prefers-reduced-motion: reduce){ .reveal { opacity:1; transform:none; transition:none; } }
+  @keyframes floaty { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
 </style>
 </head>
 <body>
 
+  <!-- HEADER -->
   <header class="topbar">
     <div class="wrap">
-      <div class="brand">日本酒のトリセツ<small>SAKE FIELD NOTES</small></div>
-      <button class="theme-toggle" id="themeBtn" aria-label="配色を切り替え">◐ 表示切替</button>
+      <a class="logo" href="#top">
+        <span class="mk" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span>日本酒のトリセツ<small>SAKE FIELD NOTES</small></span>
+      </a>
+      <nav class="nav">
+        <a class="lk" href="#s1"><span class="num">01</span>素材</a>
+        <a class="lk" href="#s2"><span class="num">02</span>製法</a>
+        <a class="lk" href="#s3"><span class="num">03</span>種類</a>
+        <a class="lk" href="#s4"><span class="num">04</span>保存</a>
+        <a class="lk" href="#s5"><span class="num">05</span>ラベル</a>
+        <a class="btn btn-primary" href="#cta">はじめる <span class="plus">＋</span></a>
+        <button class="theme-toggle" id="themeBtn" aria-label="配色を切り替え">◐</button>
+      </nav>
     </div>
   </header>
 
   <!-- HERO -->
-  <section class="hero">
+  <section class="hero" id="top">
+    <span class="plusbg" aria-hidden="true"></span>
+    <span class="blob b1" aria-hidden="true"></span>
+    <span class="blob b2" aria-hidden="true"></span>
     <div class="wrap">
-      <div class="hero-main">
-        <span class="kicker reveal">Sake · The Art of Fermentation</span>
-        <h1 class="hero-title reveal d1">日本酒<span class="en">Nihonshu</span></h1>
-        <p class="hero-sub mincho reveal d2">「最先端の<b>発酵クラフト</b>」であり、<br>「究極の<b>ナチュラルドリンク</b>」。</p>
-        <p class="hero-lede reveal d3">おうちでの晩酌、気のおけない友人とのホームパーティー、週末のご褒美ディナー。そんな特別な時間にそっと華を添えてくれる一杯を、素材・製法・ボトル・ラベルまで、大人の視点で丁寧に読み解きます。</p>
-        <div class="scrollcue reveal d4"><span class="bar"></span>SCROLL</div>
+      <span class="badge reveal">いつもの晩酌に、知る楽しさを <b>＋（プラス）</b></span>
+      <h1 class="reveal d1">日本酒を、<br><span class="blue">もっと</span>好きになる<span class="plus">。＋</span><span class="en">NIHONSHU — THE ART OF FERMENTATION</span></h1>
+      <p class="hero-lede reveal d2">「難しそう」「おじさんの飲み物」は、もう一昔前の話。いまや日本酒は、最先端の発酵クラフトであり、究極のナチュラルドリンク。素材・製法・ボトル・ラベルまで、大人の視点でやさしく読み解きます。</p>
+      <div class="hero-cta reveal d3">
+        <a class="btn btn-primary" href="#s1">読みはじめる <span class="plus">＋</span></a>
+        <a class="btn btn-lime" href="#cta">今夜、一杯を</a>
       </div>
-      <div class="vlabel reveal d2">知るほど、<b>愛おしい</b>一杯へ</div>
+      <div class="hero-stats reveal d4">
+        <div class="stat"><div class="n">4<span class="u">素材</span></div><div class="l">米・水・麹・酵母だけ</div></div>
+        <div class="stat"><div class="n">2<span class="u">反応</span></div><div class="l">世界唯一の並行複発酵</div></div>
+        <div class="stat"><div class="n">5<span class="u">STEP</span></div><div class="l">素材から味わい方まで</div></div>
+      </div>
     </div>
   </section>
 
-  <!-- 01 INGREDIENTS -->
+  <!-- CONCEPT BAND -->
+  <section class="concept">
+    <span class="plusbg" aria-hidden="true"></span>
+    <div class="wrap">
+      <div class="big round reveal">知るほど、<span class="y">おいしい。</span></div>
+      <p class="reveal d1">一粒のお米、清冽な水、目に見えない微生物たち。そこには日本の美意識と最先端のバイオテクノロジー、そして何百年と受け継がれた職人の情熱が結晶しています。「知る楽しさ」をプラスすれば、今日からの一杯はもっと美味しく、愛おしくなる。</p>
+    </div>
+  </section>
+
+  <!-- 01 素材 -->
   <section class="section" id="s1">
     <div class="wrap">
       <div class="sec-head reveal">
-        <div class="chapter"><span class="num mincho">壱</span><span class="lab">第一章</span></div>
-        <div class="sec-title">
-          <span class="kicker">Four Natural Elements</span>
-          <h2 class="mincho">シンプルだからこそ、美しい。<br>日本酒を形づくる<span class="accent">4つの素材</span></h2>
-          <p>原材料は、驚くほどシンプルで無添加。ベースは「お米と水」という、自然の恵みだけ。そこに二つの微生物が加わって、はじめて日本酒になります。</p>
+        <div class="no"><b>01</b><span>MATERIAL</span></div>
+        <div class="tt">
+          <h2>シンプルだからこそ、美しい。<br>日本酒を形づくる <em>4つの素材</em></h2>
+          <p>原材料は驚くほどシンプルで無添加。ベースは「お米と水」という自然の恵みだけ。そこに二つの微生物が加わって、はじめて日本酒になります。</p>
         </div>
       </div>
-      <div class="grid-4">
-        <div class="card reveal">
-          <span class="glyph mincho">米</span>
-          <h3 class="mincho">酒造好適米<span class="ruby">SHUZO-KOTEKIMAI</span></h3>
-          <p>日本酒のためだけに栽培された大粒の酒米。ご飯用のお米とは異なり、代表格「山田錦」をはじめ、味わいの土台をつくります。</p>
-          <span class="tag">主原料</span>
+      <div class="grid4">
+        <div class="icard reveal">
+          <div class="top"><span class="em" style="background:var(--blue)">米</span><span class="plusmark">＋</span></div>
+          <h3 class="round">酒造好適米<small>SHUZO-KOTEKIMAI</small></h3>
+          <p>日本酒のためだけに栽培された大粒の酒米。ご飯用とは異なり、代表格「山田錦」をはじめ味わいの土台をつくります。</p>
+          <span class="chip">主原料</span>
         </div>
-        <div class="card reveal d1">
-          <span class="glyph mincho">水</span>
-          <h3 class="mincho">仕込み水<span class="ruby">SHIKOMI-MIZU</span></h3>
-          <p>日本酒の約80%は水分。山や森が育んだ清冽な天然水を使います。硬水ならキリッと、軟水ならなめらかな口当たりに。</p>
-          <span class="tag">約80%を占める</span>
+        <div class="icard reveal d1">
+          <div class="top"><span class="em" style="background:var(--blue-bright)">水</span><span class="plusmark">＋</span></div>
+          <h3 class="round">仕込み水<small>SHIKOMI-MIZU</small></h3>
+          <p>日本酒の約80%は水分。山や森が育んだ清冽な天然水を使います。硬水はキリッと、軟水はなめらかな口当たりに。</p>
+          <span class="chip">約80%を占める</span>
         </div>
-        <div class="card reveal d2">
-          <span class="glyph mincho">麹</span>
-          <h3 class="mincho">麹菌<span class="ruby">KOJI-KIN</span></h3>
-          <p>お米のデンプンを「糖（甘み）」へ優しく分解する微生物。発酵コスメでもお馴染み、日本の酒造りに欠かせない「国菌」です。</p>
-          <span class="tag">日本の国菌</span>
+        <div class="icard reveal d2">
+          <div class="top"><span class="em" style="background:var(--lime-deep)">麹</span><span class="plusmark">＋</span></div>
+          <h3 class="round">麹菌<small>KOJI-KIN</small></h3>
+          <p>お米のデンプンを「糖（甘み）」へ優しく分解する微生物。発酵コスメでもお馴染み、酒造りに欠かせない日本の「国菌」です。</p>
+          <span class="chip">日本の国菌</span>
         </div>
-        <div class="card reveal d3">
-          <span class="glyph mincho">酵</span>
-          <h3 class="mincho">酵母<span class="ruby">KOBO</span></h3>
+        <div class="icard reveal d3">
+          <div class="top"><span class="em" style="background:var(--lime)">酵</span><span class="plusmark">＋</span></div>
+          <h3 class="round">酵母<small>KOBO</small></h3>
           <p>麹が生んだ糖を食べ、アルコールと、果物のようにみずみずしく華やかな「香り」を生み出す、とても小さな生命です。</p>
-          <span class="tag">香りの立役者</span>
+          <span class="chip">香りの立役者</span>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 02 FERMENTATION -->
-  <section class="section ferment" id="s2">
+  <!-- 02 製法 -->
+  <section class="section alt" id="s2">
     <div class="wrap">
       <div class="sec-head reveal">
-        <div class="chapter"><span class="num mincho">弐</span><span class="lab">第二章</span></div>
-        <div class="sec-title">
-          <span class="kicker">Parallel Multiple Fermentation</span>
-          <h2 class="mincho">奇跡の<span class="accent">発酵コラボレーション</span>。<br>日本酒ができるまで</h2>
+        <div class="no"><b>02</b><span>BREWING</span></div>
+        <div class="tt">
+          <h2>奇跡の<em>発酵コラボレーション</em>。<br>日本酒ができるまで</h2>
           <p>酒蔵の中は、職人「杜氏（とうじ）」の緻密な管理のもと、まるで神秘的なバイオテクノロジーの実験室。ひとつのタンクの中で、二つの反応が同時に進みます。</p>
         </div>
       </div>
-      <div class="ferment-grid">
+      <div class="brew-grid brew">
         <div class="reveal">
-          <p>最大の特徴は、1つの仕込みタンクの中で「麹菌がお米を糖に変える<span class="keyword">糖化</span>」と、「酵母がその糖をアルコールに変える<span class="keyword">発酵</span>」が<b>同時に進行</b>すること。世界でも類を見ない、極めて高度な発酵システム——それが<span class="keyword">並行複発酵</span>です。</p>
-          <p>杜氏は、タンクの品温やアミノ酸などのデータを毎日細かく分析しながら、この微生物たちの共同作業を、我が子を見守るようにコントロール。この丁寧な手仕事こそが、洗練されたクリアな味わいを生み出します。</p>
+          <p>最大の特徴は、1つの仕込みタンクの中で「麹菌がお米を糖に変える<span class="kw">糖化</span>」と、「酵母がその糖をアルコールに変える<span class="kw b">発酵</span>」が<b>同時に進行</b>すること。世界でも類を見ない極めて高度な発酵システム——それが<span class="kw b">並行複発酵</span>です。</p>
+          <p>杜氏は、タンクの品温やアミノ酸などのデータを毎日細かく分析しながら、この微生物たちの共同作業を我が子を見守るようにコントロール。この丁寧な手仕事こそが、洗練されたクリアな味わいを生み出します。</p>
         </div>
         <div class="eqbox reveal d1">
           <canvas id="bubbles"></canvas>
-          <div class="eqinner">
+          <div class="in">
             <div class="eq">
-              <span class="step">Saccharification — 糖化（麹の働き）</span>
-              <div class="formula mincho">(C<sub>6</sub>H<sub>10</sub>O<sub>5</sub>)<sub>n</sub> + nH<sub>2</sub>O <span class="arw">→</span> nC<sub>6</sub>H<sub>12</sub>O<sub>6</sub> <span class="note">（ブドウ糖）</span></div>
+              <div class="step round">SACCHARIFICATION <span class="p">＋</span> 糖化（麹の働き）</div>
+              <div class="formula">(C<sub>6</sub>H<sub>10</sub>O<sub>5</sub>)<sub>n</sub> + nH<sub>2</sub>O <span class="arw">→</span> nC<sub>6</sub>H<sub>12</sub>O<sub>6</sub> <span class="note">（ブドウ糖）</span></div>
             </div>
-            <div class="divider"></div>
+            <div class="div"></div>
             <div class="eq">
-              <span class="step">Alcohol Fermentation — 発酵（酵母の働き）</span>
-              <div class="formula mincho">C<sub>6</sub>H<sub>12</sub>O<sub>6</sub> <span class="arw">→</span> 2C<sub>2</sub>H<sub>5</sub>OH + 2CO<sub>2</sub></div>
+              <div class="step round">FERMENTATION <span class="p">＋</span> 発酵（酵母の働き）</div>
+              <div class="formula">C<sub>6</sub>H<sub>12</sub>O<sub>6</sub> <span class="arw">→</span> 2C<sub>2</sub>H<sub>5</sub>OH + 2CO<sub>2</sub></div>
             </div>
           </div>
-          <p class="parallel mincho">この二つが<b>同じタンクで同時に</b>起こる調和を、科学は「並行複発酵」と呼びます。</p>
+          <p class="tag round">この二つが<em>同じタンクで同時に</em>——科学は「並行複発酵」と呼びます。</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 03 CATEGORIES -->
+  <!-- 03 種類 -->
   <section class="section" id="s3">
     <div class="wrap">
       <div class="sec-head reveal">
-        <div class="chapter"><span class="num mincho">参</span><span class="lab">第三章</span></div>
-        <div class="sec-title">
-          <span class="kicker">Four Smart Categories</span>
-          <h2 class="mincho">今日の気分や料理に合わせて。<br>日本酒の<span class="accent">スマートな4カテゴリー</span></h2>
-          <p>ワインに赤・白・スパークリングがあるように、日本酒も「特定名称」で分かれます。削ったお米の割合（精米歩合）や原材料の違いを知れば、ぴったりの一本をスマートに選べます。</p>
+        <div class="no"><b>03</b><span>TYPE</span></div>
+        <div class="tt">
+          <h2>今日の気分や料理に合わせて。<br>日本酒の<em>スマートな4カテゴリー</em></h2>
+          <p>ワインに赤・白・スパークリングがあるように、日本酒も「特定名称」で分かれます。削ったお米の割合（精米歩合）や原材料の違いを知れば、ぴったりの一本を選べます。</p>
         </div>
       </div>
-      <div class="cats">
-        <div class="cat reveal">
-          <div class="meter">
-            <div class="disc" style="background:var(--green)">純米</div>
-            <div class="polish">精米歩合<br>規定なし</div>
-          </div>
+      <div class="types">
+        <div class="type reveal">
+          <div class="badge2"><div class="disc" style="background:var(--blue)">純米</div><div class="pol">精米歩合<br>規定なし</div></div>
           <div>
-            <h3 class="mincho">純米酒<span class="ruby">JUNMAI</span></h3>
+            <h3 class="round">純米酒<small>JUNMAI</small></h3>
             <p>お米・米麹・水だけのピュアな一本。お米本来のふくよかな旨みと、優しいコクが特徴です。</p>
-            <span class="pair">出汁のきいた和食・お肉料理に</span>
+            <span class="pair"><span class="p">＋</span>出汁のきいた和食・お肉料理に</span>
           </div>
         </div>
-        <div class="cat reveal d1">
-          <div class="meter">
-            <div class="disc" style="background:var(--amber)">吟醸</div>
-            <div class="polish">精米歩合<br>60%以下</div>
-          </div>
+        <div class="type reveal d1">
+          <div class="badge2"><div class="disc" style="background:var(--blue-bright)">吟醸</div><div class="pol">精米歩合<br>60%以下</div></div>
           <div>
-            <h3 class="mincho">吟醸酒<span class="ruby">GINJO</span></h3>
-            <p>お米を40%以上削り、低温でゆっくり発酵。洋梨や青リンゴを思わせる、フルーティーな香りがふわり。</p>
-            <span class="pair">前菜・軽やかな一皿に</span>
+            <h3 class="round">吟醸酒<small>GINJO</small></h3>
+            <p>お米を40%以上削り、低温でゆっくり発酵。洋梨や青リンゴを思わせるフルーティーな香りがふわり。</p>
+            <span class="pair"><span class="p">＋</span>前菜・軽やかな一皿に</span>
           </div>
         </div>
-        <div class="cat reveal d2">
-          <div class="meter">
-            <div class="disc" style="background:var(--green-deep)">大吟醸</div>
-            <div class="polish">精米歩合<br>50%以下</div>
-          </div>
+        <div class="type reveal d2">
+          <div class="badge2"><div class="disc" style="background:var(--blue-deep)">大吟醸</div><div class="pol">精米歩合<br>50%以下</div></div>
           <div>
-            <h3 class="mincho">大吟醸酒<span class="ruby">DAIGINJO</span></h3>
-            <p>お米を半分以上削る最高峰。驚くほどシルキーで洗練された口当たりと、高貴な余韻。冷やしてワイングラスで。</p>
-            <span class="pair">特別な日の乾杯に</span>
+            <h3 class="round">大吟醸酒<small>DAIGINJO</small></h3>
+            <p>お米を半分以上削る最高峰。驚くほどシルキーで洗練された口当たりと高貴な余韻。冷やしてワイングラスで。</p>
+            <span class="pair"><span class="p">＋</span>特別な日の乾杯に</span>
           </div>
         </div>
-        <div class="cat reveal d3">
-          <div class="meter">
-            <div class="disc" style="background:var(--blush)">本醸造</div>
-            <div class="polish">精米歩合<br>70%以下</div>
-          </div>
+        <div class="type reveal d3">
+          <div class="badge2"><div class="disc" style="background:var(--lime-deep)">本醸造</div><div class="pol">精米歩合<br>70%以下</div></div>
           <div>
-            <h3 class="mincho">本醸造酒<span class="ruby">HONJOZO</span></h3>
+            <h3 class="round">本醸造酒<small>HONJOZO</small></h3>
             <p>ごく少量のクリアな醸造アルコールを加え、後味はキリッと引き締まったキレの良い辛口に。</p>
-            <span class="pair">お刺身・カルパッチョに</span>
+            <span class="pair"><span class="p">＋</span>お刺身・カルパッチョに</span>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 04 BOTTLES -->
-  <section class="section" id="s4">
+  <!-- 04 保存 -->
+  <section class="section alt" id="s4">
     <div class="wrap">
       <div class="sec-head reveal">
-        <div class="chapter"><span class="num mincho">肆</span><span class="lab">第四章</span></div>
-        <div class="sec-title">
-          <span class="kicker">The Light-Shielding Bottle</span>
-          <h2 class="mincho">美味しさをキープする、<br>美しい<span class="accent">「遮光ボトル」</span>の秘密</h2>
-          <p>日本酒の瓶は、なぜ茶色や深緑が多い？ 日本酒の大敵は光——特に紫外線。数時間の蛍光灯やLEDでも成分が光分解し、「日光臭」でせっかくの香りが台無しに。色つきの瓶は、いわば日本酒専用のサングラスなのです。</p>
+        <div class="no"><b>04</b><span>BOTTLE</span></div>
+        <div class="tt">
+          <h2>美味しさをキープする、<br>美しい<em>「遮光ボトル」</em>の秘密</h2>
+          <p>日本酒の瓶はなぜ茶色や深緑が多い？ 日本酒の大敵は光——特に紫外線。数時間の蛍光灯やLEDでも成分が光分解し、「日光臭」で香りが台無しに。色つきの瓶は、いわば日本酒専用のサングラスです。</p>
         </div>
       </div>
       <div class="bottles">
         <div class="bottle reveal">
           <div class="glass amber" aria-hidden="true"></div>
-          <h3 class="mincho">茶色の瓶</h3>
-          <div class="uv">
-            <div class="top"><span>紫外線カット</span><b>ほぼ100%</b></div>
-            <div class="track"><div class="fill" style="width:98%"></div></div>
-          </div>
+          <h3 class="round">茶色の瓶</h3>
+          <div class="uv"><div class="r"><span>紫外線カット</span><b>ほぼ100%</b></div><div class="track"><div class="fill" style="width:98%"></div></div></div>
           <p>紫外線をほぼ完全に遮断。最も品質保持力に優れた、頼れるプロテクターです。</p>
         </div>
         <div class="bottle reveal d1">
           <div class="glass green" aria-hidden="true"></div>
-          <h3 class="mincho">緑色の瓶</h3>
-          <div class="uv">
-            <div class="top"><span>紫外線カット</span><b>高い</b></div>
-            <div class="track"><div class="fill" style="width:78%"></div></div>
-          </div>
+          <h3 class="round">緑色の瓶</h3>
+          <div class="uv"><div class="r"><span>紫外線カット</span><b>高い</b></div><div class="track"><div class="fill" style="width:78%"></div></div></div>
           <p>茶色に次ぐ遮光性。和のテーブルにも美しく馴染むデザイン性から人気です。</p>
         </div>
         <div class="bottle reveal d2">
           <div class="glass clear" aria-hidden="true"></div>
-          <h3 class="mincho">透明・青の瓶</h3>
-          <div class="uv">
-            <div class="top"><span>紫外線カット</span><b>低い</b></div>
-            <div class="track"><div class="fill" style="width:24%"></div></div>
-          </div>
+          <h3 class="round">透明・青の瓶</h3>
+          <div class="uv"><div class="r"><span>紫外線カット</span><b>低い</b></div><div class="track"><div class="fill" style="width:24%"></div></div></div>
           <p>光を通しやすいぶん、冷蔵で厳重管理する「生酒」や、涼しげな夏限定酒によく使われます。</p>
         </div>
       </div>
       <div class="storage reveal">
-        <span class="ic mincho">冷</span>
+        <span class="ic round">冷</span>
         <div>
-          <h3 class="mincho">おうちでのスマートな保存方法</h3>
+          <h3 class="round">おうちでのスマートな保存方法</h3>
           <p>たとえ茶色の瓶でも、光が当たらず温度変化の少ない冷蔵庫（できれば野菜室）へ。新聞紙やおしゃれな包装紙で瓶ごと包んで光を完全に遮れば、開栓時のフレッシュな美味しさが驚くほど長持ちします。</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 05 LABEL -->
+  <!-- 05 ラベル -->
   <section class="section" id="s5">
     <div class="wrap">
       <div class="sec-head reveal">
-        <div class="chapter"><span class="num mincho">伍</span><span class="lab">第五章</span></div>
-        <div class="sec-title">
-          <span class="kicker">Reading the Back Label</span>
-          <h2 class="mincho">「ジャケ買い」から始める、<br><span class="accent">裏ラベル</span>のスマートな読み解き方</h2>
+        <div class="no"><b>05</b><span>LABEL</span></div>
+        <div class="tt">
+          <h2>「ジャケ買い」から始める、<br><em>裏ラベル</em>のスマートな読み解き方</h2>
           <p>洗練されたラベルをビジュアルで選ぶ「ジャケ買い」も立派な楽しみ方。さらに裏ラベルの数字を少し読めれば、飲む前のワクワクがぐっと広がります。</p>
         </div>
       </div>
       <div class="label-grid">
         <div class="spec reveal">
-          <div class="spec-cap mincho">裏ラベル<span>BACK LABEL</span></div>
-          <div class="spec-row">
-            <div class="k mincho">アルコール度数<span class="req must">義務表示</span><small>ALCOHOL</small></div>
+          <div class="cap round">裏ラベル<span>BACK LABEL</span></div>
+          <div class="row">
+            <div class="k">アルコール度数<span class="req must">義務表示</span><small>ALCOHOL</small></div>
             <div class="v">15<span style="font-size:.6em">%前後</span></div>
             <div class="d">一般的には15度前後。最近は12度前後に抑え、ワインのようにカジュアルに楽しめる「低アルコール日本酒」もトレンドです。</div>
           </div>
-          <div class="spec-row">
-            <div class="k mincho">精米歩合<span class="req must">義務表示</span><small>POLISHING RATIO</small></div>
+          <div class="row">
+            <div class="k">精米歩合<span class="req must">義務表示</span><small>POLISHING RATIO</small></div>
             <div class="v">40<span style="font-size:.6em">%</span></div>
             <div class="d">お米を磨いて残した割合。数字が小さいほど芯のピュアな部分だけを使い、雑味のないクリアで上品な味わいに。</div>
           </div>
-          <div class="spec-row">
-            <div class="k mincho">日本酒度<span class="req">任意表示</span><small>SAKE METER VALUE</small></div>
-            <div class="v">−3 <span style="color:var(--ink-soft);font-size:.7em">/</span> +5</div>
+          <div class="row">
+            <div class="k">日本酒度<span class="req">任意表示</span><small>SAKE METER VALUE</small></div>
+            <div class="v">−3&nbsp;/&nbsp;+5</div>
             <div class="d">味わいの甘辛の目安。マイナスはお米の自然な甘みを感じやすく、プラスは後味スッキリの辛口に。</div>
           </div>
-          <div class="spec-row">
-            <div class="k mincho">酸度<span class="req">任意表示</span><small>ACIDITY</small></div>
+          <div class="row">
+            <div class="k">酸度<span class="req">任意表示</span><small>ACIDITY</small></div>
             <div class="v">1.6</div>
             <div class="d">乳酸や琥珀酸などの量。高いとコクのあるフルボディ、低いと淡麗で軽やかなライトボディな印象に。</div>
           </div>
         </div>
         <div class="label-note reveal d1">
-          <span class="big mincho">数字は、<b>杜氏からの手紙</b>。</span>
+          <span class="big">数字は、<em>杜氏からの手紙</em>。<span class="p">＋</span></span>
           精米歩合で「透明感」を、日本酒度で「甘辛」を、酸度で「ボディ感」を——。たった数行の数字が、そのお酒の設計図であり、造り手のこだわりの表明です。<br><br>まずは直感の「ジャケ買い」から。慣れてきたら裏ラベルをそっとめくって、一本の物語を読み解いてみてください。
         </div>
       </div>
     </div>
   </section>
 
-  <!-- OUTRO -->
-  <section class="outro">
+  <!-- CTA -->
+  <section class="cta" id="cta">
+    <span class="plusbg" aria-hidden="true"></span>
     <div class="wrap">
-      <span class="kicker reveal">In Closing</span>
-      <h2 class="mincho reveal d1">大人だからこそ味わえる、<br><b>丁寧な一杯</b>を。</h2>
-      <p class="reveal d2">一粒のお米、清冽な水、目に見えない微生物たち。そこには日本の美意識と最先端のバイオテクノロジー、そして何百年と受け継がれた職人の情熱が、美しく結晶しています。生まれた土地のテロワールや、裏ラベルに込められた想いを感じながら、一口ずつ、丁寧に。</p>
-      <button class="cta mincho reveal d3">今夜、お気に入りのグラスで一杯 <span class="ar">→</span></button>
+      <span class="eyebrow reveal">START YOUR SAKE</span>
+      <h2 class="reveal d1">今夜は、お気に入りのグラスで<br>特別な一杯を、そっと。</h2>
+      <p class="reveal d2">ただ酔うためではなく、生まれた土地のテロワールや、裏ラベルに込められた杜氏のこだわりを感じながら、一口ずつ丁寧に。そんな知的な嗜みこそ、大人にふさわしい贅沢な時間です。</p>
+      <a class="btn btn-primary reveal d3" href="#top">最初から読み返す <span class="plus">＋</span></a>
     </div>
   </section>
 
   <footer>
     <div class="wrap">
-      <div class="brand mincho">日本酒のトリセツ</div>
+      <a class="logo" href="#top"><span class="mk" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span class="round">日本酒のトリセツ</span></a>
       <small>お酒は20歳になってから。適量を、楽しく、心地よく。</small>
     </div>
   </footer>
 
 <script>
-  // theme toggle
   (function(){
-    var root = document.documentElement, btn = document.getElementById('themeBtn');
-    btn.addEventListener('click', function(){
-      var cur = root.getAttribute('data-theme');
-      if(!cur){ cur = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; }
-      root.setAttribute('data-theme', cur === 'dark' ? 'light' : 'dark');
+    var root=document.documentElement, btn=document.getElementById('themeBtn');
+    btn.addEventListener('click',function(){
+      var cur=root.getAttribute('data-theme');
+      if(!cur){ cur=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'; }
+      root.setAttribute('data-theme', cur==='dark'?'light':'dark');
     });
   })();
 
-  // scroll reveal
   (function(){
-    var els = document.querySelectorAll('.reveal');
+    var els=document.querySelectorAll('.reveal');
     if(!('IntersectionObserver' in window)){ els.forEach(function(e){e.classList.add('in')}); return; }
-    var io = new IntersectionObserver(function(entries){
-      entries.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
-    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    var io=new IntersectionObserver(function(en){ en.forEach(function(x){ if(x.isIntersecting){ x.target.classList.add('in'); io.unobserve(x.target); } }); },{threshold:.12, rootMargin:'0px 0px -8% 0px'});
     els.forEach(function(e){ io.observe(e); });
   })();
 
-  // fermentation bubbles (subtle, respects reduced motion)
   (function(){
-    var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var c = document.getElementById('bubbles'); if(!c || reduce) return;
-    var ctx = c.getContext('2d'), W=0, H=0, dpr = Math.min(2, window.devicePixelRatio||1), bubbles=[], raf;
+    if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var c=document.getElementById('bubbles'); if(!c) return;
+    var ctx=c.getContext('2d'), W=0,H=0, dpr=Math.min(2,window.devicePixelRatio||1), bs=[], raf, t=0;
     function size(){ var r=c.getBoundingClientRect(); W=r.width; H=r.height; c.width=W*dpr; c.height=H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0); }
-    function seed(i){ return { x: (i*97%100)/100*W, y: H + (i*53%100)/100*H, r: 1.2 + (i*31%40)/10, s: 0.25 + (i*17%50)/120, o: 0.15 + (i*13%40)/160 }; }
-    for(var i=0;i<26;i++) bubbles.push(seed(i));
-    var t=0;
-    function frame(){
-      t+=1; ctx.clearRect(0,0,W,H);
-      for(var i=0;i<bubbles.length;i++){
-        var b=bubbles[i]; b.y -= b.s; b.x += Math.sin((t*0.01)+i)*0.15;
-        if(b.y < -6){ b.y = H+6; }
-        ctx.beginPath(); ctx.arc(b.x,b.y,b.r,0,6.2832);
-        ctx.fillStyle='rgba(201,230,216,'+b.o+')'; ctx.fill();
-      }
+    for(var i=0;i<24;i++) bs.push({x:(i*97%100)/100,y:(i*53%100)/100,r:1.2+(i*31%40)/10,s:.2+(i*17%50)/140,o:.14+(i*13%40)/150});
+    function frame(){ t++; ctx.clearRect(0,0,W,H);
+      for(var i=0;i<bs.length;i++){ var b=bs[i]; b.y-=b.s/H; if(b.y<-.02)b.y=1.02;
+        var x=(b.x*W)+Math.sin(t*0.01+i)*6, y=b.y*H;
+        ctx.beginPath(); ctx.arc(x,y,b.r,0,6.2832); ctx.fillStyle='rgba(198,224,255,'+b.o+')'; ctx.fill(); }
       raf=requestAnimationFrame(frame);
     }
     function start(){ size(); cancelAnimationFrame(raf); frame(); }
