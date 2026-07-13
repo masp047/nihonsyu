@@ -118,6 +118,44 @@
   .btn .plus { font-weight:800; }
   .theme-toggle { background:transparent; border:1px solid var(--line); color:var(--ink-soft); border-radius:999px; width:38px; height:38px; cursor:pointer; font-size:.9rem; transition:border-color .25s,color .25s; }
   .theme-toggle:hover { border-color:var(--blue); color:var(--blue); }
+  .bar-left { display:flex; align-items:center; gap:14px; }
+
+  /* ============ hamburger + drawer ============ */
+  .hamburger {
+    position:relative; z-index:1; display:flex; flex-direction:column; justify-content:center; gap:5px;
+    width:46px; height:46px; border:1px solid var(--line); border-radius:14px; background:var(--card);
+    cursor:pointer; flex-shrink:0; transition:border-color .25s, background .25s, box-shadow .25s;
+  }
+  .hamburger:hover { border-color:var(--blue); box-shadow:0 8px 20px -14px var(--blue); }
+  .hamburger i { display:block; width:20px; height:2px; margin:0 auto; background:var(--ink); border-radius:2px; transition:transform .32s cubic-bezier(.2,.7,.2,1), opacity .2s; }
+  .hamburger[aria-expanded="true"] i:nth-child(1){ transform:translateY(7px) rotate(45deg); }
+  .hamburger[aria-expanded="true"] i:nth-child(2){ opacity:0; }
+  .hamburger[aria-expanded="true"] i:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
+
+  .overlay { position:fixed; inset:0; z-index:90; background:rgba(9,19,34,.46); backdrop-filter:blur(3px); opacity:0; visibility:hidden; transition:opacity .35s ease, visibility .35s; }
+  .overlay.open { opacity:1; visibility:visible; }
+  body.no-scroll { overflow:hidden; }
+
+  .drawer {
+    position:fixed; top:0; left:0; z-index:100; height:100%; width:min(360px, 86vw);
+    background:var(--ground); border-right:1px solid var(--line);
+    transform:translateX(-102%); transition:transform .4s cubic-bezier(.2,.7,.2,1);
+    display:flex; flex-direction:column; box-shadow:0 0 70px -22px rgba(0,0,0,.5); overflow-y:auto;
+  }
+  .drawer.open { transform:none; }
+  @media (prefers-reduced-motion: reduce){ .drawer, .overlay { transition:none; } }
+  .drawer-head { display:flex; align-items:center; justify-content:space-between; padding:18px 22px; border-bottom:1px solid var(--line-soft); }
+  .drawer-close { width:42px; height:42px; border:1px solid var(--line); border-radius:12px; background:transparent; color:var(--ink); font-size:1rem; cursor:pointer; transition:border-color .25s, color .25s; }
+  .drawer-close:hover { border-color:var(--blue); color:var(--blue); }
+  .drawer .dnav { display:flex; flex-direction:column; padding:16px; gap:4px; }
+  .drawer .dnav a { display:flex; align-items:center; gap:14px; padding:15px 16px; border-radius:14px; font-family:var(--round); font-weight:800; color:var(--ink); font-size:1.02rem; transition:background .25s, color .25s; }
+  .drawer .dnav a:hover, .drawer .dnav a:focus-visible { background:var(--ground-2); color:var(--blue); outline:none; }
+  .drawer .dnav a .n { width:32px; height:32px; border-radius:10px; display:grid; place-items:center; flex-shrink:0; font-size:.72rem; font-weight:800; color:#fff; background:var(--blue); font-variant-numeric:tabular-nums; }
+  .drawer .dnav a.top .n { background:var(--lime); color:#123; }
+  .drawer .dnav a .en { margin-left:auto; font-family:var(--sans); font-weight:700; font-size:.56rem; letter-spacing:.18em; color:var(--ink-soft); }
+  .drawer-foot { margin-top:auto; padding:20px 22px; border-top:1px solid var(--line-soft); display:flex; flex-direction:column; gap:10px; }
+  .drawer-foot .btn { justify-content:center; }
+  .drawer-foot .hint { text-align:center; font-size:.68rem; color:var(--ink-soft); }
 
   /* ============ hero ============ */
   .hero { position:relative; overflow:hidden; padding: clamp(56px,11vh,120px) 0 clamp(52px,10vh,110px); }
@@ -295,21 +333,45 @@
   <!-- HEADER -->
   <header class="topbar">
     <div class="wrap">
-      <a class="logo" href="#top">
-        <span class="mk" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-        <span>日本酒のトリセツ<small>SAKE FIELD NOTES</small></span>
-      </a>
+      <div class="bar-left">
+        <button class="hamburger" id="menuBtn" aria-label="メニューを開く" aria-expanded="false" aria-controls="drawer">
+          <i></i><i></i><i></i>
+        </button>
+        <a class="logo" href="#top">
+          <span class="mk" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+          <span>日本酒のトリセツ<small>SAKE FIELD NOTES</small></span>
+        </a>
+      </div>
       <nav class="nav">
-        <a class="lk" href="#s1"><span class="num">01</span>素材</a>
-        <a class="lk" href="#s2"><span class="num">02</span>製法</a>
-        <a class="lk" href="#s3"><span class="num">03</span>種類</a>
-        <a class="lk" href="#s4"><span class="num">04</span>保存</a>
-        <a class="lk" href="#s5"><span class="num">05</span>ラベル</a>
         <a class="btn btn-primary" href="#cta">はじめる <span class="plus">＋</span></a>
         <button class="theme-toggle" id="themeBtn" aria-label="配色を切り替え">◐</button>
       </nav>
     </div>
   </header>
+
+  <!-- DRAWER MENU -->
+  <div class="overlay" id="overlay" hidden></div>
+  <aside class="drawer" id="drawer" aria-label="ページメニュー" aria-hidden="true">
+    <div class="drawer-head">
+      <a class="logo" href="#top">
+        <span class="mk" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="round">日本酒のトリセツ</span>
+      </a>
+      <button class="drawer-close" id="drawerClose" aria-label="メニューを閉じる">✕</button>
+    </div>
+    <nav class="dnav">
+      <a class="top" href="#top"><span class="n">＋</span>トップ<span class="en">TOP</span></a>
+      <a href="#s1"><span class="n">01</span>素材<span class="en">MATERIAL</span></a>
+      <a href="#s2"><span class="n">02</span>製法<span class="en">BREWING</span></a>
+      <a href="#s3"><span class="n">03</span>種類<span class="en">TYPE</span></a>
+      <a href="#s4"><span class="n">04</span>保存<span class="en">BOTTLE</span></a>
+      <a href="#s5"><span class="n">05</span>ラベル<span class="en">LABEL</span></a>
+    </nav>
+    <div class="drawer-foot">
+      <a class="btn btn-primary" href="#cta">今夜、一杯をはじめる <span class="plus">＋</span></a>
+      <span class="hint">お酒は20歳になってから。</span>
+    </div>
+  </aside>
 
   <!-- HERO -->
   <section class="hero" id="top">
@@ -569,6 +631,33 @@
       if(!cur){ cur=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'; }
       root.setAttribute('data-theme', cur==='dark'?'light':'dark');
     });
+  })();
+
+  /* drawer menu */
+  (function(){
+    var menuBtn=document.getElementById('menuBtn'),
+        drawer=document.getElementById('drawer'),
+        overlay=document.getElementById('overlay'),
+        closeBtn=document.getElementById('drawerClose');
+    function open(){
+      drawer.classList.add('open'); overlay.classList.add('open'); overlay.hidden=false;
+      document.body.classList.add('no-scroll');
+      menuBtn.setAttribute('aria-expanded','true'); drawer.setAttribute('aria-hidden','false');
+      closeBtn.focus();
+    }
+    function close(){
+      drawer.classList.remove('open'); overlay.classList.remove('open');
+      document.body.classList.remove('no-scroll');
+      menuBtn.setAttribute('aria-expanded','false'); drawer.setAttribute('aria-hidden','true');
+      setTimeout(function(){ if(!overlay.classList.contains('open')) overlay.hidden=true; }, 360);
+      menuBtn.focus();
+    }
+    function toggle(){ drawer.classList.contains('open') ? close() : open(); }
+    menuBtn.addEventListener('click', toggle);
+    closeBtn.addEventListener('click', close);
+    overlay.addEventListener('click', close);
+    drawer.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', close); });
+    document.addEventListener('keydown', function(e){ if(e.key==='Escape' && drawer.classList.contains('open')) close(); });
   })();
 
   (function(){
