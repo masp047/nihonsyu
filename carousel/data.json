@@ -1,0 +1,33 @@
+{
+  "imageAspectRatio": "rectangle",
+  "imageSize": "cover",
+  "items": [
+    {
+      "id": "2026-07-01-a",
+      "approved": true,
+      "title": "サンプル日本酒A 純米大吟醸",
+      "text": "華やかな香りと澄んだ後味の一本。",
+      "imageUrl": "https://masp047.github.io/nihonsyu/carousel/images/sample-a.jpg",
+      "linkLabel": "詳しく見る",
+      "linkUrl": "https://masp047.github.io/nihonsyu/index.html"
+    },
+    {
+      "id": "2026-07-01-b",
+      "approved": true,
+      "title": "サンプル日本酒B 特別純米",
+      "text": "料理に寄り添う、やさしい旨口。",
+      "imageUrl": "https://masp047.github.io/nihonsyu/carousel/images/sample-b.jpg",
+      "linkLabel": "詳しく見る",
+      "linkUrl": "https://masp047.github.io/nihonsyu/pairing.html"
+    },
+    {
+      "id": "2026-07-08-a",
+      "approved": false,
+      "title": "（未承認の例）近日公開",
+      "text": "approved を true にすると投稿対象になります。",
+      "imageUrl": "https://masp047.github.io/nihonsyu/carousel/images/sample-c.jpg",
+      "linkLabel": "詳しく見る",
+      "linkUrl": "https://masp047.github.io/nihonsyu/sakagura.html"
+    }
+  ]
+}
