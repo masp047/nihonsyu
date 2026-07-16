@@ -31,10 +31,10 @@
  *    (A) GitHub Pages を有効化する（おすすめ・URLがきれい）
  *        Settings → Pages → Source をデフォルトブランチ / (root) に設定。
  *        すると次のURLで公開されます：
- *          https://masp047.github.io/nihonsyu/carousel/data.json
- *          https://masp047.github.io/nihonsyu/carousel/images/sake01.jpg
+ *          https://masp047.github.io/sales_engineer/carousel/data.json
+ *          https://masp047.github.io/sales_engineer/carousel/images/sake01.jpg
  *    (B) raw.githubusercontent.com を使う（Pages不要）
- *          https://raw.githubusercontent.com/masp047/nihonsyu/<ブランチ名>/carousel/data.json
+ *          https://raw.githubusercontent.com/masp047/sales_engineer/<ブランチ名>/carousel/data.json
  *        ※ ブランチ名に「/」が含まれるとURLが不安定なので、(A) か、
  *          スラッシュを含まないブランチ／タグ／コミットSHA の利用を推奨します。
  *
@@ -48,7 +48,7 @@
  *          "approved": true,              // ★true の項目だけが投稿対象
  *          "title": "〇〇酒造 純米大吟醸",   // タイトル（40文字以内）
  *          "text": "華やかな香りの一本",     // 説明文（60文字以内・任意）
- *          "imageUrl": "https://masp047.github.io/nihonsyu/carousel/images/sake01.jpg",
+ *          "imageUrl": "https://masp047.github.io/sales_engineer/carousel/images/sake01.jpg",
  *          "linkLabel": "詳しく見る",        // ボタンのラベル（20文字以内）
  *          "linkUrl": "https://example.com/item01"  // ボタンの遷移先URL
  *        }

@@ -15,13 +15,13 @@ LINE WORKS カルーセルに表示する画像をこのフォルダに置きま
 GitHub Pages を有効化している場合（Settings → Pages → デフォルトブランチ / root）:
 
 ```
-https://masp047.github.io/nihonsyu/carousel/images/sample-a.jpg
+https://masp047.github.io/sales_engineer/carousel/images/sample-a.jpg
 ```
 
 Pages を使わない場合（raw）:
 
 ```
-https://raw.githubusercontent.com/masp047/nihonsyu/<ブランチ名>/carousel/images/sample-a.jpg
+https://raw.githubusercontent.com/masp047/sales_engineer/<ブランチ名>/carousel/images/sample-a.jpg
 ```
 
 `carousel/data.json` の各項目の `imageUrl` に、この公開URLを指定してください。

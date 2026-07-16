@@ -24,8 +24,8 @@ GitHub 上に置いた投稿データ（JSON）と画像をもとに、LINE WORK
 
 1. **画像を用意**：`carousel/images/` にJPEG/PNG（1024px以内・1MB以内・比率1:1.51）を置く。
 2. **公開URLを用意**：GitHub Pages を有効化（Settings → Pages → デフォルトブランチ/root）。
-   - JSON: `https://masp047.github.io/nihonsyu/carousel/data.json`
-   - 画像: `https://masp047.github.io/nihonsyu/carousel/images/xxx.jpg`
+   - JSON: `https://masp047.github.io/sales_engineer/carousel/data.json`
+   - 画像: `https://masp047.github.io/sales_engineer/carousel/images/xxx.jpg`
    - Pagesを使わない場合は `raw.githubusercontent.com` のURLでも可（ブランチ名にスラッシュがあるとURLが不安定なので注意）。
 3. **`carousel/data.json` を編集**：投稿したいリンクを `items` に追加（`id` は一意、`approved: true`）。
 4. **Apps Script を作成**：`gas/LineWorksCarouselBot.gs` を貼り付け。
@@ -47,7 +47,7 @@ GitHub 上に置いた投稿データ（JSON）と画像をもとに、LINE WORK
       "approved": true,
       "title": "〇〇酒造 純米大吟醸",
       "text": "華やかな香りの一本",
-      "imageUrl": "https://masp047.github.io/nihonsyu/carousel/images/sake01.jpg",
+      "imageUrl": "https://masp047.github.io/sales_engineer/carousel/images/sake01.jpg",
       "linkLabel": "詳しく見る",
       "linkUrl": "https://example.com/item01"
     }
