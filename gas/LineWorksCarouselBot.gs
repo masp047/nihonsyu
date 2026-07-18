@@ -1,81 +1,71 @@
 /**
  * ============================================================================
- *  LINE WORKS Bot カルーセル自動投稿システム（スプレッドシート駆動）
+ *  LINE WORKS Bot カルーセル自動投稿システム（Daily＝内容／Weekly＝スケジュール）
  * ============================================================================
  *
  *  ■ このスクリプトの役割
- *    Googleスプレッドシートに書いた「投稿時刻・画像URL・リンク」をもとに、
- *    LINE WORKS Bot のカルーセルメッセージを、指定の宛先へ自動投稿します。
+ *    Googleスプレッドシートの2つのシートをもとに、LINE WORKS Bot のカルーセルを
+ *    自動投稿します。
+ *      - 「Daily」シート  … カルーセルの内容（朝用・夕用のメッセージとリンク）
+ *      - 「Weekly」シート … 1週間の投稿スケジュール（曜日ごとの朝／夕の時刻）
  *
- *    - ロジック層  : このGoogle Apps Script（GAS）
- *    - データソース: Googleスプレッドシート（投稿時刻もここで管理）
- *    - 画像        : GitHub Pages などに置いた公開画像（URLをシートに記載）
- *    - 投稿先      : LINE WORKS の個人／トークルーム（channel）
+ *    毎分、Weeklyシートの「今日の曜日」の時刻を見て、その時刻になったら
+ *    Dailyシートの朝／夕の内容を投稿します。
  *
- *  ■ 投稿の仕様
- *    - 投稿タイミング : スプレッドシートA列「投稿時刻」に書いた時刻ちょうどに投稿
- *                       （例 08:50 / 15:50。時刻を変えたいときはA列を変えるだけ・コード変更不要）
- *    - 1回の投稿      : カルーセル1通・1カード（画像1枚 ＋ リンクボタン2つ）
- *    - 同じ時刻の行が複数あるときは「一番上の有効な行」が使われます
+ *  ■ 投稿タイミング
+ *    - Weeklyシートに書いた「曜日 × 時刻」に投稿します。
+ *    - 時刻でない値（例：`:` や空欄）が入っている枠は「投稿しない」と判断してスキップします。
+ *    - 時刻を変えたい・曜日を止めたいときは、Weeklyシートを編集するだけ（コード変更不要）。
  *
- *  ■ 時刻を厳密にするしくみ
- *    「毎分実行トリガー(tick)」で毎分、現在時刻とシートの投稿時刻を照合し、
- *    一致した“その分”だけ投稿します（日次トリガーの前後15分のズレを回避）。
- *    同じ日・同じ時刻の二重投稿は実行済みフラグで防止します。
+ *  ■ 1回の投稿
+ *    - カルーセル1通・1カード（画像1枚 ＋ リンクボタン2つ）
  *
  * ----------------------------------------------------------------------------
- *  ■ スプレッドシートの列構成（1行 ＝ 1回分の投稿内容）
+ *  ■ 「Daily」シートの列構成（1行目=見出し、2行目=朝、3行目=夕）
  * ----------------------------------------------------------------------------
- *  1行目は見出し、2行目からデータ。
- *
- *  ┌───┬────────────┬──────────────────────────────────────────────┐
- *  │ 列 │ 見出し      │ 内容                                          │
- *  ├───┼────────────┼──────────────────────────────────────────────┤
- *  │ A │ 投稿時刻    │ 投稿する時刻（例 08:50 / 15:50）。★ここを変えると時刻が変わる │
- *  │ B │ 画像URL     │ カードに表示する画像の公開HTTPS URL（直リンク）│
- *  │ C │ リンク1テキスト │ ボタン1の表示名（20文字以内）              │
- *  │ D │ リンク1URL  │ ボタン1の遷移先URL                            │
- *  │ E │ リンク2テキスト │ ボタン2の表示名（20文字以内）              │
- *  │ F │ リンク2URL  │ ボタン2の遷移先URL                            │
- *  │ G │ 有効        │ ○ を入れた行だけが投稿対象（空欄・その他は除外）│
- *  └───┴────────────┴──────────────────────────────────────────────┘
- *
- *  ※ 投稿時刻を追加したい場合は、新しい時刻の行を足すだけで自動的に対象になります。
- *  ※ 画像は「幅1024px以内・1MB以内・JPEG/PNG・公開HTTPSの直リンク」。
- *    GoogleドライブやページのURLではなく、画像そのものを返すURLにしてください。
+ *  ┌───┬────────────┬──────────────────────────────┐
+ *  │ 列 │ 見出し      │ 内容                          │
+ *  ├───┼────────────┼──────────────────────────────┤
+ *  │ A │ 画像URL     │ カードに表示する画像の公開HTTPS直リンク │
+ *  │ B │ リンク1テキスト │ ボタン1の表示名（20文字以内）  │
+ *  │ C │ リンク1URL  │ ボタン1の遷移先URL              │
+ *  │ D │ リンク2テキスト │ ボタン2の表示名（20文字以内）  │
+ *  │ E │ リンク2URL  │ ボタン2の遷移先URL              │
+ *  │ F │ 有効        │ ○ で投稿対象（空欄等は投稿しない）│
+ *  └───┴────────────┴──────────────────────────────┘
+ *  ※ 2行目＝朝用、3行目＝夕用（行の順番で判定します）。
  *
  * ----------------------------------------------------------------------------
- *  ■ 事前準備：スクリプトプロパティ（コード内ハードコード禁止）
+ *  ■ 「Weekly」シートの列構成（1行目=見出し、2行目以降=各曜日）
  * ----------------------------------------------------------------------------
- *  ┌─────────────────┬──────────────────────────────────────────────────────┐
- *  │ プロパティ名     │ 内容                                                   │
- *  ├─────────────────┼──────────────────────────────────────────────────────┤
- *  │ CLIENT_ID       │ Developer Console の Client ID                         │
- *  │ CLIENT_SECRET   │ Developer Console の Client Secret                     │
- *  │ SERVICE_ACCOUNT │ Service Account のメールアドレス                        │
- *  │ PRIVATE_KEY     │ 秘密鍵（PEM形式。BEGIN〜END を丸ごと貼り付け）            │
- *  │ BOT_ID          │ Bot の ID                                              │
- *  │ TARGET_ID       │ 投稿先ID（個人宛=accountId ／ トークルーム宛=channelId）│
- *  │ SHEET_ID        │ GoogleスプレッドシートのID                              │
- *  └─────────────────┴──────────────────────────────────────────────────────┘
- *  ＜任意＞
- *  │ TARGET_TYPE     │ user=個人宛 / channel=トークルーム宛（未設定なら channel）│
- *  ※ 個人宛にテストするときは TARGET_TYPE=user、TARGET_ID=自分のaccountId(メール等)。
- *  ※ LASTRUN_* は本スクリプトが自動作成する二重投稿防止用フラグです（手動設定不要）。
+ *  ┌───┬──────┬──────┐
+ *  │ A │ B    │ C    │
+ *  │曜日│ 朝   │ 夕方 │
+ *  ├───┼──────┼──────┤
+ *  │ 月 │ 8:55 │ 15:55│
+ *  │ … │ …    │ …    │
+ *  │ 土 │ 8:55 │ :    │  ← 夕方は「:」＝投稿しない
+ *  └───┴──────┴──────┘
+ *  ※ 曜日は先頭1文字（月/火/水/木/金/土/日）で判定します（「月曜日」等でもOK）。
+ *  ※ B/C が時刻（HH:mm）ならその時刻に投稿。時刻でなければ（`:`・空欄など）投稿しません。
  *
  * ----------------------------------------------------------------------------
- *  ■ 自動実行（トリガー）の設定
+ *  ■ スクリプトプロパティ（コード内ハードコード禁止）
  * ----------------------------------------------------------------------------
- *  関数 setupTriggers を1回だけ手動実行すると「毎分実行」のトリガーが作られます。
- *  以降、毎分 tick() が動き、シートの投稿時刻になった分だけ自動投稿します。
+ *  CLIENT_ID / CLIENT_SECRET / SERVICE_ACCOUNT / PRIVATE_KEY / BOT_ID /
+ *  TARGET_ID / SHEET_ID
+ *  ＜任意＞ TARGET_TYPE：user=個人宛 / channel=トークルーム宛（未設定なら channel）
+ *  ※ LASTRUN_* は二重投稿防止の自動フラグ（手動設定不要）。
  *
  * ----------------------------------------------------------------------------
- *  ■ 動作確認の関数（エディタの関数選択から実行）
+ *  ■ 自動実行・動作確認
  * ----------------------------------------------------------------------------
- *    - testAuthOnly()     : 認証（トークン取得）だけ試す（送信なし）
- *    - testListTargets()  : シートの各投稿時刻の内容を確認（送信なし）
- *    - testPostMorning()  : 一番早い時刻の内容を今すぐ投稿（時刻に関係なく送信）
- *    - testPostEvening()  : 2番目に早い時刻の内容を今すぐ投稿（時刻に関係なく送信）
+ *    - setupTriggers()    : 毎分実行トリガーを作成（最初に1回）
+ *    - tick()             : 毎分自動実行（Weeklyを見て該当時刻に投稿）
+ *    - testAuthOnly()     : 認証だけ試す（送信なし）
+ *    - testListTargets()  : Dailyの内容とWeeklyの予定を表示（送信なし）
+ *    - testPostMorning()  : Dailyの朝の内容を今すぐ投稿（送信あり）
+ *    - testPostEvening()  : Dailyの夕の内容を今すぐ投稿（送信あり）
  * ============================================================================
  */
 
@@ -84,88 +74,86 @@
  *  0. 設定値
  * ==========================================================================*/
 var CONFIG = {
-  // 万一その分の実行が遅れた場合の“取りこぼし防止”の許容分数（0〜数分）。
-  // 例: 2 なら 08:50〜08:52 の間に1回投稿できれば良い、という保険。二重投稿はしません。
-  CATCHUP_MINUTES: 2,
+  DAILY_SHEET_NAME: 'Daily',    // 内容シートのタブ名（見つからなければ左から1番目を使用）
+  WEEKLY_SHEET_NAME: 'Weekly',  // スケジュールシートのタブ名（見つからなければ左から2番目）
 
-  IMAGE_ASPECT_RATIO: 'rectangle', // 画像の比率: rectangle(横長1.51:1) / square(1:1)
-  IMAGE_SIZE: 'cover',             // 画像の収め方: cover(切り抜き) / contain(全体表示)
+  CATCHUP_MINUTES: 2,           // 実行が数分遅れても取りこぼさない猶予（二重投稿はしない）
 
-  DATA_START_ROW: 2,               // データ開始行（1行目は見出し）
-  COL: {                           // 列番号（A=1, B=2 ...）
-    TIME: 1,        // A 投稿時刻
-    IMAGE_URL: 2,   // B 画像URL
-    LINK1_TEXT: 3,  // C リンク1テキスト
-    LINK1_URL: 4,   // D リンク1URL
-    LINK2_TEXT: 5,  // E リンク2テキスト
-    LINK2_URL: 6,   // F リンク2URL
-    ENABLED: 7      // G 有効（○で投稿対象）
+  IMAGE_ASPECT_RATIO: 'rectangle',
+  IMAGE_SIZE: 'cover',
+
+  // Dailyシートの列（A=1 ...）
+  DAILY_START_ROW: 2,
+  DAILY_COL: {
+    IMAGE_URL: 1, LINK1_TEXT: 2, LINK1_URL: 3, LINK2_TEXT: 4, LINK2_URL: 5, ENABLED: 6
   },
 
-  ENABLED_MARKS: ['○', '〇', '有効', 'TRUE', 'true', '1'], // 有効とみなす値
-  DEFAULT_LINK_TEXT: 'リンク',  // リンクテキスト未入力時の既定ボタン名
+  // Weeklyシートの列（A=曜日, B=朝, C=夕）
+  WEEKLY_COL: { DAY: 1, MORNING: 2, EVENING: 3 },
+
+  // 曜日番号(1=月〜7=日) → 曜日ラベル
+  WEEKDAY_JP: { '1': '月', '2': '火', '3': '水', '4': '木', '5': '金', '6': '土', '7': '日' },
+
+  // 投稿スロット定義（Weeklyのどの列を見て、Dailyの何行目を使うか）
+  SLOTS: [
+    { key: 'morning', label: '朝', weeklyCol: 2, dailyIndex: 0 },
+    { key: 'evening', label: '夕', weeklyCol: 3, dailyIndex: 1 }
+  ],
+
+  ENABLED_MARKS: ['○', '〇', '有効', 'TRUE', 'true', '1'],
+  DEFAULT_LINK_TEXT: 'リンク',
   TIMEZONE: 'Asia/Tokyo'
 };
 
 // LINE WORKS の各種エンドポイント（Bot API v2.0）
 var ENDPOINT = {
   TOKEN: 'https://auth.worksmobile.com/oauth2/v2.0/token',
-  // 個人宛（TARGET_TYPE=user）… {userId} に accountId（ログイン用メール等）を入れる
   MESSAGE_USER: 'https://www.worksapis.com/v1.0/bots/{botId}/users/{userId}/messages',
-  // トークルーム／チャンネル宛（TARGET_TYPE=channel）… {channelId} にチャンネルIDを入れる
   MESSAGE_CHANNEL: 'https://www.worksapis.com/v1.0/bots/{botId}/channels/{channelId}/messages'
 };
 
 
 /* ============================================================================
- *  1. 毎分実行の入口（トリガーから毎分呼ばれる）
+ *  1. 毎分実行の入口
  * ----------------------------------------------------------------------------
- *  毎分、スプレッドシートの「投稿時刻」を読み、現在時刻に一致した時刻だけ投稿します。
- *  → 投稿時刻はシートで管理。A列を変えれば投稿時刻が変わります（コード変更不要）。
+ *  今日の曜日の予定（Weekly）を見て、朝/夕の時刻に一致したら Daily の内容を投稿。
  * ==========================================================================*/
 function tick() {
-  // 同時に複数のtickが走って二重投稿するのを防ぐ（他が実行中なら何もしない）
   var lock = LockService.getScriptLock();
-  if (!lock.tryLock(0)) return;
+  if (!lock.tryLock(0)) return; // 別のtickが実行中なら何もしない（二重投稿防止）
 
   try {
     var now = new Date();
     var nowMin = minutesOfDay_(now);
-
-    var props;
-    try {
-      props = getProperties_();
-    } catch (e) {
-      Logger.log(e.message);
-      return;
-    }
-
-    var rows;
-    try {
-      rows = readSheetRows_(props.SHEET_ID);
-    } catch (e) {
-      Logger.log('シート読込エラー: ' + e.message);
-      return;
-    }
-
-    // 有効行の中にある「投稿時刻」の一覧（時刻順）
-    var times = distinctEnabledTimes_(rows);
+    var weekday = CONFIG.WEEKDAY_JP[Utilities.formatDate(now, CONFIG.TIMEZONE, 'u')]; // 月〜日
     var today = Utilities.formatDate(now, CONFIG.TIMEZONE, 'yyyyMMdd');
 
-    for (var i = 0; i < times.length; i++) {
-      var t = times[i];
-      var slotMin = hhmmToMinutes_(t);
-      if (isNaN(slotMin)) continue;
+    var props;
+    try { props = getProperties_(); } catch (e) { Logger.log(e.message); return; }
 
-      var diff = nowMin - slotMin; // 今が投稿時刻ちょうど〜+CATCHUP分 なら投稿
+    var ss;
+    try { ss = SpreadsheetApp.openById(props.SHEET_ID); } catch (e) {
+      Logger.log('スプレッドシートを開けません: ' + e.message); return;
+    }
+
+    // 今日の曜日のスケジュール（{morning:'HH:mm'|不正, evening:...}）
+    var schedule = readWeeklyForDay_(ss, weekday);
+    if (!schedule) return; // 今日の曜日がWeeklyに無い
+
+    for (var i = 0; i < CONFIG.SLOTS.length; i++) {
+      var slot = CONFIG.SLOTS[i];
+      var timeStr = schedule[slot.key];
+      if (!isValidTime_(timeStr)) continue; // 「:」や空欄などはスキップ
+
+      var diff = nowMin - hhmmToMinutes_(timeStr);
       if (diff >= 0 && diff <= CONFIG.CATCHUP_MINUTES) {
-        if (isAlreadyPostedToday_(t, today)) return; // 今日は投稿済み
-        var ok = postSlot_(t);                       // 投稿（成功でtrue）
-        if (ok) markPostedToday_(t, today);          // 成功時だけ「今日は済み」に記録
+        if (isAlreadyPostedToday_(slot.key, today)) return; // 今日この枠は投稿済み
+        var content = readDaily_(ss)[slot.dailyIndex];      // 朝=0行目 / 夕=1行目
+        var ok = postSlotContent_(props, content, slot.label + '（' + timeStr + '）');
+        if (ok) markPostedToday_(slot.key, today);
         return;
       }
     }
-    // どの投稿時刻にも該当しない分：何もしない
   } finally {
     lock.releaseLock();
   }
@@ -173,238 +161,134 @@ function tick() {
 
 
 /* ============================================================================
- *  2. 投稿の本体処理（時刻を指定して、その時刻の内容を投稿）
- *  戻り値: 送信成功なら true / それ以外は false
+ *  2. シート読み込み
  * ==========================================================================*/
-function postSlot_(slotTime) {
-  Logger.log('=== カルーセル投稿（' + slotTime + '）開始 ===');
 
-  var props = getProperties_();
-
-  // --- (1) 対象行を取得 ------------------------------------------------------
-  var target;
-  try {
-    var rows = readSheetRows_(props.SHEET_ID);
-    target = rows.filter(function (r) {
-      return r.enabled && r.time === slotTime && r.imageUrl;
-    })[0];
-  } catch (e) {
-    Logger.log('【シート読込エラー】' + e.message);
-    return false;
-  }
-
-  if (!target) {
-    Logger.log('投稿対象がありません（時刻 ' + slotTime + ' の有効な行なし）。');
-    return false;
-  }
-  if (!target.link1Url && !target.link2Url) {
-    Logger.log('リンクURLが1つも入っていないため送信しません（時刻 ' + slotTime + '）。');
-    return false;
-  }
-
-  // --- (2) 認証 --------------------------------------------------------------
-  var accessToken;
-  try {
-    accessToken = getAccessToken_(props);
-  } catch (e) {
-    Logger.log('【認証エラー】アクセストークンの取得に失敗しました: ' + e.message);
-    return false;
-  }
-
-  // --- (3) 送信 --------------------------------------------------------------
-  try {
-    postCarousel_(props, accessToken, target);
-  } catch (e) {
-    Logger.log('【投稿失敗】カルーセル送信に失敗しました: ' + e.message);
-    return false;
-  }
-
-  Logger.log('投稿成功（時刻 ' + slotTime + '）: ' + target.imageUrl);
-  return true;
+/** タブ名で取得。無ければ左から fallbackIndex 番目のシートを使う。 */
+function getSheet_(ss, name, fallbackIndex) {
+  var sh = ss.getSheetByName(name);
+  if (sh) return sh;
+  var all = ss.getSheets();
+  if (all.length > fallbackIndex) return all[fallbackIndex];
+  throw new Error('シート「' + name + '」が見つかりません');
 }
 
-
-/* ============================================================================
- *  3. スプレッドシート読み込み
- * ==========================================================================*/
-
 /**
- * スプレッドシートを2行目から読み、行オブジェクトの配列にして返します。
- * 返り値: [{ time, imageUrl, link1Text, link1Url, link2Text, link2Url, enabled }]
+ * Daily（内容）シートを読み、[{imageUrl,link1Text,link1Url,link2Text,link2Url,enabled}] を返す。
+ * 0番目=朝、1番目=夕（行の順番）。
  */
-function readSheetRows_(sheetId) {
-  var sheet = SpreadsheetApp.openById(sheetId).getSheets()[0]; // 先頭シートを使用
-  var lastRow = sheet.getLastRow();
-  if (lastRow < CONFIG.DATA_START_ROW) return [];
-
-  var numRows = lastRow - CONFIG.DATA_START_ROW + 1;
-  var values = sheet.getRange(CONFIG.DATA_START_ROW, 1, numRows, CONFIG.COL.ENABLED).getValues();
-
-  return values.map(function (v) {
+function readDaily_(ss) {
+  var sh = getSheet_(ss, CONFIG.DAILY_SHEET_NAME, 0);
+  var lastRow = sh.getLastRow();
+  if (lastRow < CONFIG.DAILY_START_ROW) return [];
+  var n = lastRow - CONFIG.DAILY_START_ROW + 1;
+  var v = sh.getRange(CONFIG.DAILY_START_ROW, 1, n, CONFIG.DAILY_COL.ENABLED).getValues();
+  return v.map(function (r) {
     return {
-      time:      normalizeTime_(v[CONFIG.COL.TIME - 1]),
-      imageUrl:  String(v[CONFIG.COL.IMAGE_URL - 1] || '').trim(),
-      link1Text: String(v[CONFIG.COL.LINK1_TEXT - 1] || '').trim(),
-      link1Url:  String(v[CONFIG.COL.LINK1_URL - 1] || '').trim(),
-      link2Text: String(v[CONFIG.COL.LINK2_TEXT - 1] || '').trim(),
-      link2Url:  String(v[CONFIG.COL.LINK2_URL - 1] || '').trim(),
-      enabled:   isEnabled_(v[CONFIG.COL.ENABLED - 1])
+      imageUrl:  String(r[CONFIG.DAILY_COL.IMAGE_URL - 1] || '').trim(),
+      link1Text: String(r[CONFIG.DAILY_COL.LINK1_TEXT - 1] || '').trim(),
+      link1Url:  String(r[CONFIG.DAILY_COL.LINK1_URL - 1] || '').trim(),
+      link2Text: String(r[CONFIG.DAILY_COL.LINK2_TEXT - 1] || '').trim(),
+      link2Url:  String(r[CONFIG.DAILY_COL.LINK2_URL - 1] || '').trim(),
+      enabled:   isEnabled_(r[CONFIG.DAILY_COL.ENABLED - 1])
     };
   });
 }
 
-/** 有効行にある「投稿時刻」を重複なし・時刻順で返します。 */
-function distinctEnabledTimes_(rows) {
-  var seen = {};
-  var times = [];
-  rows.forEach(function (r) {
-    if (r.enabled && r.time && r.imageUrl && !seen[r.time]) {
-      seen[r.time] = true;
-      times.push(r.time);
+/**
+ * Weekly（スケジュール）シートから、指定曜日の朝／夕の時刻を返す。
+ * 返り値: { morning: 'HH:mm'|生の値, evening: 'HH:mm'|生の値 } または null
+ */
+function readWeeklyForDay_(ss, weekday) {
+  var sh = getSheet_(ss, CONFIG.WEEKLY_SHEET_NAME, 1);
+  var lastRow = sh.getLastRow();
+  if (lastRow < 1) return null;
+  var v = sh.getRange(1, 1, lastRow, CONFIG.WEEKLY_COL.EVENING).getValues();
+  for (var i = 0; i < v.length; i++) {
+    var day = String(v[i][CONFIG.WEEKLY_COL.DAY - 1] || '').trim();
+    if (day && day.charAt(0) === weekday) { // 「月」でも「月曜日」でも先頭1文字で一致
+      return {
+        morning: normalizeTime_(v[i][CONFIG.WEEKLY_COL.MORNING - 1]),
+        evening: normalizeTime_(v[i][CONFIG.WEEKLY_COL.EVENING - 1])
+      };
     }
-  });
-  times.sort(); // "HH:mm" は文字列の辞書順＝時刻順
-  return times;
+  }
+  return null;
+}
+
+/** 値が "HH:mm" 形式の有効な時刻か。 */
+function isValidTime_(s) {
+  return /^\d{2}:\d{2}$/.test(String(s || ''));
 }
 
 /**
- * 投稿時刻の値を "HH:mm" 形式の文字列に整えます。
- * （セルが時刻型(Date)でも、"8:50" のような文字列でも同じ形に揃えます）
+ * 時刻の値を "HH:mm" に整える（Date型／"8:55"などに対応）。
+ * 時刻でない値（"："や空欄）はそのまま返す→isValidTime_で弾かれてスキップされる。
  */
 function normalizeTime_(value) {
   if (value instanceof Date) {
     return Utilities.formatDate(value, CONFIG.TIMEZONE, 'HH:mm');
   }
   var s = String(value == null ? '' : value).trim();
-  var m = s.match(/^(\d{1,2}):(\d{2})/); // 例 "8:50" / "08:50"
-  if (m) {
-    return ('0' + m[1]).slice(-2) + ':' + m[2]; // 先頭を0埋めして "08:50" に
-  }
+  var m = s.match(/^(\d{1,2}):(\d{2})$/);
+  if (m) return ('0' + m[1]).slice(-2) + ':' + m[2];
   return s;
 }
 
-/** 「有効」列の値が、投稿対象を表すかどうかを判定します。 */
+/** 「有効」列が投稿対象を表すか。 */
 function isEnabled_(value) {
-  if (value === true) return true; // チェックボックス(TRUE)対応
+  if (value === true) return true;
   var s = String(value == null ? '' : value).trim();
   return CONFIG.ENABLED_MARKS.indexOf(s) !== -1;
 }
 
 
 /* ============================================================================
- *  4. 認証関連（JWT → アクセストークン取得）
- * ==========================================================================*/
-
-/** アクセストークンを取得して返します。 */
-function getAccessToken_(props) {
-  var jwt = createJwt_(props);
-
-  var payload = {
-    assertion: jwt,
-    grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
-    client_id: props.CLIENT_ID,
-    client_secret: props.CLIENT_SECRET,
-    scope: 'bot'
-  };
-
-  var response = UrlFetchApp.fetch(ENDPOINT.TOKEN, {
-    method: 'post',
-    contentType: 'application/x-www-form-urlencoded',
-    payload: payload,
-    muteHttpExceptions: true
-  });
-
-  var code = response.getResponseCode();
-  var body = response.getContentText();
-  if (code !== 200) {
-    throw new Error('トークン取得に失敗 (HTTP ' + code + '): ' + body);
-  }
-
-  var json = JSON.parse(body);
-  if (!json.access_token) {
-    throw new Error('レスポンスに access_token がありません: ' + body);
-  }
-  Logger.log('アクセストークンの取得に成功しました。');
-  return json.access_token;
-}
-
-/** JWT を生成します（ヘッダ.クレームを秘密鍵RS256で署名）。 */
-function createJwt_(props) {
-  var header = { alg: 'RS256', typ: 'JWT' };
-  var now = Math.floor(Date.now() / 1000);
-  var claim = {
-    iss: props.CLIENT_ID,
-    sub: props.SERVICE_ACCOUNT,
-    iat: now,
-    exp: now + 60 * 60
-  };
-
-  var signingInput = base64UrlEncode_(JSON.stringify(header)) + '.' +
-                     base64UrlEncode_(JSON.stringify(claim));
-  var privateKey = normalizePrivateKey_(props.PRIVATE_KEY);
-  var signature = base64UrlEncodeBytes_(Utilities.computeRsaSha256Signature(signingInput, privateKey));
-  return signingInput + '.' + signature;
-}
-
-/** 秘密鍵(PEM)の改行がスペース化していても動くよう体裁を整えます。 */
-function normalizePrivateKey_(rawKey) {
-  var key = String(rawKey).trim();
-  if (key.indexOf('\n') !== -1) return key;
-
-  var begin = '-----BEGIN PRIVATE KEY-----';
-  var end = '-----END PRIVATE KEY-----';
-  var body = key.replace(begin, '').replace(end, '').replace(/\s+/g, '');
-  var lines = [];
-  for (var i = 0; i < body.length; i += 64) {
-    lines.push(body.substring(i, i + 64));
-  }
-  return begin + '\n' + lines.join('\n') + '\n' + end;
-}
-
-
-/* ============================================================================
- *  5. 投稿（画像1枚＋リンクボタン2つのカルーセルを送信）
+ *  3. 投稿
  * ==========================================================================*/
 
 /**
- * 1件分の内容を、1カード（画像＋ボタン最大2つ）のカルーセルとして送信します。
+ * Dailyの1件分（朝または夕）をカルーセルとして送信。戻り値: 成功=true。
  */
+function postSlotContent_(props, content, label) {
+  if (!content)            { Logger.log(label + '：Dailyに内容がありません'); return false; }
+  if (!content.enabled)    { Logger.log(label + '：有効(○)でないため送信しません'); return false; }
+  if (!content.imageUrl)   { Logger.log(label + '：画像URLがありません'); return false; }
+  if (!content.link1Url && !content.link2Url) { Logger.log(label + '：リンクがありません'); return false; }
+
+  var token;
+  try { token = getAccessToken_(props); }
+  catch (e) { Logger.log(label + '：認証エラー: ' + e.message); return false; }
+
+  try { postCarousel_(props, token, content); }
+  catch (e) { Logger.log(label + '：送信失敗: ' + e.message); return false; }
+
+  Logger.log('投稿成功（' + label + '）: ' + content.imageUrl);
+  return true;
+}
+
+/** 画像1枚＋ボタン最大2つのカルーセルを、個人／チャンネルへ送信。 */
 function postCarousel_(props, accessToken, item) {
-  // 送信先タイプ（user=個人宛 / channel=トークルーム宛）でエンドポイントを切り替える
   var url;
   if (props.TARGET_TYPE === 'user') {
-    url = ENDPOINT.MESSAGE_USER
-      .replace('{botId}', props.BOT_ID)
-      .replace('{userId}', props.TARGET_ID);
+    url = ENDPOINT.MESSAGE_USER.replace('{botId}', props.BOT_ID).replace('{userId}', props.TARGET_ID);
   } else {
-    url = ENDPOINT.MESSAGE_CHANNEL
-      .replace('{botId}', props.BOT_ID)
-      .replace('{channelId}', props.TARGET_ID);
+    url = ENDPOINT.MESSAGE_CHANNEL.replace('{botId}', props.BOT_ID).replace('{channelId}', props.TARGET_ID);
   }
 
-  // リンク（ボタン）を組み立てる。URLが入っているものだけボタン化（最大2つ）。
   var actions = [];
   if (item.link1Url) {
-    actions.push({
-      type: 'uri',
-      label: truncate_(item.link1Text || (CONFIG.DEFAULT_LINK_TEXT + '1'), 20),
-      uri: item.link1Url
-    });
+    actions.push({ type: 'uri', label: truncate_(item.link1Text || (CONFIG.DEFAULT_LINK_TEXT + '1'), 20), uri: item.link1Url });
   }
   if (item.link2Url) {
-    actions.push({
-      type: 'uri',
-      label: truncate_(item.link2Text || (CONFIG.DEFAULT_LINK_TEXT + '2'), 20),
-      uri: item.link2Url
-    });
+    actions.push({ type: 'uri', label: truncate_(item.link2Text || (CONFIG.DEFAULT_LINK_TEXT + '2'), 20), uri: item.link2Url });
   }
 
-  // カード（column）を1枚だけ作る
   var column = {
-    thumbnailImageUrl: item.imageUrl, // 画像
-    text: ' ',                        // 本文は使わないため空白1文字（必須項目対策）
-    defaultAction: actions[0],        // 画像タップ時は1つ目のリンク先へ
-    actions: actions                  // ボタン（1〜2個）
+    thumbnailImageUrl: item.imageUrl,
+    text: ' ',
+    defaultAction: actions[0],
+    actions: actions
   };
 
   var messageBody = {
@@ -412,7 +296,7 @@ function postCarousel_(props, accessToken, item) {
       type: 'carousel',
       imageAspectRatio: CONFIG.IMAGE_ASPECT_RATIO,
       imageSize: CONFIG.IMAGE_SIZE,
-      columns: [column] // 1カードのみ
+      columns: [column]
     }
   };
 
@@ -433,47 +317,85 @@ function postCarousel_(props, accessToken, item) {
 
 
 /* ============================================================================
- *  6. トリガー設定（1回だけ手動実行すればOK）
+ *  4. 認証関連（JWT → アクセストークン取得）
  * ==========================================================================*/
 
-/**
- * 「毎分実行」のトリガーを作成します（tick を毎分呼び出す）。
- * 何度実行しても重複しないよう、既存の tick トリガーを消してから作り直します。
- */
+function getAccessToken_(props) {
+  var jwt = createJwt_(props);
+  var payload = {
+    assertion: jwt,
+    grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+    client_id: props.CLIENT_ID,
+    client_secret: props.CLIENT_SECRET,
+    scope: 'bot'
+  };
+  var response = UrlFetchApp.fetch(ENDPOINT.TOKEN, {
+    method: 'post',
+    contentType: 'application/x-www-form-urlencoded',
+    payload: payload,
+    muteHttpExceptions: true
+  });
+  var code = response.getResponseCode();
+  var body = response.getContentText();
+  if (code !== 200) throw new Error('トークン取得に失敗 (HTTP ' + code + '): ' + body);
+  var json = JSON.parse(body);
+  if (!json.access_token) throw new Error('レスポンスに access_token がありません: ' + body);
+  Logger.log('アクセストークンの取得に成功しました。');
+  return json.access_token;
+}
+
+function createJwt_(props) {
+  var header = { alg: 'RS256', typ: 'JWT' };
+  var now = Math.floor(Date.now() / 1000);
+  var claim = { iss: props.CLIENT_ID, sub: props.SERVICE_ACCOUNT, iat: now, exp: now + 60 * 60 };
+  var signingInput = base64UrlEncode_(JSON.stringify(header)) + '.' + base64UrlEncode_(JSON.stringify(claim));
+  var privateKey = normalizePrivateKey_(props.PRIVATE_KEY);
+  var signature = base64UrlEncodeBytes_(Utilities.computeRsaSha256Signature(signingInput, privateKey));
+  return signingInput + '.' + signature;
+}
+
+function normalizePrivateKey_(rawKey) {
+  var key = String(rawKey).trim();
+  if (key.indexOf('\n') !== -1) return key;
+  var begin = '-----BEGIN PRIVATE KEY-----';
+  var end = '-----END PRIVATE KEY-----';
+  var body = key.replace(begin, '').replace(end, '').replace(/\s+/g, '');
+  var lines = [];
+  for (var i = 0; i < body.length; i += 64) lines.push(body.substring(i, i + 64));
+  return begin + '\n' + lines.join('\n') + '\n' + end;
+}
+
+
+/* ============================================================================
+ *  5. トリガー設定
+ * ==========================================================================*/
+
+/** 毎分実行トリガーを作成（既存の同名トリガーは作り直し）。 */
 function setupTriggers() {
   ScriptApp.getProjectTriggers().forEach(function (t) {
-    var fn = t.getHandlerFunction();
-    if (fn === 'tick' || fn === 'postMorning' || fn === 'postEvening') {
-      ScriptApp.deleteTrigger(t);
-    }
+    if (t.getHandlerFunction() === 'tick') ScriptApp.deleteTrigger(t);
   });
-
   ScriptApp.newTrigger('tick').timeBased().everyMinutes(1).create();
-
-  Logger.log('毎分トリガーを設定しました。投稿時刻はスプレッドシートA列で管理します。');
+  Logger.log('毎分トリガーを設定しました。投稿スケジュールはWeeklyシートで管理します。');
 }
 
 
 /* ============================================================================
- *  7. 二重投稿防止（当日・当該時刻の実行済みフラグ）
+ *  6. 二重投稿防止
  * ==========================================================================*/
 
-/** その時刻を今日すでに処理したか？ */
-function isAlreadyPostedToday_(slot, today) {
-  return PropertiesService.getScriptProperties().getProperty('LASTRUN_' + slot) === today;
+function isAlreadyPostedToday_(slotKey, today) {
+  return PropertiesService.getScriptProperties().getProperty('LASTRUN_' + slotKey) === today;
 }
-
-/** その時刻を今日処理済みとして記録する。 */
-function markPostedToday_(slot, today) {
-  PropertiesService.getScriptProperties().setProperty('LASTRUN_' + slot, today);
+function markPostedToday_(slotKey, today) {
+  PropertiesService.getScriptProperties().setProperty('LASTRUN_' + slotKey, today);
 }
 
 
 /* ============================================================================
- *  8. 共通ユーティリティ
+ *  7. 共通ユーティリティ
  * ==========================================================================*/
 
-/** 必要なスクリプトプロパティをまとめて読み込みます（1つでも欠ければエラー）。 */
 function getProperties_() {
   var sp = PropertiesService.getScriptProperties();
   var required = ['CLIENT_ID', 'CLIENT_SECRET', 'SERVICE_ACCOUNT', 'PRIVATE_KEY', 'BOT_ID', 'TARGET_ID', 'SHEET_ID'];
@@ -484,52 +406,38 @@ function getProperties_() {
     if (!value) missing.push(name);
     props[name] = value;
   });
-  if (missing.length > 0) {
-    throw new Error('スクリプトプロパティが未設定です: ' + missing.join(', '));
-  }
-  // 任意プロパティ TARGET_TYPE（user=個人宛 / channel=トークルーム宛）。未設定なら channel。
+  if (missing.length > 0) throw new Error('スクリプトプロパティが未設定です: ' + missing.join(', '));
   var targetType = String(sp.getProperty('TARGET_TYPE') || 'channel').trim().toLowerCase();
   props.TARGET_TYPE = (targetType === 'user') ? 'user' : 'channel';
   return props;
 }
 
-/** Date を、その日の 0:00 からの経過分（Asia/Tokyo基準）に変換します。 */
 function minutesOfDay_(date) {
   var hh = parseInt(Utilities.formatDate(date, CONFIG.TIMEZONE, 'HH'), 10);
   var mm = parseInt(Utilities.formatDate(date, CONFIG.TIMEZONE, 'mm'), 10);
   return hh * 60 + mm;
 }
-
-/** "HH:mm" を分に変換します（例 "08:50" → 530）。 */
 function hhmmToMinutes_(hhmm) {
   var p = String(hhmm).split(':');
   return parseInt(p[0], 10) * 60 + parseInt(p[1], 10);
 }
-
-/** 文字列を最大文字数で丸めます（超過分は … に置き換え）。 */
 function truncate_(str, max) {
   var s = String(str == null ? '' : str);
-  if (s.length <= max) return s;
-  return s.substring(0, max - 1) + '…';
+  return s.length <= max ? s : s.substring(0, max - 1) + '…';
 }
-
-/** 文字列を Base64URL 形式にエンコードします。 */
 function base64UrlEncode_(str) {
   return base64UrlEncodeBytes_(Utilities.newBlob(str).getBytes());
 }
-
-/** バイト配列を Base64URL 形式にエンコードします。 */
 function base64UrlEncodeBytes_(bytes) {
-  return Utilities.base64Encode(bytes)
-    .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  return Utilities.base64Encode(bytes).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
 }
 
 
 /* ============================================================================
- *  9. テスト用（手動実行）関数
+ *  8. テスト用（手動実行）関数
  * ==========================================================================*/
 
-/** 【テスト】認証だけを試します（送信なし）。 */
+/** 【テスト】認証だけ試す（送信なし）。 */
 function testAuthOnly() {
   try {
     var props = getProperties_();
@@ -540,49 +448,40 @@ function testAuthOnly() {
   }
 }
 
-/** 【テスト】シートにある各投稿時刻の内容を表示します（送信なし）。 */
+/** 【テスト】Dailyの内容とWeeklyの予定を表示（送信なし）。 */
 function testListTargets() {
   try {
     var props = getProperties_();
-    var rows = readSheetRows_(props.SHEET_ID);
-    var times = distinctEnabledTimes_(rows);
-    if (times.length === 0) {
-      Logger.log('有効な行（○）がありません。A列の時刻とG列の○を確認してください。');
-      return;
-    }
-    times.forEach(function (slot) {
-      var t = rows.filter(function (r) { return r.enabled && r.time === slot && r.imageUrl; })[0];
-      Logger.log(slot + '：画像=' + t.imageUrl);
-      Logger.log('   リンク1[' + t.link1Text + '] ' + t.link1Url);
-      Logger.log('   リンク2[' + t.link2Text + '] ' + t.link2Url);
+    var ss = SpreadsheetApp.openById(props.SHEET_ID);
+
+    var daily = readDaily_(ss);
+    ['朝', '夕'].forEach(function (label, i) {
+      var c = daily[i];
+      if (!c) { Logger.log('【Daily】' + label + '：内容なし'); return; }
+      Logger.log('【Daily】' + label + '：画像=' + c.imageUrl + '（有効=' + c.enabled + '）');
+      Logger.log('   リンク1[' + c.link1Text + '] ' + c.link1Url);
+      Logger.log('   リンク2[' + c.link2Text + '] ' + c.link2Url);
     });
+
+    var sh = getSheet_(ss, CONFIG.WEEKLY_SHEET_NAME, 1);
+    var v = sh.getRange(1, 1, sh.getLastRow(), CONFIG.WEEKLY_COL.EVENING).getValues();
+    Logger.log('【Weekly】曜日 / 朝 / 夕（時刻でない値は投稿しない）');
+    v.forEach(function (r) { Logger.log('   ' + r[0] + ' / ' + r[1] + ' / ' + r[2]); });
   } catch (e) {
     Logger.log('確認NG: ' + e.message);
   }
 }
 
-/** 【テスト】一番早い時刻の内容を今すぐ投稿します（時刻に関係なく実際に送信）。 */
+/** 【テスト】Dailyの朝の内容を今すぐ投稿（時刻に関係なく送信）。 */
 function testPostMorning() {
-  testPostByIndex_(0);
+  var props = getProperties_();
+  var daily = readDaily_(SpreadsheetApp.openById(props.SHEET_ID));
+  postSlotContent_(props, daily[0], '朝（テスト）');
 }
 
-/** 【テスト】2番目に早い時刻の内容を今すぐ投稿します（時刻に関係なく実際に送信）。 */
+/** 【テスト】Dailyの夕の内容を今すぐ投稿（時刻に関係なく送信）。 */
 function testPostEvening() {
-  testPostByIndex_(1);
-}
-
-/** シートの投稿時刻を時刻順に並べ、index番目（0始まり）の時刻を投稿します。 */
-function testPostByIndex_(index) {
-  try {
-    var props = getProperties_();
-    var rows = readSheetRows_(props.SHEET_ID);
-    var times = distinctEnabledTimes_(rows);
-    if (times.length <= index) {
-      Logger.log((index + 1) + '番目の投稿時刻がありません（現在 ' + times.length + ' 件）。');
-      return;
-    }
-    postSlot_(times[index]);
-  } catch (e) {
-    Logger.log('テスト投稿NG: ' + e.message);
-  }
+  var props = getProperties_();
+  var daily = readDaily_(SpreadsheetApp.openById(props.SHEET_ID));
+  postSlotContent_(props, daily[1], '夕（テスト）');
 }
