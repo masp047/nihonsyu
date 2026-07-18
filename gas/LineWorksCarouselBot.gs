@@ -5,37 +5,34 @@
  *
  *  ■ このスクリプトの役割
  *    Googleスプレッドシートに書いた「投稿時刻・画像URL・リンク」をもとに、
- *    LINE WORKS Bot のカルーセルメッセージを、指定のトークルーム（チャンネル）へ
- *    毎日 自動投稿します。
+ *    LINE WORKS Bot のカルーセルメッセージを、指定の宛先へ自動投稿します。
  *
  *    - ロジック層  : このGoogle Apps Script（GAS）
- *    - データソース: Googleスプレッドシート
+ *    - データソース: Googleスプレッドシート（投稿時刻もここで管理）
  *    - 画像        : GitHub Pages などに置いた公開画像（URLをシートに記載）
- *    - 投稿先      : LINE WORKS のトークルーム／チャンネル
+ *    - 投稿先      : LINE WORKS の個人／トークルーム（channel）
  *
- *  ■ 投稿の仕様（確定事項）
- *    - 投稿タイミング : 毎日 朝 08:50 と 夕方 15:50 の「ちょうどその分」に投稿
+ *  ■ 投稿の仕様
+ *    - 投稿タイミング : スプレッドシートA列「投稿時刻」に書いた時刻ちょうどに投稿
+ *                       （例 08:50 / 15:50。時刻を変えたいときはA列を変えるだけ・コード変更不要）
  *    - 1回の投稿      : カルーセル1通・1カード（画像1枚 ＋ リンクボタン2つ）
- *    - 朝と夕で画像・リンクは別（スプレッドシートに時刻ごとの行を用意）
- *    - 投稿先はトークルーム／チャンネル（channelId）宛
+ *    - 同じ時刻の行が複数あるときは「一番上の有効な行」が使われます
  *
- *  ■ 時刻を厳密にするしくみ（重要）
- *    GASの「日次トリガー」は指定時刻の前後 約15分の幅で実行され、分単位の厳密さが
- *    保証されません。そこで本スクリプトは「毎分実行トリガー(tick)」を使い、
- *    現在時刻が 08:50 / 15:50 に一致した“その分”だけ投稿します。
- *    これにより、ほぼ指定どおりの時刻に投稿できます。
- *    （同じ日に同じ時刻を二重投稿しないよう、実行済みフラグで防止します）
+ *  ■ 時刻を厳密にするしくみ
+ *    「毎分実行トリガー(tick)」で毎分、現在時刻とシートの投稿時刻を照合し、
+ *    一致した“その分”だけ投稿します（日次トリガーの前後15分のズレを回避）。
+ *    同じ日・同じ時刻の二重投稿は実行済みフラグで防止します。
  *
  * ----------------------------------------------------------------------------
  *  ■ スプレッドシートの列構成（1行 ＝ 1回分の投稿内容）
  * ----------------------------------------------------------------------------
- *  1行目は見出し、2行目からデータ。列は以下の並びにしてください。
+ *  1行目は見出し、2行目からデータ。
  *
  *  ┌───┬────────────┬──────────────────────────────────────────────┐
  *  │ 列 │ 見出し      │ 内容                                          │
  *  ├───┼────────────┼──────────────────────────────────────────────┤
- *  │ A │ 投稿時刻    │ 08:50 または 15:50（この時刻の回に使われる）   │
- *  │ B │ 画像URL     │ カードに表示する画像の公開HTTPS URL           │
+ *  │ A │ 投稿時刻    │ 投稿する時刻（例 08:50 / 15:50）。★ここを変えると時刻が変わる │
+ *  │ B │ 画像URL     │ カードに表示する画像の公開HTTPS URL（直リンク）│
  *  │ C │ リンク1テキスト │ ボタン1の表示名（20文字以内）              │
  *  │ D │ リンク1URL  │ ボタン1の遷移先URL                            │
  *  │ E │ リンク2テキスト │ ボタン2の表示名（20文字以内）              │
@@ -43,20 +40,13 @@
  *  │ G │ 有効        │ ○ を入れた行だけが投稿対象（空欄・その他は除外）│
  *  └───┴────────────┴──────────────────────────────────────────────┘
  *
- *  例）
- *    A=08:50  B=https://.../morning.jpg  C=詳細  D=https://example.com/a
- *             E=お問い合わせ  F=https://example.com/b  G=○
- *    A=15:50  B=https://.../evening.jpg  C=詳細  D=https://example.com/c
- *             E=お問い合わせ  F=https://example.com/d  G=○
- *
- *  ※ 同じ時刻の行が複数あるときは「一番上の有効な行」が使われます（1カード）。
- *  ※ 画像は「幅1024px以内・1MB以内・JPEG/PNG・公開HTTPS」を推奨。
+ *  ※ 投稿時刻を追加したい場合は、新しい時刻の行を足すだけで自動的に対象になります。
+ *  ※ 画像は「幅1024px以内・1MB以内・JPEG/PNG・公開HTTPSの直リンク」。
+ *    GoogleドライブやページのURLではなく、画像そのものを返すURLにしてください。
  *
  * ----------------------------------------------------------------------------
  *  ■ 事前準備：スクリプトプロパティ（コード内ハードコード禁止）
  * ----------------------------------------------------------------------------
- *  Apps Script →「プロジェクトの設定(歯車)」→「スクリプト プロパティ」で登録。
- *
  *  ┌─────────────────┬──────────────────────────────────────────────────────┐
  *  │ プロパティ名     │ 内容                                                   │
  *  ├─────────────────┼──────────────────────────────────────────────────────┤
@@ -76,16 +66,16 @@
  * ----------------------------------------------------------------------------
  *  ■ 自動実行（トリガー）の設定
  * ----------------------------------------------------------------------------
- *  関数 setupTriggers を1回だけ手動実行すると、「毎分実行」のトリガーが作成されます。
- *  以降、毎分 tick() が動き、08:50 / 15:50 になった分だけ自動投稿します。
+ *  関数 setupTriggers を1回だけ手動実行すると「毎分実行」のトリガーが作られます。
+ *  以降、毎分 tick() が動き、シートの投稿時刻になった分だけ自動投稿します。
  *
  * ----------------------------------------------------------------------------
  *  ■ 動作確認の関数（エディタの関数選択から実行）
  * ----------------------------------------------------------------------------
  *    - testAuthOnly()     : 認証（トークン取得）だけ試す（送信なし）
- *    - testListTargets()  : 朝・夕それぞれの投稿内容を確認（送信なし）
- *    - testPostMorning()  : 朝の内容を今すぐ投稿（時刻に関係なく送信）
- *    - testPostEvening()  : 夕方の内容を今すぐ投稿（時刻に関係なく送信）
+ *    - testListTargets()  : シートの各投稿時刻の内容を確認（送信なし）
+ *    - testPostMorning()  : 一番早い時刻の内容を今すぐ投稿（時刻に関係なく送信）
+ *    - testPostEvening()  : 2番目に早い時刻の内容を今すぐ投稿（時刻に関係なく送信）
  * ============================================================================
  */
 
@@ -94,14 +84,8 @@
  *  0. 設定値
  * ==========================================================================*/
 var CONFIG = {
-  // 投稿する時刻（HH:mm）。スプレッドシートA列の「投稿時刻」もこの値に合わせます。
-  SLOTS: {
-    MORNING: '08:50',
-    EVENING: '15:50'
-  },
-
   // 万一その分の実行が遅れた場合の“取りこぼし防止”の許容分数（0〜数分）。
-  // 例: 2 なら 08:50〜08:52 の間に1回投稿できれば良い、という保険。厳密運用でも安全のため少しだけ確保。
+  // 例: 2 なら 08:50〜08:52 の間に1回投稿できれば良い、という保険。二重投稿はしません。
   CATCHUP_MINUTES: 2,
 
   IMAGE_ASPECT_RATIO: 'rectangle', // 画像の比率: rectangle(横長1.51:1) / square(1:1)
@@ -136,36 +120,61 @@ var ENDPOINT = {
 /* ============================================================================
  *  1. 毎分実行の入口（トリガーから毎分呼ばれる）
  * ----------------------------------------------------------------------------
- *  現在時刻を見て、08:50 / 15:50 に一致した“その分”だけ投稿します。
- *  それ以外の分は何もせずすぐ終了します（スプレッドシートも読みません）。
+ *  毎分、スプレッドシートの「投稿時刻」を読み、現在時刻に一致した時刻だけ投稿します。
+ *  → 投稿時刻はシートで管理。A列を変えれば投稿時刻が変わります（コード変更不要）。
  * ==========================================================================*/
 function tick() {
-  var now = new Date();
-  var nowMin = minutesOfDay_(now); // 今日の 0:00 からの経過分
+  // 同時に複数のtickが走って二重投稿するのを防ぐ（他が実行中なら何もしない）
+  var lock = LockService.getScriptLock();
+  if (!lock.tryLock(0)) return;
 
-  // 各時刻について、「今がその時刻ちょうど〜+CATCHUP分」かつ「今日まだ投稿していない」なら投稿
-  var slots = [CONFIG.SLOTS.MORNING, CONFIG.SLOTS.EVENING];
-  for (var i = 0; i < slots.length; i++) {
-    var slot = slots[i];
-    var slotMin = hhmmToMinutes_(slot);
-    var diff = nowMin - slotMin;
+  try {
+    var now = new Date();
+    var nowMin = minutesOfDay_(now);
 
-    if (diff >= 0 && diff <= CONFIG.CATCHUP_MINUTES) {
-      var today = Utilities.formatDate(now, CONFIG.TIMEZONE, 'yyyyMMdd');
-      if (isAlreadyPostedToday_(slot, today)) {
-        return; // 既に今日投稿済み → 何もしない
-      }
-      postSlot_(slot);
-      markPostedToday_(slot, today); // 成功・失敗にかかわらず「今日の当該時刻は処理済み」にする
+    var props;
+    try {
+      props = getProperties_();
+    } catch (e) {
+      Logger.log(e.message);
       return;
     }
+
+    var rows;
+    try {
+      rows = readSheetRows_(props.SHEET_ID);
+    } catch (e) {
+      Logger.log('シート読込エラー: ' + e.message);
+      return;
+    }
+
+    // 有効行の中にある「投稿時刻」の一覧（時刻順）
+    var times = distinctEnabledTimes_(rows);
+    var today = Utilities.formatDate(now, CONFIG.TIMEZONE, 'yyyyMMdd');
+
+    for (var i = 0; i < times.length; i++) {
+      var t = times[i];
+      var slotMin = hhmmToMinutes_(t);
+      if (isNaN(slotMin)) continue;
+
+      var diff = nowMin - slotMin; // 今が投稿時刻ちょうど〜+CATCHUP分 なら投稿
+      if (diff >= 0 && diff <= CONFIG.CATCHUP_MINUTES) {
+        if (isAlreadyPostedToday_(t, today)) return; // 今日は投稿済み
+        var ok = postSlot_(t);                       // 投稿（成功でtrue）
+        if (ok) markPostedToday_(t, today);          // 成功時だけ「今日は済み」に記録
+        return;
+      }
+    }
+    // どの投稿時刻にも該当しない分：何もしない
+  } finally {
+    lock.releaseLock();
   }
-  // どの時刻にも該当しない分：何もしない
 }
 
 
 /* ============================================================================
  *  2. 投稿の本体処理（時刻を指定して、その時刻の内容を投稿）
+ *  戻り値: 送信成功なら true / それ以外は false
  * ==========================================================================*/
 function postSlot_(slotTime) {
   Logger.log('=== カルーセル投稿（' + slotTime + '）開始 ===');
@@ -181,19 +190,16 @@ function postSlot_(slotTime) {
     })[0];
   } catch (e) {
     Logger.log('【シート読込エラー】' + e.message);
-    Logger.log('=== 異常終了 ===');
-    return;
+    return false;
   }
 
   if (!target) {
-    Logger.log('投稿対象がありません（時刻 ' + slotTime + ' の有効な行なし）。正常終了します。');
-    Logger.log('=== 終了 ===');
-    return;
+    Logger.log('投稿対象がありません（時刻 ' + slotTime + ' の有効な行なし）。');
+    return false;
   }
   if (!target.link1Url && !target.link2Url) {
     Logger.log('リンクURLが1つも入っていないため送信しません（時刻 ' + slotTime + '）。');
-    Logger.log('=== 終了 ===');
-    return;
+    return false;
   }
 
   // --- (2) 認証 --------------------------------------------------------------
@@ -202,8 +208,7 @@ function postSlot_(slotTime) {
     accessToken = getAccessToken_(props);
   } catch (e) {
     Logger.log('【認証エラー】アクセストークンの取得に失敗しました: ' + e.message);
-    Logger.log('=== 異常終了 ===');
-    return;
+    return false;
   }
 
   // --- (3) 送信 --------------------------------------------------------------
@@ -211,12 +216,11 @@ function postSlot_(slotTime) {
     postCarousel_(props, accessToken, target);
   } catch (e) {
     Logger.log('【投稿失敗】カルーセル送信に失敗しました: ' + e.message);
-    Logger.log('=== 異常終了 ===');
-    return;
+    return false;
   }
 
   Logger.log('投稿成功（時刻 ' + slotTime + '）: ' + target.imageUrl);
-  Logger.log('=== 終了 ===');
+  return true;
 }
 
 
@@ -247,6 +251,20 @@ function readSheetRows_(sheetId) {
       enabled:   isEnabled_(v[CONFIG.COL.ENABLED - 1])
     };
   });
+}
+
+/** 有効行にある「投稿時刻」を重複なし・時刻順で返します。 */
+function distinctEnabledTimes_(rows) {
+  var seen = {};
+  var times = [];
+  rows.forEach(function (r) {
+    if (r.enabled && r.time && r.imageUrl && !seen[r.time]) {
+      seen[r.time] = true;
+      times.push(r.time);
+    }
+  });
+  times.sort(); // "HH:mm" は文字列の辞書順＝時刻順
+  return times;
 }
 
 /**
@@ -423,7 +441,6 @@ function postCarousel_(props, accessToken, item) {
  * 何度実行しても重複しないよう、既存の tick トリガーを消してから作り直します。
  */
 function setupTriggers() {
-  // 既存の tick / 旧関数(postMorning/postEvening) トリガーを削除
   ScriptApp.getProjectTriggers().forEach(function (t) {
     var fn = t.getHandlerFunction();
     if (fn === 'tick' || fn === 'postMorning' || fn === 'postEvening') {
@@ -431,11 +448,9 @@ function setupTriggers() {
     }
   });
 
-  // 毎分 tick を実行（tick 内で 08:50 / 15:50 の分だけ投稿）
   ScriptApp.newTrigger('tick').timeBased().everyMinutes(1).create();
 
-  Logger.log('毎分トリガーを設定しました。投稿時刻: 朝 ' +
-    CONFIG.SLOTS.MORNING + ' / 夕 ' + CONFIG.SLOTS.EVENING + '（Asia/Tokyo）');
+  Logger.log('毎分トリガーを設定しました。投稿時刻はスプレッドシートA列で管理します。');
 }
 
 
@@ -445,14 +460,12 @@ function setupTriggers() {
 
 /** その時刻を今日すでに処理したか？ */
 function isAlreadyPostedToday_(slot, today) {
-  var key = 'LASTRUN_' + slot;
-  return PropertiesService.getScriptProperties().getProperty(key) === today;
+  return PropertiesService.getScriptProperties().getProperty('LASTRUN_' + slot) === today;
 }
 
 /** その時刻を今日処理済みとして記録する。 */
 function markPostedToday_(slot, today) {
-  var key = 'LASTRUN_' + slot;
-  PropertiesService.getScriptProperties().setProperty(key, today);
+  PropertiesService.getScriptProperties().setProperty('LASTRUN_' + slot, today);
 }
 
 
@@ -489,7 +502,7 @@ function minutesOfDay_(date) {
 
 /** "HH:mm" を分に変換します（例 "08:50" → 530）。 */
 function hhmmToMinutes_(hhmm) {
-  var p = hhmm.split(':');
+  var p = String(hhmm).split(':');
   return parseInt(p[0], 10) * 60 + parseInt(p[1], 10);
 }
 
@@ -527,32 +540,49 @@ function testAuthOnly() {
   }
 }
 
-/** 【テスト】朝・夕それぞれの投稿内容を表示します（送信なし）。 */
+/** 【テスト】シートにある各投稿時刻の内容を表示します（送信なし）。 */
 function testListTargets() {
   try {
     var props = getProperties_();
     var rows = readSheetRows_(props.SHEET_ID);
-    [CONFIG.SLOTS.MORNING, CONFIG.SLOTS.EVENING].forEach(function (slot) {
+    var times = distinctEnabledTimes_(rows);
+    if (times.length === 0) {
+      Logger.log('有効な行（○）がありません。A列の時刻とG列の○を確認してください。');
+      return;
+    }
+    times.forEach(function (slot) {
       var t = rows.filter(function (r) { return r.enabled && r.time === slot && r.imageUrl; })[0];
-      if (!t) {
-        Logger.log(slot + '：対象なし');
-      } else {
-        Logger.log(slot + '：画像=' + t.imageUrl);
-        Logger.log('   リンク1[' + t.link1Text + '] ' + t.link1Url);
-        Logger.log('   リンク2[' + t.link2Text + '] ' + t.link2Url);
-      }
+      Logger.log(slot + '：画像=' + t.imageUrl);
+      Logger.log('   リンク1[' + t.link1Text + '] ' + t.link1Url);
+      Logger.log('   リンク2[' + t.link2Text + '] ' + t.link2Url);
     });
   } catch (e) {
     Logger.log('確認NG: ' + e.message);
   }
 }
 
-/** 【テスト】朝の内容を今すぐ投稿します（時刻に関係なく実際に送信）。 */
+/** 【テスト】一番早い時刻の内容を今すぐ投稿します（時刻に関係なく実際に送信）。 */
 function testPostMorning() {
-  postSlot_(CONFIG.SLOTS.MORNING);
+  testPostByIndex_(0);
 }
 
-/** 【テスト】夕方の内容を今すぐ投稿します（時刻に関係なく実際に送信）。 */
+/** 【テスト】2番目に早い時刻の内容を今すぐ投稿します（時刻に関係なく実際に送信）。 */
 function testPostEvening() {
-  postSlot_(CONFIG.SLOTS.EVENING);
+  testPostByIndex_(1);
+}
+
+/** シートの投稿時刻を時刻順に並べ、index番目（0始まり）の時刻を投稿します。 */
+function testPostByIndex_(index) {
+  try {
+    var props = getProperties_();
+    var rows = readSheetRows_(props.SHEET_ID);
+    var times = distinctEnabledTimes_(rows);
+    if (times.length <= index) {
+      Logger.log((index + 1) + '番目の投稿時刻がありません（現在 ' + times.length + ' 件）。');
+      return;
+    }
+    postSlot_(times[index]);
+  } catch (e) {
+    Logger.log('テスト投稿NG: ' + e.message);
+  }
 }
