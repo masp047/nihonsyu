@@ -485,3 +485,50 @@ function testPostEvening() {
   var daily = readDaily_(SpreadsheetApp.openById(props.SHEET_ID));
   postSlotContent_(props, daily[1], '夕（テスト）');
 }
+
+
+/* ============================================================================
+ *  9. トークルームの channelId 取得（初期セットアップ用）
+ * ----------------------------------------------------------------------------
+ *  既存のトークルームに配信するには、そのルームの channelId が必要です。
+ *  以下の手順で取得します（1回だけの作業）。
+ *   1. このスクリプトを「ウェブアプリ」としてデプロイし、URLを取得
+ *      （デプロイ → 新しいデプロイ → 種類:ウェブアプリ →
+ *        次のユーザーとして実行:自分 / アクセスできるユーザー:全員）
+ *   2. LINE WORKS Developer Console の Bot 設定で、Callback URL に上記URLを設定し、
+ *      「メッセージ」イベントを ON にして保存
+ *   3. 投稿したいトークルームに Bot を招待する
+ *   4. そのトークルームで「テスト」など何かメッセージを送る
+ *      → 下の doPost がイベントを受け取り、channelId を保存します
+ *   5. 関数 showCapturedChannelId() を実行し、ログに出た channelId を控える
+ *   6. スクリプトプロパティ TARGET_ID にその channelId を、TARGET_TYPE に channel を設定
+ *  ※ channelId を取得できたら、Callback は無効に戻しても構いません。
+ * ==========================================================================*/
+
+/** LINE WORKS からのイベント受信。ルームのメッセージ等から channelId を保存します。 */
+function doPost(e) {
+  try {
+    var body = JSON.parse(e.postData.contents);
+    var channelId = body && body.source && body.source.channelId;
+    if (channelId) {
+      PropertiesService.getScriptProperties().setProperty('CAPTURED_CHANNEL_ID', channelId);
+      Logger.log('channelId を取得・保存しました: ' + channelId);
+    } else {
+      Logger.log('channelId が含まれていませんでした（個人トークの可能性）: ' + e.postData.contents);
+    }
+  } catch (err) {
+    Logger.log('doPost error: ' + err.message);
+  }
+  return ContentService.createTextOutput('OK');
+}
+
+/** 【セットアップ】取得済みの channelId をログに表示します。 */
+function showCapturedChannelId() {
+  var id = PropertiesService.getScriptProperties().getProperty('CAPTURED_CHANNEL_ID');
+  if (id) {
+    Logger.log('取得済み channelId: ' + id);
+    Logger.log('→ スクリプトプロパティ TARGET_ID にこの値、TARGET_TYPE に channel を設定してください。');
+  } else {
+    Logger.log('まだ取得できていません。ウェブアプリのデプロイ→Callback設定→Botをルームに招待→ルームでメッセージ送信、を確認してください。');
+  }
+}
