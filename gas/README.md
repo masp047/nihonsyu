@@ -54,7 +54,10 @@ Google Apps Script（GAS）です。
 3. **Apps Script を作成**：`gas/LineWorksCarouselBot.gs` を貼り付け。
 4. **スクリプトプロパティを登録**：
    `CLIENT_ID` / `CLIENT_SECRET` / `SERVICE_ACCOUNT` / `PRIVATE_KEY` /
-   `BOT_ID` / `TARGET_ID`（=channelId）/ `SHEET_ID`
+   `BOT_ID` / `TARGET_ID` / `SHEET_ID`
+   - `TARGET_ID` は **個人宛=accountId（ログイン用メール等）／トークルーム宛=channelId**
+   - 任意プロパティ **`TARGET_TYPE`**：`user`（個人宛）/ `channel`（トークルーム宛）。未設定なら `channel`。
+     まず自分宛にテストするときは `TARGET_TYPE=user`、`TARGET_ID=自分のaccountId`。
 5. **動作確認**：`testAuthOnly()` → `testListTargets()` → `testPostMorning()` / `testPostEvening()`。
 6. **トリガー設定**：`setupTriggers()` を1回だけ実行 → 毎分トリガーが作成され、8:50/15:50 に自動投稿されます。
 

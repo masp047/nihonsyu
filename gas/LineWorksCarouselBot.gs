@@ -65,9 +65,12 @@
  *  │ SERVICE_ACCOUNT │ Service Account のメールアドレス                        │
  *  │ PRIVATE_KEY     │ 秘密鍵（PEM形式。BEGIN〜END を丸ごと貼り付け）            │
  *  │ BOT_ID          │ Bot の ID                                              │
- *  │ TARGET_ID       │ 投稿先のチャンネルID（channelId）                       │
+ *  │ TARGET_ID       │ 投稿先ID（個人宛=accountId ／ トークルーム宛=channelId）│
  *  │ SHEET_ID        │ GoogleスプレッドシートのID                              │
  *  └─────────────────┴──────────────────────────────────────────────────────┘
+ *  ＜任意＞
+ *  │ TARGET_TYPE     │ user=個人宛 / channel=トークルーム宛（未設定なら channel）│
+ *  ※ 個人宛にテストするときは TARGET_TYPE=user、TARGET_ID=自分のaccountId(メール等)。
  *  ※ LASTRUN_* は本スクリプトが自動作成する二重投稿防止用フラグです（手動設定不要）。
  *
  * ----------------------------------------------------------------------------
@@ -123,8 +126,10 @@ var CONFIG = {
 // LINE WORKS の各種エンドポイント（Bot API v2.0）
 var ENDPOINT = {
   TOKEN: 'https://auth.worksmobile.com/oauth2/v2.0/token',
-  // 投稿先はトークルーム／チャンネル宛
-  MESSAGE: 'https://www.worksapis.com/v1.0/bots/{botId}/channels/{channelId}/messages'
+  // 個人宛（TARGET_TYPE=user）… {userId} に accountId（ログイン用メール等）を入れる
+  MESSAGE_USER: 'https://www.worksapis.com/v1.0/bots/{botId}/users/{userId}/messages',
+  // トークルーム／チャンネル宛（TARGET_TYPE=channel）… {channelId} にチャンネルIDを入れる
+  MESSAGE_CHANNEL: 'https://www.worksapis.com/v1.0/bots/{botId}/channels/{channelId}/messages'
 };
 
 
@@ -347,9 +352,17 @@ function normalizePrivateKey_(rawKey) {
  * 1件分の内容を、1カード（画像＋ボタン最大2つ）のカルーセルとして送信します。
  */
 function postCarousel_(props, accessToken, item) {
-  var url = ENDPOINT.MESSAGE
-    .replace('{botId}', props.BOT_ID)
-    .replace('{channelId}', props.TARGET_ID);
+  // 送信先タイプ（user=個人宛 / channel=トークルーム宛）でエンドポイントを切り替える
+  var url;
+  if (props.TARGET_TYPE === 'user') {
+    url = ENDPOINT.MESSAGE_USER
+      .replace('{botId}', props.BOT_ID)
+      .replace('{userId}', props.TARGET_ID);
+  } else {
+    url = ENDPOINT.MESSAGE_CHANNEL
+      .replace('{botId}', props.BOT_ID)
+      .replace('{channelId}', props.TARGET_ID);
+  }
 
   // リンク（ボタン）を組み立てる。URLが入っているものだけボタン化（最大2つ）。
   var actions = [];
@@ -461,6 +474,9 @@ function getProperties_() {
   if (missing.length > 0) {
     throw new Error('スクリプトプロパティが未設定です: ' + missing.join(', '));
   }
+  // 任意プロパティ TARGET_TYPE（user=個人宛 / channel=トークルーム宛）。未設定なら channel。
+  var targetType = String(sp.getProperty('TARGET_TYPE') || 'channel').trim().toLowerCase();
+  props.TARGET_TYPE = (targetType === 'user') ? 'user' : 'channel';
   return props;
 }
 
